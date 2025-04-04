@@ -1,0 +1,60 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{Extra}[2021/05/14 Math Package]
+
+\RequirePackage{amsmath}
+\RequirePackage{amsfonts}
+\RequirePackage{amsthm}
+\RequirePackage{amssymb}
+\RequirePackage{enumitem}
+\RequirePackage{mathrsfs}
+\RequirePackage{array}
+\RequirePackage{dsfont}
+
+\newcommand{\qcr}[1]{{\fontfamily{qcr} \selectfont \text{#1}}}
+
+\newcommand\R{\mathbb {R}}
+\newcommand\Q{\mathbb {Q}}
+\newcommand\N{\mathbb {N}}
+\newcommand\Z{\mathbb {Z}}
+\newcommand\C{\mathbb{C}}
+\newcommand\F{\mathds{F}}
+\newcommand\eps{\epsilon}
+\newcommand{\veps}{\varepsilon}
+\newcommand{\ind}{\mathbbm{1}}
+
+\newcommand{\E}[1]{\mathbb{E}\paren{#1}}
+\newcommand{\p}[1]{\mathbb{P}\paren{#1}}
+\newcommand{\var}[1]{\text{Var}\paren{#1}}
+\newcommand{\cov}[2]{\text{Cov}\paren{#1, #2}}
+\newcommand{\corr}[2]{\text{Corr}\paren{#1, #2}}
+
+
+
+\newcommand{\paren}[1]{\left( #1 \right)}
+\newcommand{\brac}[1]{\left[ #1 \right]}
+\newcommand{\abs}[1]{\left| #1 \right|}
+\newcommand{\cbrac}[1]{ \left \{ #1 \right \} }
+\newcommand{\ip}[1]{\left\langle #1 \right\rangle}
+\newcommand{\norm}[1]{\left\| #1 \right\|}
+\newcommand{\bv}[1]{\mathbf{#1}}
+\newcommand{\eval}[1]{\left. #1 \right|_{-1}^{1}}
+
+\newcommand     \plusdots   {{+\cdots+}}
+\newcommand     \minusdots  {{-\cdots-}}
+\newcommand     \dotdots    {{\cdot\cdots\cdot}}
+\newcommand     \timesdots  {{\times\cdots\times}}
+\newcommand     \eqdots     {{=\cdots=}}
+\newcommand     \commadots  {{,\dots,}}
+
+\newcommand\series[3]{\sum\limits_{#1=#2}^{\infty}#3}
+
+\newcommand{\ceil}[1]{\left\lceil #1 \right\rceil}
+\newcommand{\floor}[1]{\left\lfloor #1 \right\rfloor}
+
+\newcommand     \sol        {\\ \underline{\textit{Solution.}} \\}
+\newcommand     \npint      {\int_{-\infty}^\infty}
+\newcommand     \nzint      {\int_{-\infty}^0}
+\newcommand     \nvint[1]      {\int_{-\infty}^{#1}}
+\newcommand     \zvint[1]      {\int_{-\infty}^{#1}}
+\newcommand     \zpint      {\int_0^\infty}
+\newcommand     \vpint[1]      {\int_{#1}^\infty}
