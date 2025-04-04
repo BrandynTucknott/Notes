@@ -27,24 +27,17 @@ cd "$repo_root" || exit 1
 
 
 
-# latex_path="$curr_path"
 
 # find path for .tex file
 file="$1"
-# path="${curr_path#latex/}" # latex/PATH/file.tex --> pdf/PATH
-
 fname=$(basename "$file" .tex)
 
 latex_path="$curr_path/$file"
 latex_path="${latex_path%/$fname.tex}"
 latex_path="${latex_path#$(pwd)/}"
 
-
 pdf_path="pdf/${latex_path#latex/}"
 
-# echo "latex path: $latex_path"
-# echo "pdf path: $pdf_path"
-# exit
 
 # # compile .tex --> .pdf
 pdflatex $latex_path/$fname.tex
@@ -60,7 +53,3 @@ $(mkdir -p $pdf_path)
 
 # # move compiled .pdf file to pdf dir via absolute path
 $(mv "$fname.pdf" "$pdf_path")
-
-echo "dirname results: $dir"
-echo "pdf path: $pdf_path"
-echo "file name: $fname"
