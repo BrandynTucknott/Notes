@@ -6,3 +6,11 @@ For example:
 bash compile.bash latex/test/hello.tex
 
 results in hello.pdf being put into pdf/test
+
+REMAINING TO BE IMPORTED:
+* Analysis
+* MISC
+* Not Math Related
+* Probability
+* Statistics
+* Complex Variables

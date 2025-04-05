@@ -39,6 +39,20 @@ find pdf/ -type f -name "*.pdf" -delete
 echo "done"
 
 # find all .tex files in /latex/ and build them
-tex_files=$(find latex/ -type f -name "*.tex")
-bash build.bash $tex_files
+# tex_files=$(find latex/ -type f -name "*.tex")
+# bash build.bash $tex_files
+tex_files=()
+while IFS= read -r tex; do
+    if [[ "$tex" == "latex/school work/"* ]]; then
+        # only include main.tex from this sub dir
+        if [[ "$(basename "$tex")" == "main.tex" ]]; then
+            tex_files+=("$tex")
+        fi
+    else
+        # include all other .tex files
+        tex_files+=("$tex")
+    fi
+    echo "FOUND: $tex"
+done < <(find latex/ -type f -name "*.tex")
+bash build.bash "${tex_files[@]}"
 echo "Full rebuild done"

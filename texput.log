@@ -1,18 +1,18 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2025.4.2)  3 APR 2025 18:24
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2025.4.2)  5 APR 2025 12:19
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**latex/text/hello.tex
+**latex/school work/ST 421/EC 1/main.tex
 
 ! Emergency stop.
-<*> latex/text/hello.tex
-                        
+<*> latex/school 
+                 work/ST 421/EC 1/main.tex
 End of file on the terminal!
 
  
 Here is how much of TeX's memory you used:
  4 strings out of 478287
- 127 string characters out of 5849290
+ 123 string characters out of 5849290
  289005 words of memory out of 5000000
  18302 multiletter control sequences out of 15000+600000
  469259 words of font info for 28 fonts, out of 8000000 for 9000
