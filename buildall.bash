@@ -15,6 +15,6 @@ else
     exit 0
 fi
 
-# delete all pdfs in pdf/
-# find all .tex files in latex/
+# delete all pdfs in /pdf/
+# find all .tex files in /latex/
 # call build.bash will all .tex files
