@@ -15,6 +15,30 @@ else
     exit 0
 fi
 
+# get top level dir of git repo
+repo_root=$(git rev-parse --show-toplevel 2>/dev/null)
+
+# are we in a git repo?
+if [ -z "$repo_root" ]; then
+    echo "Usage failed: not in git repo"
+    exit 1
+fi
+
+# get current dir relative to git root
+curr_path=$(pwd | sed "s|$repo_root/||")
+
+# change dir to git root or exit if fail
+cd "$repo_root" || exit 1
+
+
+
+
 # delete all pdfs in /pdf/
-# find all .tex files in /latex/
-# call build.bash will all .tex files
+echo "Deleting all existing pdfs..."
+find pdf/ -type f -name "*.pdf" -delete
+echo "done"
+
+# find all .tex files in /latex/ and build them
+tex_files=$(find latex/ -type f -name "*.tex")
+bash build.bash $tex_files
+echo "Full rebuild done"
