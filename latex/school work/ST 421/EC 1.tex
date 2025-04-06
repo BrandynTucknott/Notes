@@ -1,0 +1,246 @@
+\documentclass{exam}
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm,dsfont}
+\usepackage{../../../lib/extra}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{enumitem}
+
+\title{ST 421 EC 1}
+\author{Brandyn Tucknott}
+\date{6 December 2024}
+
+\begin{document}
+\maketitle
+
+\begin{questions}
+    \question
+Determine whether the following statements are true or false. Justify your answer.
+
+\begin{parts}
+    \part
+    If $A, B$ are independent, then $A, B^c$ are also independent.
+    \sol
+    $$P(A \cap B^c) = P(A) - P(A \cap B) = P(A)- \paren{P(A)(1 - P(B))} = P(A)\paren{1 - P(B)} = P(A)P(B^c)$$
+    This statement is true.
+
+    \part
+    For a discrete random variable $Y$, we have that $E(Y^2) \geq E^2(Y)$.
+    \sol
+    $$\text{Var}(Y) = E(Y^2) - E^2(Y) \geq 0 \longrightarrow$$
+    $$E(Y^2) \geq E^2(Y)$$
+    This statement is true.
+
+    \part
+    If $Y \sim$ Geometric($p$), then a random variable $Y^* = Y - 1$ has mean $\frac{1 - p}{p}$.
+    \sol
+    $$E(Y^*) = E(Y - 1) = E(Y) - E(1) = \frac{1}{p} - 1 = \frac{1 - p}{p}$$
+    This statement is true.
+    
+\end{parts}
+
+\newpage
+
+
+
+
+
+\question
+A quality control program at a plastic bottle production line involves inspecting the finished bottles for flaws such as microscopic holes. The probability the bottle has a flaw is 0.002. If a bottle has a flaw, the probability it will fail the inspection is 0.995. If a bottle does not have a flaw, the probability that it will pass the inspection is 0.990.
+
+\newline
+Let events $P$ denote passing inspection and $F$ denote being flawed. Note we are given
+\newline
+(i)   $P(F) = 0.002$
+\newline
+(ii)  $P(P^c | F) = 0.995$
+\newline
+(iii) $P(P | F^c) = 0.990$
+\begin{parts}
+    \part
+    If a bottle does not have a flaw, what is the probability that it will fail the inspection?
+    \sol
+    $$P(P^c | F^c) = 1 - P(P | F^c) = 1 - 0.990 = 0.01$$
+
+    \part
+    What is the probability a randomly selected bottle has a flaw and fails the inspection?
+    \sol
+    $$P(P^c \cap F) = P(P^c|F)P(F) = 0.995 \cdot 0.002 \approx 0.002$$
+
+    \part
+    If a bottle fails the inspection, what is the probability that it has a flaw?
+    \sol
+    $$P(F | P^c) = \frac{P(P^c | F)P(F)}{P(P^c)} = \frac{P(P^c|F)(F)}{P(P^c|F) + P(P^c|F^c)} = \frac{0.995 \cdot 0.002}{0.995 + 0.01} \approx 0.002$$
+    
+\end{parts}
+
+\newpage
+
+
+
+
+
+
+\question
+Consider an experiment consisting in rolling a fair die twice. We can represent the possible outcomes by ordered pairs. Define the random variable $Y$ to be the sum of the numbers observed in the rolls.
+
+\begin{parts}
+    \part
+    Write down all possible values the random variable $Y$ can take.
+    \sol
+    $$Y \in \cbrac{2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}$$
+    
+    \part
+    Find $P(Y = 6)$.
+    \sol
+    $$P(Y = 6) = \abs{\cbrac{(1, 5), (2, 4), (3, 3), (4, 2), (5, 1)}} \cdot \frac{1}{36} = \frac{5}{36}$$
+    
+    \part
+    Suppose that somebody tells you that he performed the experiment and observed the value $Y = 4$. What is the probability that he obtained a 3 in the first roll?
+    \sol
+    Let $R_1$ denote the first roll.
+    $$P(R_1 = 3 | Y = 4) = \frac{\abs{\cbrac{(3, 1)}}}{\abs{\cbrac{(1, 3), (2, 2), (3, 1)}}} = \frac{1}{3}$$
+
+    
+\end{parts}
+
+\newpage
+
+
+
+
+
+
+
+\question
+Let $Y$ be a random variable with pdf
+$$f(y) =
+\begin{cases}
+    0.2, & -1 < y < 0 \\
+    0.2 + cy, & 0 \leq y \leq 1 \\
+\end{cases}$$
+
+\begin{parts}
+    \part
+    Find the cdf $F(y)$.
+    \sol
+    $$F(y) = \nvint{y} f(t)dt = 
+    \begin{cases}
+        0.2(y + 1), & -1 < y < 0 \\
+        \frac{cy^2}{2} + 0.2y + 0.2, & 0 \leq y \leq 1 \\
+    \end{cases}$$
+    
+    Recall that $\npint F(y)dy = 1$. Then
+    \begin{equation}
+        \npint F(y)dy = \int_0^\infty \frac{cy^2}{2} + 0.2y + 0.2 \cdot dy
+    \end{equation}
+    This is true since
+    $$\nvint{y} f(t)dt = \nzint f(t)dt + \zvint{y} f(t)dt = \int_{-1}^0 f(t)dt + \int_0^yf(t)dt$$
+    We then continue to evaluate equation (1).
+    
+    $$\npint F(y)dy = \paren{\frac{cy^3}{6} + 0.2\frac{y^2}{2} + 0.2y}\Bigg|_0^1 = \paren{\frac{c}{6} + 0.2\frac{1}{2} + 0.2} =$$
+
+    $$= \frac{c}{6} + 0.1 + 0.2 = \frac{c}{6} + 0.3 = 1 \longrightarrow$$
+
+    $$c = \paren{1 - 0.3} \cdot 6 = 4.2$$
+
+    We can then plug $c = 4.2$ into our equation for $F(y)$, yielding
+    $$F(y) =
+    \begin{cases}
+        0.2(y + 1), & -1 < y < 0 \\
+        2.1y^2 + 0.2y + 0.2, 0 \leq y \leq 1 \\
+    \end{cases}$$
+    
+    
+    \part
+    Find $P(Y < \frac{1}{2} | Y > -\frac{1}{2})$.
+    \sol
+    $$P\paren{Y < \frac{1}{2} | Y > -\frac{1}{2}} = \frac{P(-\frac{1}{2} < Y < \frac{1}{2})}{P(Y > -\frac{1}{2})} = \frac{F\paren{\frac{1}{2}} - F\paren{-\frac{1}{2}}}{1 - F\paren{-\frac{1}{2}}} = \frac{\frac{33}{40} - \frac{1}{10}}{\frac{9}{10}} \approx 0.806$$
+    
+    \part
+    Find the mean and variance of $Y$.
+    \sol
+    $$\mu = \npint y \cdot f(y)dy = 0.7$$
+    $$\sigma^2 = \npint y^2 \cdot f(y)dy - \mu^2 \approx 0.168$$
+    
+\end{parts}
+
+\newpage
+
+
+
+
+
+
+
+
+
+
+
+
+\question
+Suppose $Y \sim$ Gamma$(\alpha, \beta)$. That is, $Y$ has a pdf
+$$f(y) = \frac{y^{\alpha - 1}e^{-\frac{y}{\beta}}}{\Gamma(\alpha)\beta^\alpha} = \frac{1}{\beta\Gamma(\alpha)}\paren{\frac{y}{\beta}}^{\alpha - 1}\cdot e^{-\frac{y}{\beta}}, \text{ for } 0 < y < \infty \text{ and } \alpha, \beta > 0$$
+
+\begin{parts}
+    \part
+    Verify that $\npint f(y)dy = 1$.
+    \sol
+    Recall that for a Gamma distribution, $Y$ is defined on the interval $(0, \infty)$, and also that
+    \begin{equation}
+        \Gamma(\alpha) = \zpint x^{\alpha - 1}e^{-x}dx, \Gamma(\alpha + 1) = \alpha\Gamma(\alpha)
+    \end{equation}
+    Then we can verify by directly computing the integral.
+    $$\npint f(y)dy = \zpint f(y)dy = \zpint \frac{1}{\beta\cdot \Gamma(\alpha)}\cdot \paren{\frac{y}{\beta}}^{\alpha - 1} \cdot e^{-\frac{y}{\beta}}dy =$$
+
+    $$= \frac{1}{\Gamma(\alpha)}\zpint \paren{\frac{y}{\beta}}^{\alpha - 1}\cdot e^{-\frac{y}{\beta}}\cdot \frac{1}{\beta}dy, \text{ Let }u = \frac{y}{\beta}, du = \frac{1}{\beta}dy \longrightarrow$$
+
+    $$\npint f(y)dy = \frac{1}{\Gamma(\alpha)} \zpint u^{\alpha - 1} e^{-u}du$$
+
+    By equation (2), we know the integral with respect to $u$ evaluates to $\Gamma(\alpha)$, so
+    $$\npint f(y)dy = \frac{1}{\Gamma(\alpha)}\cdot \Gamma(\alpha) = 1$$
+    
+    
+    \part
+    Without using moment generating functions, find the mean and variance of $Y$.
+    \sol
+    $$\mu = \npint yf(y)dy = \zpint \frac{1}{\Gamma(\alpha)}\paren{\frac{y}{\beta}}^{\alpha}e^{-\frac{y}{\beta}}dy, \text{ Let } u = \frac{y}{\beta}, du = \frac{1}{\beta}dy \longrightarrow$$
+
+    $$\mu = \frac{\beta}{\Gamma(\alpha)}\zpint u^\alpha e^{-u}du = \frac{\beta}{\Gamma(\alpha)}\cdot \Gamma(\alpha + 1) = \frac{\alpha\beta\Gamma(\alpha)}{\Gamma(\alpha)} = \alpha\beta \text{ by equation (2)}$$
+
+    $$E(Y^2) = \npint y^2f(y)dy = \zpint \frac{y^2}{\beta\Gamma(\alpha)}\paren{\frac{y}{\beta}}^{\alpha - 1}e^{-\frac{y}{\beta}}dy = \frac{1}{\Gamma(\alpha)\beta^\alpha} \zpint y^{\alpha + 1}e^{-\frac{y}{\beta}}dy =$$
+
+    $$= \frac{1}{\Gamma(\alpha)\beta^\alpha}\cdot \frac{\Gamma(\alpha + 2)}{\paren{\frac{1}{\beta}}^{\alpha + 2}} =\frac{1}{\Gamma(\alpha)}\cdot \beta^2\Gamma(\alpha + 2) = \alpha(\alpha + 1)\beta^2$$
+
+    $$\sigma^2 = E(Y^2) - \mu^2 = \alpha^2\beta^2 + \alpha\beta^2 - \alpha^2\beta^2 = \alpha\beta^2$$
+    
+    \part
+    Find the moment generating function of $Y$ and use it to verify the results in Part (b).
+    \sol
+    $$E\paren{e^{tY}} = \npint e^{ty}f(y)dy = \frac{1}{\Gamma(\alpha)\beta^\alpha}\zpint e^{ty}y^{\alpha - 1}e^{-\frac{y}{\beta}}dy = \frac{1}{\Gamma(\alpha)\beta^\alpha} \zpint y^{\alpha - 1}e^{-y(\frac{1}{\beta} - t)}dy =$$
+
+    $$= \frac{1}{\Gamma(\alpha)\beta^\alpha} \cdot \frac{\Gamma(\alpha)}{\paren{\frac{1}{\beta} - t}^\alpha} = \paren{\frac{1}{1 - t\beta}}^\alpha$$
+
+    To verify the results of Part (b), we find the $1^{st}$ and $2^{nd}$ moments, and use them to calculate the mean and variance.
+
+    $$M_Y^{(1)}(0) = \alpha\paren{\frac{1}{1 - t\beta}}^{\alpha - 1}\cdot \frac{0 - (-\beta)}{(1 - t\beta)^2}\Bigg|_{t = 0} = \alpha\beta$$
+
+    So we confirm that $\mu = E(Y) = \alpha\beta$.
+
+    $$M_Y^{(2)}(0) = \frac{d}{dt} \alpha\paren{\frac{1}{1-t\beta}}^{\alpha - 1}\cdot \frac{\beta}{(1 - t\beta)^2}\Bigg|_{t = 0} =$$
+    
+    $$= \paren{\alpha(\alpha - 1)\paren{\frac{1}{1 - t\beta}}^{\alpha - 2}\cdot \paren{\frac{\beta}{(1 - t\beta)^2}}^2 + \alpha\paren{\frac{1}{1 - t\beta}}^{\alpha - 1} \cdot \frac{0 - \beta(-2\beta)}{(1 - t\beta)^4}}\Bigg|_{t = 0} =$$
+    
+    $$= \alpha(\alpha - 1)\beta^2 + 2\alpha\beta^2 = \alpha^2\beta^2 - \alpha\beta^2 + 2\alpha\beta^2 = \alpha^2\beta^2 + \alpha\beta^2$$
+
+    So we confirm that $\sigma^2 = E(Y^2) - \mu^2 = \alpha^2\beta^2 + \alpha\beta - \alpha^2\beta^2 = \alpha\beta^2$.
+    
+\end{parts}
+
+\newpage
+
+
+
+\end{questions}
+
+\end{document}
