@@ -1,0 +1,277 @@
+\documentclass{exam}
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm,dsfont}
+\usepackage{lib/extra}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usepackage{multirow}
+
+\title{ST 421 HW 1}
+\author{Brandyn Tucknott}
+\date{4 October 2024}
+
+\begin{document}
+\maketitle
+
+\begin{questions}
+    \textbf{2.14 } A survery classified a large number of adults according to whether they were diagnosed as needing eyeglasses to correct their reading vision and whether they use eyeglasses when reading. The proportions falling in the four resulting categories are given in the following table: \\ \\
+\begin{tabular}{c|c|c}
+    Needs glasses & Uses glasses to read & Doesn't use glasses to read \\
+    \hline
+    Yes & 0.44 & 0.14 \\
+    No & 0.02 & 0.40
+\end{tabular} \\
+
+If a single adult is selected from the large group, find the probabilities of the events defined below. The adult \\
+\textbf{(a) } needs glasses.
+\sol
+$P(\text{needs glasses}) = 0.44 + 0.14 = 0.58$.
+
+\\ \\
+\textbf{(b) } needs glasses but doesn't use them.
+\sol
+$P(\text{needs glasses but doesn't use them}) = 0.14$.
+
+\\ \\
+\textbf{(c) } uses glasses.
+\sol
+$P(\text{uses glasses}) = 0.44 + 0.02 = 0.46$
+
+
+\newpage
+
+
+\textbf{2.27 } In exercise 2.12 we considered the situation where cars entering an intersection could each turn right, left, or go straight. An experiment consists of observing two vehicles moving through the intersection.
+
+\textbf{(a) } How many sample points are in the sample space? List them.
+\sol
+There are 9 sample points in the sample space, and they are shown by the table below:
+
+\begin{tabular}{|c|c|c|c|c|}
+    \hline
+    \multicolumn{1}{|c|}{} & \multicolumn{4}{|c|}{\textbf{Car 2}} \\  % Car 2 spans across 4 columns
+    \hline
+    \multirow{4}{*}{\textbf{Car 1}} &  & \textbf{Turn Left} & \textbf{Turn Right} & \textbf{Go Straight} \\  % Direction labels
+    \cline{2-5} % Line separating Car 1 from Car 2
+    & \textbf{Go Straight} & (straight, left) & (straight, right) & (straight, straight) \\
+    \cline{2-5}
+    & \textbf{Turn Right} & (right, left) & (right, right) & (right, straight) \\
+    \cline{2-5}
+    & \textbf{Turn Left} & (left, left) & (left, right) & (left, straight) \\
+    \hline
+\end{tabular}
+
+
+% \newline
+\textbf{(b) } Assuming all sample points are equally likely, what is the probability at least one car turns left?
+\sol
+We count any coordinate pair with a left, right, or both. This gives us
+$$P(\text{at least 1 car turning}) = \frac{5}{9}.$$
+
+% \newline
+\textbf{(c) } Assuming all sample points are equally likely, what is the probability at most one car turns?
+\sol
+We count any coordinate pair with exactly 1 left or right. This gives us
+$$P(at most 1 car turning) = \frac{5}{9}.$$
+
+\newpage
+
+
+
+\textbf{2.51 } A local fraternity is conducting a raffle where 50 tickets are to be sold---1 per customer. There are three prizes to be awarded. If the four organizers of the raffle each buy one ticket, what is the probability that the four organizers win
+
+\textbf{(a) } all of the prizes?
+\sol
+$$P(\text{all prizes}) = \frac{\binom{47}{1} \cdot \binom{3}{3}}{\binom{50}{4}} = 0.0002.$$
+
+\textbf{(b) } exactly two of the prizes?
+\sol
+$$P(\text{exactly 2 prizes}) = \frac{\binom{47}{2} \cdot \binom{3}{2}}{\binom{50}{4}} = 0.01.$$
+
+\textbf{(c) } exactly one of the prizes?
+\sol
+$$P(\text{exactly 1 prize}) = \frac{\binom{47}{3} \cdot \binom{3}{1}}{\binom{50}{4}} = 0.21.$$
+
+\textbf{(d) } none of the prizes?
+\sol
+$$P(\text{no prizes}) = \frac{\binom{47}{4} \cdot \binom{3}{0}}{\binom{50}{4}} = 0.77.$$
+
+
+\newpage
+
+
+\textbf{2.75 } Cards are dealt, one at a time, from a standard 52-deck.
+
+\textbf{(a) } If the first 2 cards are both spades, what is probability that the next 3 cards are also spades?
+\sol
+$$P(\text{next 3 spades}) = \frac{11}{50} \cdot \frac{10}{49} \cdot \frac{9}{48} = 0.008.$$
+
+
+\textbf{(b) } If the first 3 cards are both spades, what is probability that the next 2 cards are also spades?
+\sol
+$$P(\text{next 2 spades}) = \frac{10}{49} \cdot \frac{9}{48} = 0.038.$$
+
+
+\textbf{(c) } If the first 4 cards are both spades, what is probability that the next card is also a spade?
+\sol
+$$P(\text{next card a spade}) = \frac{9}{48} = 0.188.$$
+
+
+\newpage
+
+
+
+
+\textbf{2.86 } Suppose that $A$ and $B$ are two events such that $P(A) = 0.8$ and $P(B) = 0.7$.
+
+\textbf{(a) } Is it possible that $P(A \cap B) = 0.1$? Why or why not?
+\sol
+It is not possible for $P(A \cap B) = 0.1$. This is because
+$$P(A \cup B) = P(A) + P(B) - P(A \cap B) = 1.5 - P(A \cap B) \leq 1 \rightarrow$$
+\begin{equation}
+    0.5 \leq P(A \cap B).
+\end{equation}
+0.1 is not in this range, so $P(A \cap B) \neq 0.1$.
+
+
+\textbf{(b) } What is the smallest possible value for $P(A \cap B)$?
+\sol
+By equation (1), the smallest possible value is 0.5.
+\newline
+
+\textbf{(c) } Is it possible that $P(A \cap B) = 0.77$? Why or why not?
+\sol
+No, because the case to maximize the intersection is when $B \subset A$, and in this case $P(A \cap B) = P(A) = 0.7$. Since $0.7 < 0.77$, 0.77 is not a valid probability.
+\newline
+
+
+\textbf{(d) } What is the largest possible value for $P(A \cap B)$?
+\sol
+As discussed in part (c), the largest probability value for the intersection is $P(A \cap B) = 0.7$.
+
+
+\newpage
+
+
+
+\textbf{2.90 } Suppose there is a 1 in 50 chance of injury on a single skydiving attempt.
+
+\textbf{(a) } If we assume that the outcome of different jumps are independent, what is the probability that a skydiver is injured if she jumps twice?
+\sol
+$$P(\text{getting injured}) = 1 - P(\text{not getting injured}) = 1 - \paren{\frac{49}{50}}^2 = 0.04$$
+
+
+\textbf{(b) } A friend claims that if there is 1 in 50 chance of injury on a single jump, then there is a 100\% chance of injury if a skydiver jumps 50 times. Is your friend correct?
+\sol
+The probability of getting injured after 50 jumps is $1 - \paren{\frac{49}{50}}^{50} = 0.64$. This is clearly not 1, so they are wrong.
+
+
+\newpage
+
+
+
+\textbf{2.95 } Two events $A$ and $B$ are such that $P(A) = 0.2, P(B) = 0.3$, and $P(A \cup B) = 0.4$. Find the following:
+
+\textbf{(a) } $P(A \cap B)$.
+\sol
+$$P(A \cup B) = P(A) + P(B) - P(A \cap B) \rightarrow$$
+$$P(A \cap B) = P(A) + P(B) - P(A \cup B) = 0.2 + 0.3 - 0.4 = 0.1$$
+
+\textbf{(b) } $P(\overline{A} \cup \overline{B})$.
+\sol
+$$P(\overline{A} \cup \overline{B}) = \overline{A \cap B} = 1 - 0.1 = 0.9$$
+
+
+\textbf{(c) } $P(\overline{A} \cap \overline{B})$.
+\sol
+$$P(\overline{A} \cap \overline{B}) = \overline{A \cup B} = 1 - 0.4 = 0.6$$
+
+
+\textbf{(d) } $P(\overline{A} | B)$.
+\sol
+$$P(\overline{A} | B) = \frac{P(\overline{A} \cap B)}{P(B)} = \frac{P(B - A \cap B)}{P(B)} = \frac{P(B) - P(A \cap B)}{P(B)} = \frac{0.3 - 0.1}{0.3} = 0.67$$
+
+
+\newpage
+
+
+\textbf{2.102 } Diseases I and II are prevalent among people in a certain population. It is assumed that 10\% of the population will contract disease I sometime during their lifetime, 15\% will contract disease II eventually, and 3\% will contract both diseases.
+
+
+\textbf{(a) } Find the probability that a randomly chosen person from this population will contract at least one disease.
+\sol
+$$P(\text{at least one disease}) = P(\text{disease I } \cup \text{ disease II}) = P(\text{disease I}) + P(\text{disease II}) - P(\text{disease I } \cap \text{ disease II}) =$$
+$$0.1 + 0.15 - 0.03 = 0.22$$
+
+
+\textbf{(b) } Find the probability that a randomly chosen person from this population will contract both diseases, given that he/she has contracted at least one disease.
+\sol
+$$P(\text{both } | \text{ at least one}) = \frac{P(\text{both } \cap \text{ at least one})}{P(\text{at least one})} = \frac{P(\text{both})}{P(\text{at least one})} = \frac{0.03}{0.22} = 0.136$$
+
+
+\newpage
+
+
+
+\textbf{1.125 } A diagnosis test for a disease is such that it correctly detects the disease in 90\% of the individuals who have the disease. If a person does not have a disease, the test correctly reports this in 90\% of the cases. Only 1\% of the population has the disease in question. If a person is chosen at random from the population, and the diagnostic test indicates that she has the disease, what is the conditional probability that she has the disease? Are you surprised? Would you call this test reliable?
+
+\sol
+$$P(\text{has disease } | \text{ tested positive}) = \frac{P(\text{tested positive } | \text{ has disease}) \cdot P(\text{has disease})}{P(\text{tested positive})}.$$
+We separately calculate
+$$P(\text{tested positive}) = P(\text{tested positive } | \text{ has disease}) \cdot P(\text{has disease}) + P(\text{tested positive } | \text{ no disease}) \cdot P(\text{no disease}) \rightarrow$$
+$$P(\text{tested positive}) = 0.9 \cdot 0.01 + 0.1 \cdot 0.99 = 0.108.$$
+
+We now go back and finish our evaluation of
+$$P(\text{has disease } | \text{ tested positive}) = \frac{P(\text{tested positive } | \text{ has disease}) \cdot P(\text{has disease})}{P(\text{tested positive})} = \frac{0.9 \cdot 0.01}{0.108} = 0.083.$$
+
+This result is surprising, and indicates that even though the test is good in theory, in practice the population with the disease is too small relative to the healthy population to be reliable.
+
+\newpage
+
+
+
+\textbf{2.128 } Use Theorem 2.8 (the law of total probability) to prove the following:
+
+\textbf{(a) } If $P(A | B) = P(A | \overline{B})$, then $A$ and $B$ are independent.
+\begin{proof}
+If we assume that $P(A | B) = P(A | \overline{B})$, and we want to show independence, we are done if we can show that $P(A) \cdot P(B) = P(A \cap B)$.
+$$P(A | B) = P(A | \overline{B}) \rightarrow$$
+$$\frac{P(A \cap B)}{P(B)} = \frac{P(A \cap \overline{B})}{P(\overline{B})} \rightarrow$$
+$$\frac{P(A \cap B)}{P(B)} = \frac{P(A) - P(A \cap B)}{1 - P(B)} \rightarrow$$
+$$(1 - P(B)) \cdot P(A \cap B) = P(B) \cdot (P(A) - P(A \cap B)) \rightarrow$$
+$$P(A \cap B) - P(B) \cdot P(A \cap B)) = P(B) \cdot P(A) - P(B) \cdot P(A \cap B))\rightarrow$$
+$$P(A \cap B) = P(A) \cdot P(B)$$
+Since we have shown that $P(A) \cdot P(B) = P(A \cap B)$, we conclude that $A$ and $B$ are independent.
+\end{proof}
+
+\textbf{(b) } If $P(A | C) > P(B | C)$ and $P(A | \overline{C}) > P(B | \overline{C})$, then $P(A) > P(B)$.
+\begin{proof}
+Recall that the law of total probability tells us that if $B_1, ..., B_n$ partitions the sample space, then
+$$P(A) = \sum_{k=1}^n P(A | B_k)\cdot P(B_k).$$
+
+$C, \overline{C}$ certainly partitions the sample space, so we know by the law of total probability that
+$$P(A) = P(A | C) \cdot P(C) + P(A | \overline{C}) \cdot P(\overline{C})$$
+and
+$$P(B) = P(B | C) \cdot P(C) + P(B | \overline{C}) \cdot P(\overline{C}).$$
+
+If we assume that $P(A | C) > P(B | C)$ and $P(A | \overline{C}) > P(B | \overline{C})$, then we can form the inequalities
+\begin{equation}
+    P(A | C) > P(B | C) \longrightarrow P(A | C) \cdot P(C) > P(B | C) \cdot P(C)
+\end{equation}
+and
+\begin{equation}
+    P(A | \overline{C}) > P(B | \overline{C}) \longrightarrow P(A | \overline{C}) \cdot P(\overline{C}) > P(B | \overline{C}) \cdot P(\overline{C}).
+\end{equation}
+
+We can add equations (2) and (3) together to get a new inequality
+$$P(A | C) \cdot P(C) + P(A | \overline{C}) \cdot P(\overline{C}) > P(B | C) \cdot P(C) + P(B | \overline{C}) \cdot P(\overline{C}).$$
+
+But recognize that the LHS and RHS of this inequality is equal to $P(A)$ and $P(B)$ respectively, so we get an equivalent equality of
+$$P(A) > P(B).$$
+
+With this we conclude that if $P(A | C) > P(B | C)$ and $P(A | \overline{C}) > P(B | \overline{C})$, then $P(A) > P(B)$.
+\end{proof}
+\end{questions}
+
+\end{document}
