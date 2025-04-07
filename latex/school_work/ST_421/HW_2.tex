@@ -1,0 +1,193 @@
+\documentclass{exam}
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm,dsfont}
+\usepackage{lib/extra}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{enumitem}
+
+\title{ST 421 HW 2}
+\author{Brandyn Tucknott}
+\date{15 October 2024}
+
+\begin{document}
+\maketitle
+
+\begin{questions}
+    \textbf{2.39 } An experiment consists of tossing a pair of dice.
+
+\newline
+\newline
+
+\textbf{(a) }
+Use the combinatorial theorems to determine the number of sample points in the sample space $S$.
+
+\sol
+$$\abs{S} = 6 \cdot 6 = 36$$
+
+\newline
+
+\textbf{(b) }
+Find the probabilities that the sum of the numbers appearing on the dice is equal to 7.
+
+\sol
+$$P(\text{sum = 6}) = \frac{6}{36} = \frac{1}{6}$$
+
+
+\newpage
+\textbf{2.58 }
+5 cards are dealt from a standard 52-card deck. What is the probability that we draw:
+
+\textbf{(a) } 3 aces and 2 kings?
+\sol
+$$P(\text{3 aces and 2 kings}) = \frac{\binom{4}{3} \cdot \binom{4}{2}}{\binom{52}{5}}$$
+
+
+\textbf{(b) } a full house (3 cards of one kind, 2 cards of another kind)?
+\sol
+$$P(\text{full house}) = \frac{\binom{13}{1} \cdot \binom{4}{3} \cdot \binom{12}{1} \cdot \binom{4}{2}}{\binom{52}{5}}$$
+
+
+
+
+
+\newpage
+\textbf{2.69 }
+Prove that $\binom{n + 1}{k} = \binom{n}{k} + \binom{n}{k - 1}$.
+
+\begin{proof}
+
+Imagine that out of $n$ objects, you want to count the number of ways you can choose $k$ of them. Now suppose that you add a distinct object which you track, giving you a combined $n + 1$ total objects. The number of ways you can choose $k$ objects from $n + 1$ objects is equal to the number of ways you can make a grouping with our distinct object plus the number of ways you can group them without our object.
+
+The number of ways we can choose $k$ items without our distinct object will just be $\binom{n}{k}$. The number of ways we can choose $k$ items with our distinct object a part of them is $\binom{n}{k - 1}$, since we guarantee that one of the items in the grouping is our distinct object.
+
+Therefore the number of ways to choose $k$ items from $n + 1$ items is $\binom{n + 1}{k} = \binom{n}{k} + \binom{n}{k - 1}$.
+\end{proof}
+
+
+
+\newpage
+\textbf{2.77 }
+With the given chart (not listed here), find the following:
+
+\newline
+\textbf{(a) } $P(A) = 0.4$
+
+\textbf{(b) } $P(B) - 0.37$
+
+\textbf{(c) } $P(A \cap B) = 0.1$
+
+\textbf{(d) } $P(A \cup B) = 0.67$
+
+\textbf{(e) } $P(\overline{A}) = 0.6$
+
+\textbf{(f) } $P(\overline{A \cup B}) = 0.33$
+
+\textbf{(g) } $P(\overline{A \cap B}) = 0.9$
+
+\textbf{(h) } $P(A | B) = 0.27$
+
+\textbf{(i) } $P(B | A) = 0.25$
+
+\newpage
+\textbf{2.114 }
+A lie detector will show a positive reading (indicate a lie) 10\% of the time when a person is telling the truth and 95\% of the time when a person is lying. Suppose two people are suspects in a one-person crime and (for certain) one is guilty and one will lie. Assume further that the lie detector operates independently for the truthful person and the liar. Compute the probabilities of the events below.
+
+\newline
+Let events $G = $ guilty, $I = $ innocent, $L = $ positive reading (liar), $T = $ negative reading (truthful).
+\newline
+
+\textbf{(a) } Shows a positive reading for both suspects?
+\sol
+$$P(L | G) \cdot P(L | I) = 0.95 \cdot 0.1 = 0.095$$
+
+\textbf{(b) } Shows a positive reading for the guilty suspect and a negative reading for the innocent suspect?
+\sol
+$$P(L | G) \cdot P(T | I) = 0.95 \cdot 0.9 = 0.855$$
+
+\textbf{(c) } Shows a positive reading for the innocent suspect and negative reading for the guilty suspect?
+\sol
+$$P(L | I) \cdot P(T | G) = 0.1 \cdot 0.05 = 0.005$$
+
+\textbf{(d) } Gives a positive reading for either or both of the two suspects?
+\sol
+$$P(\text{at least one } L) = 1 - P(\text{no } L) = 1 - P(T | I) \cdot P(T | G) = 1 - 0.9 \cdot 0.05 = 1 - 0.045 = 0.955$$
+
+\newpage
+\textbf{2.175 }
+Three events $A, B, C$ are said to be mutually independent if they are pairwise-independent and their intersection is independent. Suppose that a balanced coin is independently tossed two times. Define the following events:
+\newline
+$A$: Head appears on the first toss
+$B$: Head appears on the second toss
+$C$: Both tosses yield the same outcome
+\newline
+Are $A, B, C$ mutually independent?
+\sol
+$$P(A \cap B) = 0.5 \cdot 0.5 = 0.25$$
+$$P(A \cap C) = P(C | A)P(A) = 0.5 \cdot 0.5 = 0.25$$
+$$P(B \cap C) = P(C | B)P(B) = 0.5 \cdot 0.5 = 0.25$$
+$$P(A \cap B \cap C) = P(C | A \cap B)P(A \cap B) = 1 \cdot 0.5 \cdot 0.5 = 0.25$$
+By contrast, $P(A) \cdot P(B) \cdot P(C) = 0.5 \cdot 0.5 \cdot 0.5 = 0.125 \neq P(A \cap B \cap C) = 0.25$, so we know that $A, B, C$ are not mutually independent.
+
+\newpage
+\textbf{3.6 }
+Five balls are numbered 1, 2, 3, 4, 5 and are placed in an urn. Two balls are randomly selected from the five, and their numbers noted. Find the probability distribution for the following:
+
+\newline
+In this problem, I assume that the balls are chosen at the same time, and hence \textit{must} be distinct.
+
+\textbf{(a) } The largest of the two sampled numbers.
+\sol
+Note that $\binom{5}{2} = 10$.
+
+\newline
+
+\begin{tabular}{|c|c|}
+    Largest & Probability \\
+    \hline
+    & \\
+     2 & $\frac{1}{10}$ \\
+     & \\ % dummy row to complete the column lines
+     3 & $\frac{2}{10}$ \\
+     & \\
+     4 & $\frac{3}{10}$ \\
+     & \\
+     5 & $\frac{4}{10}$ \\
+     & \\
+     \hline
+\end{tabular}
+
+\newline
+
+We could also write this as $P(n) := $ probability that $n$ is the largest, as
+$P(n) = \frac{n - 1}{10}$, which we observe to be true for all our values.
+
+\textbf{(b) } The sum of the two sample numbers.
+\sol
+Again, our sample space has cardinality $\binom{5}{2} = 10$, and have potential sums from 3 to 9.
+
+\newline
+
+\begin{tabular}{|c|c|}
+    Sum & Probability \\
+    \hline
+    & \\
+    3 & $\frac{1}{10}$ \\
+    & \\
+    4 & $\frac{1}{10}$ \\
+    & \\
+    5 & $\frac{2}{10}$ \\
+    & \\
+    6 & $\frac{2}{10}$ \\
+    & \\
+    7 & $\frac{2}{10}$ \\
+    & \\
+    8 & $\frac{1}{10}$ \\
+    & \\
+    9 & $\frac{1}{10}$ \\
+    & \\
+    \hline
+\end{tabular}
+\end{questions}
+
+\end{document}
