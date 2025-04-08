@@ -1,0 +1,177 @@
+\documentclass{exam}
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm,dsfont}
+\usepackage{lib/extra}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{enumitem}
+
+\title{ST 421 HW 3}
+\author{Brandyn Tucknott}
+\date{21 October 2024}
+
+\begin{document}
+\maketitle
+
+\begin{questions}
+    \textbf{3.14 }
+The maximum patent life for a new drug is 17 years. Subtracting the length of time required by the FDA for testing and approval of the drug provides the actual patent life for the drug---that is, the length of time the company has to recover research and development costs and make a profit. The distribution of the lengths of actual patent lives for new drugs is given below:
+
+\newline
+\newline
+
+\begin{tabular}{c|ccccccccccc}
+     Years, \textit{y} & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 \\
+     \hline
+     $P(y)$ & .03 & .05& .07 & .1& .14 & .2 & .18 & .12 & .07 & .03 & .01
+\end{tabular}
+
+\newline
+\newline
+
+\textbf{(a) } Find the mean patent life for a new drug.
+\sol
+$$\mu = \sum_{i = 3}^{13} i \cdot P(i) = 7.9$$
+
+
+
+\textbf{(b) } What is the standard deviation of $Y =$ the length of life of a randomly selected new drug.
+\sol
+$$\sigma = \sqrt{\var[Y]} = \sqrt{E[Y^2] - E^2[Y]} = \sqrt{\sum_{i = 3}^{13} i^2 \cdot P(i) - 7.9^2} = \sqrt{67.14 - 7.9^2} = 2.175$$
+
+
+
+\textbf{(c) } What is the probability the value of $Y$ falls between $\mu \pm 2 \sigma$?
+\sol
+$P(Y \in [\mu - 2\sigma, \mu + \sigma]) = P(Y \in [3.55, 12.25]) = .05+ .07 + .1+ .14 + .2 + .18 + .12 + .07 + .03 = 0.96$
+
+
+
+
+\newpage
+\textbf{3.23 }
+In a gambling game a person draws a single card from an ordinary 52-card playing deck. A person is paid \$15 for drawing a jack or queen and \$5 for a king or ace. A person who draws any other card is paid \$4. If a person plays this game, what is the expected gain?
+\sol
+$$\mu = 4 \cdot \frac{9 \cdot 4}{52} + 5 \cdot \frac{4 \cdot 2}{52} + 15 \cdot \frac{4 \cdot 2}{52} = 5.846 \approx 5.85$$
+
+So the expected gain from playing this game is \$5.85.
+
+
+
+\newpage
+\textbf{3.30 }
+Suppose $Y$ is a discrete random variable with mean $\mu$ and variance $\sigma^2$ and let $X = Y + 1$.
+
+\newline
+
+\textbf{(a) } Do you expect the mean of $X$ to be larger, smaller, or equal to $\mu = E[Y]$?
+\sol
+$$E[X] = E[Y + 1] = E[Y] + E[1] = E[Y] + 1$$
+Therefore by linearity the expected value of $E[X] > E[Y]$.
+
+\textbf{(b) } Use theorem 3.3 and 3.5 to express $E[X] = E[Y + 1]$ in terms of $\mu = E[Y]$. Does this result agree with your answer to part (a)?
+\sol
+Yes, and as mentioned in part (a), $E[X] = E[Y + 1] = E[Y] + E[1] = E[Y] + 1 \rightarrow E[X] > E[Y]$.
+
+
+\textbf{(c) } Recalling that variance is a measure of spread or dispersion, do you expect the variance of $X$ to be larger, smaller, or equal to $\sigma^2$?
+\sol
+$$\var[X] = E[X^2] - E^2[X] = E[Y^2 + 2Y + 1] - E^2[Y + 1] = E[Y^2] + 2 \cdot E[Y] + 1 - E^2[Y] - 2 \cdot E[Y] - 1 = E[Y^2] - E^2[Y]$$
+Compare this to
+$$\var[Y] = E[Y^2] - E^2[Y]$$
+Since they are equal, we say that $\var[X] = \var[Y]$.
+
+
+\textbf{(d) } Use definition 3.5 and the result in part (b) to show that
+$$\var[X] = E[X - E[X]] = E[(Y - \mu)^2] = \sigma^2$$
+\sol
+As shown in part (c), these variances are equal without the need for theorems or part (b).
+
+
+\newpage
+\textbf{3.40 } The probability that a patient recovers from a stomach disease is 0.8. Suppose 20 people are known to have contracted this disease. What are the below probabilities? Let the event $R$ denote people recovering.
+
+
+\textbf{(a) } Exactly 14 people recover?
+\sol
+$$P(R = 14) = \binom{20}{14} \cdot 0.8^{14} \cdot 0.2^6 = 0.109$$
+
+\textbf{(b) } At least 10 people recover?
+\sol
+$$P(R \geq 10) = 1 - P(R \leq 9) = 1 - \sum_{k = 0}^9 \binom{20}{k} \cdot 0.8^k \cdot 0.2^{20 - k} = 0.999$$
+
+
+\textbf{(c) } Between 14 and 18 people recover?
+\sol
+$$P(14 \leq R \leq 18) = \sum_{k = 14}^{18} \binom{20}{k} \cdot 0.8^k \cdot 0.2^{20 - k} = 0.844$$
+
+
+\textbf{(d) } At most 16 people recover?
+\sol
+$$P(R \leq 16) = \sum_{k = 0}^{16} \binom{20}{k} \cdot 0.8^k \cdot 0.2^{20 - k} = 0.589$$
+
+
+\newpage
+\textbf{3.70 } An oil prospector will drill succession of holes in a given area to find a productive well. The probability he is successful on a given trial is 0.2.
+
+\textbf{(a) } What is the probability that the third hole drilled is the first to yield a productive well?
+\sol
+$$P(\text{$3^{rd}$ hole first success}) = P(\text{fail}) \cdot P(\text{fail}) \cdot P(\text{success}) = 0.8 \cdot 0.8 \cdot 0.2 = 0.128$$
+
+
+\textbf{(b) } If the prospector can afford to drill at most 10 wells, what is the probability he will fail to find a productive well?
+\sol
+$$P(\text{10 fails}) = 0.8^{10} = 0.107$$
+
+
+\newpage
+\textbf{3.85 } Find $E[Y(Y - 1)]$ for a geometric random variable $Y$ by finding $\frac{d^2}{dq^2}\paren{\sum_{y = 1}^\infty q^y}$. Use this result to find the variance of $Y$.
+\sol
+Note that $Q = \sum_{y = 1}^\infty q^y = \frac{q}{1 - q}$, so the double derivative of the series is equal to the double derivative of the sum value.
+$$\frac{d^2}{dq^2} Q = \frac{d^2}{dq^2}\frac{q}{1 - q} = \frac{2}{(1 - q)^3}$$
+
+If $q = 1 - p$, then
+$$E[Y(Y - 1)] = p\sum_{y = 1}^\infty y(y - 1) q^{y - 1} = pq\sum_{y = 2}^\infty y(y - 1) q^{y - 2} = pq \cdot \frac{d^2}{dq^2} Q = pq \cdot \frac{2}{(1 - q)^3} = \frac{2pq}{p^3} = \frac{2q}{p^2}$$
+
+Note that $E[Y] = \frac{1}{p}$. From here, we can calculate the variance to be
+$$\var[Y] = E[Y^2] - E^2[Y] = E[Y^2] - E[Y] - E^2[Y] + E[Y] = E[Y(Y - 1)] - E^2[Y] + E[Y] =$$
+$$\frac{2q}{p^2} - \frac{1}{p^2} + \frac{1}{p} = \frac{2q - 1 + p}{p^2} = \frac{1 - p}{p^2}$$
+
+
+
+\newpage
+\textbf{3.167 } Let $Y$ be a random variable with mean 11 and variance 9. Using Chebyshev's theorem, find
+
+\newline
+
+\textbf{(a) } A lower bound for $P(6 < Y < 16)$.
+\sol
+Let $k = \frac{5}{3}$, then $k\sigma = 5$, and $\mu \pm k\sigma = 6, 16$. Then by Chebyshev's inequality, we have that 
+$$P(\mu - k\sigma < Y < \mu + k\sigma) = P(\abs{Y - \mu} < k\sigma) \geq 1 - \frac{1}{k^2} = 1 - \frac{9}{25} = \frac{16}{25}$$
+
+\textbf{(b) } The value of $C$ such that $P(\abs{Y - 11} \geq C) \leq 0.09$.
+\sol
+By Chebyshev's inequality, we know that 
+$$P(\abs{Y - \mu} \geq k\sigma) \leq \frac{1}{k^2}$$
+This tells us that $C = k\sigma$ and $\frac{1}{k^2} = 0.09$. Then we solve for $k$, getting $k = \sqrt{\frac{1}{0.09}} = \sqrt{\frac{1}{\frac{9}{100}}} = \frac{10}{3}$. With the knowledge that $\sigma = 3$ and $k = \frac{10}{3}$, we calculate $C$ to be $C = k\sigma = \frac{10}{3} \cdot 3 = 10$.
+
+\newpage
+\textbf{3.177 } For a certain section of a pine forest, the number of diseased trees per acre $Y$ has a Poisson distribution with mean $\lambda = 10$. The diseased trees are sprayed with an insecticide at a cost of \$3 per tree, plus the fixed overhead cost for equipment rental at \$50. Letting $C$ denote the total spraying cost for a randomly selected acre, find the expected value and standard deviation for $C$. Within what interval would you expect $C$ to lie with probability at least $0.75$.
+\sol
+We know that the for a Poisson distribution, $E[X] = \var[X] = \lambda$, so we know that 
+$$\mu = E[C] = E[3Y + 50] = 3E[Y] + 50 = 3\lambda + 50 = 80$$
+$$\sigma = \sqrt{\var[C]} = \sqrt{\var[3Y + 50]} = \sqrt{9\var[Y] + 0} = \sqrt{9\lambda} = 3\sqrt{10}$$
+
+By Chebyshev's inequality, we know that $P(\abs{C - \mu} < k\sigma) \geq 1 - \frac{1}{k^2}$. Since we want our probability to be at least 0.75, we have
+$$1 - \frac{1}{k^2} = 0.75 \longrightarrow k = 2$$
+We now calculate $k\sigma = 2 \cdot 3\sqrt{10} = 6\sqrt{10}$, and we have the inequality
+$$\abs{C - \mu} < k\sigma \longrightarrow$$
+$$-k\sigma < C - \mu < k\sigma \rightarrow$$
+$$\mu - k\sigma < C < \mu + k\sigma$$
+
+Subbing in our values for $\sigma, \mu, k$, we get
+$$80 - 6\sqrt{10} < C < 80 + 6\sqrt{10}$$
+$$61.026 < C < 98.974$$
+\end{questions}
+
+\end{document}

@@ -1,0 +1,151 @@
+\documentclass{exam}
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm,dsfont}
+\usepackage{lib/extra}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{enumitem}
+
+\title{ST 421 HW 5}
+\author{Brandyn Tucknott}
+\date{15 November 2024}
+
+\begin{document}
+\maketitle
+
+\begin{questions}
+    \textbf{4.20 }
+If $Y$ has a density function
+$$f_Y(y) =
+\begin{cases}
+    \frac{1}{2}\paren{2 - y} & 0 \leq y \leq 2 \\
+    0 & \text{otherwise} \\
+\end{cases}$$
+find the mean and variance of $Y$.
+\sol
+$$E(Y) = \int_{-\infty}^\infty y \cdot f_Y(y)dy = \int_0^2\frac{1}{2}y\paren{2 - y}dy = \frac{1}{2}\paren{y^2 - \frac{y^3}{3}}\Bigg|_0^2 = \frac{1}{2}\paren{\frac{4}{3}} = \frac{2}{3}$$
+To find the variance of $X$, we first find the expected value of $Y^2$.
+$$E(Y^2) = \int_{-\infty}^\infty y^2\frac{1}{2}\paren{2 - y}dy = \int_0^2 \frac{1}{2}\paren{2y^2 - y^3}dy = \frac{1}{2}\paren{\frac{2y^3}{3} - \frac{y^4}{4}}\Bigg|_0^2 = \frac{1}{2}\paren{\frac{4}{3}} = \frac{2}{3}$$
+
+With this, we now calculate the variance of $Y$ to be
+$$\text{Var}(Y) = E(X^2) - E^2(X) = \frac{2}{3} - \paren{\frac{2}{3}}^2 = \frac{2}{9}$$
+
+\newpage
+\textbf{4.26 }
+If $Y$ is a continuous random variable with mean $\mu$ and variance $\sigma^2$ with $a, b$ constants, use theorem 4.5 to prove the following.
+
+\newline
+Let $f(y)$ be the probability density function for $Y$.
+
+\newline
+\textbf{(a) } $E(aY + b) = aE(Y) + b = a\mu + b$
+\begin{proof}
+    $$E(aY + b) = \npint (ay + b)f(y)dy = \npint ayf(y) + bf(y) = \npint ayf(y)dy + \npint bf(y)dy =$$
+    $$= a\npint yf(y)dy + b\npint f(y)dy = a\mu + b$$
+\end{proof}
+
+\newline
+\textbf{(b) } $\text{Var}(aY + b) = a^2\text{Var}(Y) = a^2\sigma^2$
+\begin{proof}
+Note that $E(Y)= E[(Y - E[Y])^2]$.
+    $$\text{Var}(aY + b) = \npint (aY + b - E(aY + b))^2f(y)dy = \npint \paren{ay + b - a\mu - b}^2f(y)dy =$$
+    $$= \npint (a(y - \mu))^2f(y)dy = \npint a^2(y - \mu)^2f(y)dy = a^2 \npint (y^2 - 2y\mu + \mu^2)f(y)dy =$$
+    $$= a^2\paren{\npint y^2f(y)dy - 2\mu\npint yf(y)dy + \mu^2 \npint f(y)dy} = a^2\paren{\sigma^2 + \mu^2 - 2\mu^2 + \mu^2} = a^2\sigma^2$$
+\end{proof}
+
+\newpage
+\textbf{4.42 }
+The \textit{median} of a distribution of a continuous random variable $Y$ is the value $\phi_\frac{1}{2}$ such that $P(Y \leq \phi_\frac{1}{2}) = \frac{1}{2}$. What is the median of the uniform distribution on the interval $(\theta_1, \theta_2)?$
+
+\sol
+Since it is a uniform distribution on an interval (therefore continuous),
+$$\phi_\frac{1}{2} = \frac{\theta_1 + \theta_2}{2}$$
+
+\newpage
+\textbf{4.71 }
+Wires manufactured for use in a computer system are specified to have resistances between 0.12 and 0.14 ohm. The actual measured resistances of wires produced by company A have a normal probability distribution with a mean of 0.13 ohm and a standard deviation of 0.005 ohm.
+
+\newline
+\textbf{(a) } What is the probability that a randomly selected wire from company A's production will meet the specifications?
+\sol
+Let $X$ be the event that we randomly choose a wire from company A. Notice first that $0.12 = 0.13 - 2(0.005) = \mu - 2\sigma$, and also that $0.14 = 0.13 + 2(0.005) = \mu + 2\sigma$. Because of this, we are able to reword our questions, and instead of finding the probability that $0.12 \leq X \leq 0.14$, we wish to find the probability that $X$ is no more than 2 standard deviations away from $\mu$. However this is not enough, and since the integral we will set up has no elementary solutions, we need to use the standard normal distribution table instead. In order to do so, we first standardize our integral.
+
+\newline
+Let $Z = \frac{X - \mu}{\sigma}$. Then
+$$\mu_Z = \npint z \cdot \frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}z^2}dz = -\frac{1}{\sqrt{2\pi}}\npint e^{-u}du = -\frac{1}{\sqrt{2\pi}}\paren{-e^u}\Big|_{-\infty}^\infty = 0$$
+
+$$\sigma_Z^2 = \npint (z - \mu_Z)^2\cdot \frac{1}{\sqrt{2\pi}}e^{-\frac{z^2}{2}}dz = \frac{1}{\sqrt{2\pi}} \npint z^2e^{-\frac{z^2}{2}}dz = \frac{1}{\sqrt{2\pi}}\paren{0 - 0 + \sqrt{2\pi}} = 1$$
+
+We have shown that $Z$ is standardized, so we can now use the standardized normal distribution table to know that the probability $X$ falls in between $\mu \pm 2\sigma = 0.9544$.
+
+\newline
+\textbf{(b) } If four of these wires are used in each computer system and all are selected from company A, what is probability that all 4 will meet the specifications?
+\sol
+Assuming the wires are chosen independently,
+$$P(\text{4 good wires}) = P(\text{1 good wire})^4 = 0.9544^4 \approx 0.8297$$
+
+\newpage
+\textbf{4.104 }
+The lifetime (in hours) $Y$ of an electronic component is a random variable with the density function given by
+$$f(y) =
+\begin{cases}
+    \frac{1}{100}e^{-\frac{1}{100}y}, & y > 0 \\
+    0, & \text{elsewhere} \\
+\end{cases}$$
+Three of these components operate independently in a piece of equipment. The equipment fails if at least two of the components fail. Find the probability that the equipment will operate for at least 200 hours without failure.
+\sol
+Assuming component failure occurs if and only if the lifetime of a component expires, we wish to find the probability that the lifetime of at least 2 components is at least 200 hours. Note that the CDF is defined as
+$$F(y) =
+\begin{cases}
+    1 - e^{-\frac{1}{100}y}, & y > 0 \\
+    0, & \text{elsewhere} \\
+\end{cases}$$
+and by extension, $P(Y \geq y) = 1 - P(Y \leq y) = e^{-\frac{1}{100}y}$. Since $f(y)$ is continuous, we don't really care wether the inequality is inclusive or exclusive.
+$$P(\text{2+ components,  200+ hours}) = P(\text{2 components, 200+ hours}) + P(\text{3 components, 200+ hours}) =$$
+
+$$= \binom{3}{2}P^2(Y \geq 200)(1 - P(Y \geq 200)) + P^3(Y \geq 200) = 3 \cdot \paren{e^{-\frac{200}{100}}}^2\paren{1 - e^{-2}} + \paren{e^{-\frac{200}{100}}}^3 = 3e^{-4}\paren{1 - e^{-2}} + e^{-6} = 0.05$$
+
+\newpage
+\textbf{4.129 }
+During an eight-hour shift, the proportion of time $Y$ that a sheet metal stamping machine is down for maintenance or repairs has a beta distribution with $\alpha = 1, \beta = 2$. That is,
+$$f(y) =
+\begin{cases}
+    2(1 - y), & 0 \leq y \leq 1 \\
+    0, & \text{elsewhere} \\
+\end{cases}$$
+The cost (in hundreds of dollars) of this downtime due to lost production and cost of maintenance and repairs is given by $C = 10 + 20Y + 4Y^2$. Find the mean and variance of $C$.
+\sol
+$$E(C) = E(10 + 20Y + 4Y^2) = E(10) + E(20Y) + E(4Y^2) = 10 + 20E(Y) + 4E(Y^2) =$$
+
+$$= 10 + 20\frac{1}{1 + 2} + 4\paren{\frac{1(2)}{(1 + 2)^2(1 + 2 + 1)} + \paren{\frac{1}{1 + 2}}^2} = \frac{52}{3} \approx 17.33$$
+
+$$\text{Var}(C) = \text{Var}(10 + 20Y + 4Y^2) = 16 \cdot \int_0^1 (4y^2 + 20y + 10- \mu)^2 \cdot 2(1 - y)dy \approx 29.96$$t
+
+\newpage
+\textbf{4.145 }
+A random variable $Y$ has the density function
+$$f(y) =
+\begin{cases}
+    e^y, & y < 0 \\
+    0, \text{elsewhere} \\
+\end{cases}$$
+
+\newline
+\textbf{(a)} Find $E\paren{e^{\frac{3Y}{2}}}$.
+\sol
+$$E\paren{e^{\frac{3Y}{2}}} = \nzint e^\frac{3y}{2} \cdot e^y dy = \nzint e^\frac{5y}{2}dy = \paren{\frac{2}{5}e^\frac{5y}{2}}\Bigg|_{-\infty}^0 = \paren{\frac{2}{5} - 0} = \frac{2}{5}$$
+
+\newline
+\textbf{(b)} Find the moment generating function for $Y$.
+\sol
+$$E\paren{e^{tY}} = \nzint e^{ty} \cdot e^ydy = \nzint e^{y(t + 1)}dy = \frac{1}{t + 1}e^{y(t + 1)}\Bigg|_{-\infty}^0 = \frac{1}{t + 1}$$
+
+
+\newline
+\textbf{(c)} Find Var$(Y)$.
+\sol
+$$\text{Var}(Y) = E(Y^2) - E^2(Y) = \frac{d^2E\paren{e^tY}}{dt}\Bigg|_{t = 0} - \nzint ye^ydy = 2 - (-1)^2 = 1$$
+\end{questions}
+
+
+\end{document}
