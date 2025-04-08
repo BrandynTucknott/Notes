@@ -1,0 +1,73 @@
+\documentclass{exam}
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm,dsfont}
+\usepackage{lib/extra}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usepackage{bbm}
+
+\title{MTH 312 HW 2}
+\author{Brandyn Tucknott}
+\date{21 January 2025}
+
+\begin{document}
+\maketitle
+
+\begin{questions}
+    \textbf{6.3.2 }
+Consider the sequence of functions $h_n(x) = \sqrt{x^2 + \frac{1}{n}}$. \\
+
+\textbf{(a) } Computer the pointwise limit of $(h_n)$ then prove that the convergence is uniform on $\R$. \\
+\textit{Proof. }
+The pointwise limit of $(h_n)$ is
+$$\lim h_n = h = \abs{x}$$
+
+To show $h_n$ convergences to $h$ uniformly, let $\eps > 0$ be arbitrary. Choose $N > \frac{1}{\eps}$. Then for all $n \geq N$,
+$$\abs{h_n(x) - h(x)} = \abs{\sqrt{x^2 + \frac{1}{n}} - \abs{x}} < \abs{\sqrt{x^2} + \frac{1}{n} + \abs{x}} = \abs{\abs{x} + \frac{1}{n} - \abs{x}} = \abs{\frac{1}{n}} < \abs{\frac{1}{\frac{1}{\eps}}} < \eps$$
+
+for all $x \in \R$. Thus we conclude that $h_n \rightarrow h$ uniformly. \\ \qed \\
+
+
+\textbf{(b) } Note that each $h_n$ is differentiable. Show $g(x) = \lim h_n'(x)$ exists for all $x$, and explain how we can be certain that the convergence is not uniform on any neighborhood of zero.
+
+\sol
+To show the limit exists, we simply compute it. Note that $h_n'(x) = \frac{x}{\sqrt{x^2 + \frac{1}{n}}}$
+$$g(x) = \lim h_n'(x) = \frac{x}{\abs{x}} = \begin{cases}
+    -1, & x < 0 \\
+    1, & x > 0 \\
+\end{cases}$$
+
+Note that since $g(x)$ is not defined at $x = 0$, the slopes of all $h_n'(x)$ would approach infinity as $n$ increased. Logically then, the rate of increase cannot be bounded, and uniform convergence is impossible over any interval including $x = 0$.
+
+\newpage
+\textbf{6.3.5 }
+Let $g_n(x) = \frac{nx + x^2}{2n}$, and set $g(x) = \lim g_n(x)$. Show that $g$ is differentiable in two ways: \\
+
+\textbf{(a) } Compute $g(x)$ by algebraically taking the limit as $n \rightarrow \infty$ and then find $g'(x)$.
+\sol
+$$\lim g_n(x) = g(x) = \frac{x}{2}, \longrightarrow g'(x) = \frac{1}{2}$$ \\
+
+\textbf{(b) } Compute $g_n'(x)$ and show the sequence $(g_n')$ converges uniformly on every interval $[-M, M]$. Use Theorem 6.3.3 to conclude $g'(x) = \lim g_n'(x)$. \\
+
+\textit{Proof. }
+First, note that $g_n'(x) = \frac{1}{2} + \frac{x}{n}$. It is clear then, that $h(x) = \lim g_n'(x) = \frac{1}{2}$. We will now show that $(g_n')$ converges uniformly, and from there conclude $h = f'$. Let $\eps > 0$, and choose $N > \frac{M}{\eps}$. Then
+$$\abs{g_n'(x) - h(x)} = \abs{\frac{1}{2} + \frac{x}{n} - \frac{1}{2}} = \abs{\frac{x}{n}} < \frac{M}{n} < \eps$$
+
+Thus $g_n' \rightarrow h$ uniformly, and that there exists $x_0 = 0$ such that the sequence $g_n(x_0) = g(0) = 0$ converges. Then by Theorem 6.3.3, $g' = h = \frac{1}{2}$. \\ \qed \\
+
+\textbf{(c) } Repeat parts $(a) \text{ and } (b)$  for the sequence $f_n(x) = \frac{nx^2 + 1}{2n + x}$. \\
+
+\textit{Proof. } 
+First, we find algebraically the limit as $n \rightarrow \infty$. This is directly computed as
+$$\lim f_n(x) = f(x) = \frac{x^2}{2} \longrightarrow f'(x) = x$$
+
+Next, we wish to show that $(f_n')$ converges on every interval $[-M, M]$, and conclude $f'(x) = \lim f_n'(x)$. Note that $f_n'(x) = \frac{2nx}{2n + x} - \frac{nx^2 + 1}{(2n + x)^2}$, and thus $\lim f_n' = x$. Our approach will be to show $f_n' \rightarrow g$ uniformly, then conclude that $f' = g$. \\
+
+With some algebra, we know that
+$$\abs{f_n'(x) - g(x)} = \abs{\frac{2nx}{2n + x} - \frac{nx^2 + 1}{(2n + x)^2} - x} = \abs{\frac{x^3 + 3nx^2 + 1}{4n^2x + 4nx + x^2}} \leq \abs{\frac{M^3 + 3nM^2 + 1}{4n^2M + 4nM + M^2}}$$
+
+This is independent of $x$, and clearly the denominator has the dominating term with respect to $n$. Thus as $n \rightarrow \infty, \abs{f_n' - g} \rightarrow 0$, and we conclude that it converges uniformly. Since it converges uniformly, we again pick $x_0 = 0$ giving us $f_n'(x_0) = f_n'(0) = \frac{-1}{4n^2}$, which certainly converges to 0 as $n \rightarrow \infty$. By Theorem 6.3.3 we conclude that $f' = g = x$. \\ \qed
+\end{questions}
+
+\end{document}

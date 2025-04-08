@@ -1,0 +1,117 @@
+\documentclass{exam}
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm,dsfont}
+\usepackage{lib/extra}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usepackage{bbm}
+\usepackage{pgfplots}
+
+\title{MTH 312 HW 4}
+\author{Brandyn Tucknott}
+\date{4 February 2025}
+
+\begin{document}
+\maketitle
+
+\begin{questions}
+    \textbf{6.6.5. } \\
+\textbf{(a) }
+Generate the Taylor coefficients for the exponential function $f(x) = e^x$, then prove the corresponding Taylor series converges uniformly to $e^x$ on any interval of the form $[-R, R]$. \\
+\textit{Proof. }
+By Taylor's Formula, we know that the coefficients for a series of a function centered at $0$ can be computed as
+$$a_n = \frac{f^{(n)}(0)}{n!} = \frac{1}{n!}$$
+
+We represent the Taylor series of $f$ as
+$$f(x) = \sum_{n = 0}^\infty \frac{x^n}{n!}$$
+
+Let $R > 0$ and $x\in [-R, R]$. By Lagrange's Remainder Theorem, for $N\in \N$, there exists some $c \in (-R, R)$ such that $|c| < |x|$ and the error function
+$$E_N(x) = f(x) - \sum_{n = 0}^N \frac{x^n}{n!}$$
+satisfying
+$$\abs{E_N(x)} = \abs{\frac{f^{(N + 1)}(c)}{(N + 1)!}x^{N + 1}} = \abs{\frac{e^c}{(N + 1)!}x^{N + 1}} \leq \frac{e^c}{(N + 1)!}R^{N + 1}$$
+Since factorial grows faster than exponential, the error approaches 0 as $n \rightarrow \infty$, and we conclude that on $[-R, R]$, $\sum a_nx^n \rightarrow f$ uniformly. \\ \qed \\
+
+
+
+\textbf{(b) }
+Verify the formula $f'(x) = e^x$.
+\sol
+$$f'(x) = \sum_{n = 1}^\infty \frac{nx^{n - 1}}{n!} = \sum_{n = 1}^\infty \frac{x^{n - 1}}{(n - 1)!} = \sum_{k = 0}^\infty \frac{x^k}{k!} = e^x$$
+
+\textbf{(c) }
+Use a substitution to generate the series for $e^{-x}$, and then informally calculate $e^x\cdot e^{-x}$ by multiplying the two series and collecting powers of $x$.
+\sol
+$$e^x\cdot e^{-x} = \paren{1 + x + \frac{x^2}{2} + \frac{x^3}{6} + \hdots}\paren{1 - x + \frac{x^2}{2} - \frac{x^3}{6} + \hdots} =$$
+
+$$\paren{1 - x + \frac{x^2}{2} - \frac{x^3}{6}} + \paren{1 - x + \frac{x^2}{2} - \frac{x^3}{6}}x + \paren{1 - x + \frac{x^2}{2} - \frac{x^3}{6}}\frac{x^2}{2} + \hdots =$$
+
+$$1 + \paren{-1 + 1}x + \paren{\frac{1}{2} + \frac{1}{2} - 1}x^2 + \paren{-\frac{1}{6} + \frac{1}{2} - \frac{1}{2} + \frac{1}{6}}x^3 + \hdots = 1$$
+
+
+\newpage
+\textbf{6.7.3. } \\
+
+
+\textbf{(a) }
+Find the second degree polynomial $p(x) = q_0 + q_1x + q_2x^2$ that interpolates the three points $(-1, 1), (0, 0), (1, 1)$ on the graph of $g(x) = |x|$. Sketch $g(x)$ and $p(x)$ over $[-1, 1]$ on both axes.
+\sol
+The second order polynomial which passes through all given points is obviously $P(x) = x^2$. The graph can be seen below after Part (b). \\
+
+
+
+\textbf{(b) }
+Find the fourth degree polynomial that interpolates $g(x) = |x|$ at the point $x = -1, -\frac{1}{2}, 0, \frac{1}{2}, 1$. Add a sketch of this polynomial to the graph from Part (a).
+\sol
+We are looking for a polynomial $a(x) = a_4x^4 + a_3x^3 + a_2x^2 + a_1x + a_0$ which satisfies
+$$a(-1) = 1, a(-0.5) = 0.5, a(0) = 0, a(0.5) = 0.5, a(1) = 1$$
+Since $a(0) = 0$, we know that $a_0 = 0$, and we are left with 4 unknowns and 4 equations:
+$$\begin{cases}
+    a_4 - a_3 + a_2 - a_1 = 1 \\
+    \\
+    \frac{1}{16}a_4 - \frac{1}{8}a^3 + \frac{1}{4}a^2 - \frac{1}{2}a_1 = \frac{1}{2} \\
+    \\
+    \frac{1}{16}a_4 + \frac{1}{8}a^3 + \frac{1}{4}a^2 + \frac{1}{2}a_1 = \frac{1}{2} \\
+    \\
+    a_4 + a_3 + a_2 + a_1 = 1 \\
+\end{cases} \longrightarrow \paren{\begin{matrix}
+    -1 & 1 & -1 & 1\\
+    -\frac{1}{2} & \frac{1}{4} & -\frac{1}{8} & \frac{1}{16} \\
+    \frac{1}{2} & \frac{1}{4} & \frac{1}{8} & \frac{1}{16} \\
+    1 & 1 & 1 & 1 \\
+\end{matrix}}\paren{\begin{matrix}
+    a_1 \\ a_2 \\ a_3 \\ a_4 \\
+\end{matrix}} = \paren{\begin{matrix}
+    1 \\ \frac{1}{2} \\ \frac{1}{2} \\ 1 \\
+\end{matrix}}$$
+
+Solving for the system above yields $a_1, a_3 = 0$, while $a_4 = -\frac{4}{3}, a_2 = \frac{7}{3}$. This gives us the final polynomial of $a(x) = -\frac{4}{3}x^4 + \frac{7}{3}x^2$.
+\begin{center}
+\begin{tikzpicture}
+    \begin{axis}[
+        axis lines = middle,
+        xmin=-1.2, xmax=1.2,
+        ymin=-0.2, ymax=1.2,
+        xlabel={$x$},
+        ylabel={$y$},
+        samples=100,
+        domain=-1:1,
+        legend style={at={0.5, 0.5}}
+    ]
+        % Plot x^2
+        \addplot[blue, thick] {x^2};
+        \addlegendentry{$x^2$}
+
+        % add plot a(x)
+        \addplot[green, thick] {-4/3*x^4 + 7/3*x^2};
+        \addlegendentry{$-\frac{4}{3}x^4 + \frac{7}{3}x^2$}
+
+        % Plot |x|
+        \addplot[red, thick] {abs(x)};
+        \addlegendentry{$|x|$}
+    \end{axis}
+\end{tikzpicture}
+\end{center}
+\end{questions}
+
+\end{document}

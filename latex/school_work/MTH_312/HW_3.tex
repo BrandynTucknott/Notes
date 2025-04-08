@@ -1,0 +1,94 @@
+\documentclass{exam}
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm,dsfont}
+\usepackage{lib/extra}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usepackage{bbm}
+
+\title{MTH 312 HW 3}
+\author{Brandyn Tucknott}
+\date{28 January 2025}
+
+\begin{document}
+\maketitle
+
+\begin{questions}
+    \textbf{6.4.6 }
+Let
+$$f(x) = \frac{1}{x} - \frac{1}{x + 1} + \frac{1}{x + 2} - ...$$
+Show $f$ is defined for all $x > 0$. Is $f$ continuous on $(0, \infty)$? How about differentiable? \\
+
+\textit{Proof. }
+    First define $f_n = \frac{(-1)^n}{x + n}$, and rewrite $f$ as
+    $$f(x) = \sum_{n = 0}^\infty f_n = \sum_0^\infty \frac{(-1)^n}{x + n}$$
+
+    Recognize that the term-by-term differentiated series is
+    $$\sum_{n = 0}^\infty f_n' = \sum_{n = 0}^\infty \frac{(-1)^{n+1}}{(x+n)^2}$$
+
+    and also that each term in the differentiated series is bounded by
+    $$\abs{\frac{(-1)^{n + 1}}{(x + n)^2}} \leq \frac{1}{n^2}$$
+
+    Since $\sum \frac{1}{n^2}$ converges, by the Weierstrauss M-Test, we can deduce that $\sum f_n'$ converges uniformly on $(0, \infty)$. Now consider $x_0 = 1 \in (0, \infty)$. Then
+    $$f(1) = \sum_{n = 1}^\infty \frac{(-1)^n}{1 + n}\text{, which converges by the Alternating Series Test.}$$
+
+    Since $\sum f_n'$ converges uniformly and $f(x_0) = \sum f_n(x_0)$ converges for some $x_0 \in (0, \infty)$, the Term-by-term Differentiability Theorem tells us that $\sum f_n \rightarrow f$ and $\sum f_n' \rightarrow f_n'$ over $(0, \infty)$.
+
+    Since $f$ is differentiable, it is certainly defined and continuous over $(0, \infty)$.
+    
+
+    \\ \qed \\
+
+\newpage
+\textbf{6.5.4 }
+Assume $f(x) = \sum a_nx^n$ converges on $(-R, R)$.
+
+
+\text{(a) }
+Show $F(x) = \sum \frac{a_n}{n + 1}x^{n + 1}$ is defined on $(-R, R)$ and satisfies $F'(x) = f(x)$. \\
+\textit{Proof. }
+Let $x \in (-R, R)$. Then by Theorem 6.5.1, we know that $\sum f$ converges absolutely on $(-R, R)$, and so
+$$\sum |a_n||x|^n \text{converges} \longrightarrow \sum|a_n||x|^{n + 1} \text{converges}$$
+
+Notice also that
+$$\abs{\frac{a_n}{n + 1}x^{n + 1}} = \frac{|a_n|}{n + 1}\abs{x}^{n + 1}\leq |a_n||x|^{n + 1}$$
+so by the Comparison Test, we know that $\sum \frac{a_n}{n + 1}x^{n + 1}$ converges absolutely on $(-R, R)$. Since $F$ converges on $(-R, R)$, it is certainly defined on $(-R, R)$, and by Theorem 6.5.7, $F' = f$.
+\\ \qed \\
+
+\text{(b) }
+Antiderivatives are not unique. If $g$ is an arbitrary function satisfying $g' = f$ on $(-R, R)$, find a power series representation for $g$.
+\sol
+If you choose $g(x) = k + F(x)$, then $g' = f$. We can explicitly write out $g$ as
+$$g(x) = k + \sum_{n = 0}^\infty \frac{a_n}{n + 1}x^{n + 1}$$
+
+\newpage
+\textbf{6.5.5 } \\
+\text{(a) }
+If $s$ satisfies $0 < s < 1$, show $ns^{n - 1}$ is bounded for all $s \geq 1$. \\
+\textit{Proof. }
+Since $s > 0$ and $n \geq 1$, it is certainly true that $ns^{n - 1} > 0$. Then choose $N \in \N$ such that $s \leq \frac{N}{N + 1}$. Then for all $n \geq N$, we have that
+$$s\leq \frac{n}{n + 1} \rightarrow (n + 1)s \leq n \rightarrow 0 < (n + 1)s^{n} \leq ns^{n - 1}$$
+
+We conclude that the sequence $(ns^{n - 1})$ is bounded below, eventually decreasing, and therefore bounded.
+\\ \qed \\
+
+\text{(b) }
+Given an arbitrary $x \in (-R, R)$, pick $t$ to satisfy $|x| < t < R$. Use this start to construct a proof for Theorem 6.5.6. \\
+\textbf{Theorem 6.5.6 }
+If $\sum a_nx^n$ converges for all $x\in (-R, R)$, then the differentiated series $\sum na_nx^{n - 1}$ converges at each $x\in (-R, R)$ as well. Consequently, the convergence is uniform on compact sets contained in $(-R, R)$. \\
+\textit{Proof. }
+Since $t > |x| > 0$, by Part (a) we know that
+$$n\abs{\frac{x}{t}}^{n - 1} \leq M$$
+
+for some $M > 0 \in \R$ and all $n \in \N$. Note that $t\in (-R, R)$ by Theorem 6.5.1, since $\sum a_n t_n$ converges, it converges absolutely. Then
+$$\sum a_nt^n \text{ abs. conv.}\longrightarrow \sum a_n t^{n - 1}\text{ abs. conv.} \longrightarrow M\sum a_nt^{n - 1}\text{ abs. conv.}$$
+
+In other words, $\sum M|a_n|t^{n - 1}$ converges, and make the following observation:
+$$\abs{na_nx^{n - 1}} = n|a_n|x^{n - 1} = n|a_n|\abs{\frac{x}{t}}^{n - 1}t^{n - 1} \leq M|a_n|t^{n - 1}\text{ for all } n\in \N.$$
+
+By the Comparison Test, we conclude that $\sum na_nx^{n - 1}$ is absolutely convergent on $(-R, R)$.
+\\ \qed \\
+\end{questions}
+
+\end{document}

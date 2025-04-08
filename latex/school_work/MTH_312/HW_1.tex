@@ -1,0 +1,137 @@
+\documentclass{exam}
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm,dsfont}
+\usepackage{lib/extra}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usepackage{bbm}
+
+\title{MTH 312 HW 1}
+\author{Brandyn Tucknott}
+\date{14 Janurary 2025}
+
+\begin{document}
+\maketitle
+
+\begin{questions}
+    \textbf{6.2.3}
+For each $n \in \N$ and $x \in [0, \infty)$, let
+
+$$g_n(x) = \frac{x}{1 + x^n} \text{ and } h_n(x) =
+\begin{cases}
+    1, & \text{ if } x \geq \frac{1}{n} \\
+    nx, & \text{ if } 0 \leq x \leq \frac{1}{n} \\
+\end{cases}$$
+
+Answer the following questions about the sequences $(g_n)$ and $(h_n)$:
+
+\newline
+\textbf{(a) }
+Find the pointwise limit on $[0, \infty)$.
+\sol
+$$\lim_{n \rightarrow \infty} g_n(x) = g(x) =
+\begin{cases}
+    x, & 0 \leq x < 1 \\
+    \frac{1}{2}, & x = 1 \\
+    0, & 1 < x < \infty \\
+\end{cases}$$
+
+$$\lim_{n \rightarrow \infty} h_n(x) = h(x) =
+\begin{cases}
+    1, & x > 0 \\
+    0, & x = 0 \\
+\end{cases}$$
+
+
+\newline
+\textbf{(b) }
+Explain how we know that the convergence cannot be uniform on $[0, \infty)$.
+\sol
+For $\paren{g_n}$, as $n \rightarrow \infty$, the rate at which different "sections" converge to their part in $g(x)$ is not equal. In particular, smaller $x$ converges exponentially faster than other portions of the sequence, making uniform convergence impossible.
+
+\newline\newline
+
+For $\paren{h_n}$, as $n \rightarrow \infty, nx$ becomes more and more "uncontained". Because of this, it cannot be that the sequence $\paren{h_n}$ is uniformly continuous.
+
+
+\newline
+\newline
+\textbf{(c) }
+Choose a smaller set over which the convergence is uniform and supply an argument to show that this is indeed the case.
+\sol
+For both functions, consider instead the set $(1, 2)$. 
+
+\newline\newline
+
+For the sequence $(g_n)$, we have the new pointwise limit $\lim_{n \rightarrow \infty} g_n(x) = g(x) = 0$. Then for arbitrary $\eps > 0$, choose $N > \frac{\ln \frac{1 - \eps}{\eps}}{\ln 2} = \log_2 \frac{1 - \eps}{\eps}$
+$$\abs{g_n(x) - g(x)} = \abs{\frac{x}{1 + x^n} - 0} = \frac{x}{1 + x^n} \leq \frac{1}{1 + x^n} < \frac{1}{1 + 2^n} < \frac{1}{1 + 2^{\paren{\log_2 \frac{1 - \eps}{\eps}}}} = \frac{1}{1 + \frac{1 - \eps}{\eps}} = \eps$$
+
+\newline\newline
+
+Similarly for the sequence $(h_n)$, we have the new pointwise limit $\lim_{n \rightarrow \infty} h_n(x) = h(x) = 1$. Then for arbitrary $\eps > 0$, we have that
+$$\abs{h_n(x) - h(x)} = \abs{1 - 1} = 0 < \eps, \text{so $N\in\N$ works (independent of $\eps$ in this case)}$$
+
+
+
+
+\newpage
+\textbf{6.2.9 }
+Assume $(f_n)$ and $(g_n)$ are uniformly convergent sequences of functions.
+\\
+\textbf{(a) }
+Show that $(f_n + g_n)$ is a uniformly convergent sequence of functions.
+\begin{proof}
+    Note first that $(f_n + g_n) \rightarrow f + g$. Now let $\frac{\eps}{2} > 0$, and choose $N = \text{max}(N_{f_n}, N_{g_n})$. Then for all $n \geq N$, we have that
+    $$\abs{(f_n + g_n) - (f + g)} = \abs{f_n - f + g_n - g} \leq \abs{f_n - f} + \abs{g_n - g} < \frac{\eps}{2} + \frac{\eps}{2} = \eps$$
+
+    We conclude that $(f_n + g_n)$ is uniformly convergent by definition of uniform convergence.
+\end{proof}
+\\
+\textbf{(b) }
+Give an example to show that the product $(f_ng_n)$ may not converge uniformly.
+\begin{proof}
+    Consider $(f_n) = \frac{1}{n}, (g_n) = x$. Then the pointwise limit on the interval $[0, \infty)$ of both functions are
+    $$f_n \rightarrow f = 0, \text{ and } g_n \rightarrow g = x$$
+    It is obvious that $f_n, g_n$ are uniformly convergent to $f, g$ respectively. However, on the domain $[0, \infty)$, $(f_n \cdot g_n) = \frac{x}{n}$ is not uniformly convergent (although the pointwise limit does exist).
+    
+\end{proof}
+\\
+\textbf{(c) }
+Prove that if there exists $M > 0$ such that $|f_n|, |g_n| \leq M$ for all $n \in \N$, then $(f_ng_n)$ does converge uniformly.
+\begin{proof}
+    Let $A \subset \R$. Since $(f_n), (g_n)$ converge uniformly, there exists $N_1, N_2$ such that
+    $$\sup_{x\in A} \abs{f_n(x) - f(x)} < \frac{\eps}{2M}, \text{ for } n \geq N_1$$
+    $$\sup_{x\in A} \abs{g_n(x) - g(x)} < \frac{\eps}{2M}, \text{ for } n \geq N_2$$
+    $$\text{(these definitions come from Baby Rudin 3rd edition, which I occasionally use as a secondary text)}$$
+
+    Let $\eps > 0$ be arbitrary, and choose $N = \max(N_1, N_2)$. Then for all $n \geq N$,
+
+    $$\abs{f_ng_n - fg} = \abs{f_ng_n - f_ng + f_ng - fg} \leq \abs{f_ng_n - f_ng} + \abs{f_ng - fg} \leq \abs{f_n}\abs{g_n - g} + \abs{g}\abs{f_n - f} < $$
+    
+    $$< \abs{f_n}\frac{\eps}{2M} + \abs{g}\frac{\eps}{2M} = \frac{\eps}{2M}\paren{\abs{f_n} + \abs{g}} < \frac{\eps}{2M}\cdot 2M = \eps$$
+
+    Since this is true for any $x \in A$, definitionally $(f_ng_n)$ converges uniformly.
+\end{proof}
+
+\newpage
+\textbf{6.2.10 }
+Assume $f_n \rightarrow f$ pointwise on $[a, b]$ and the limit function $f$ continuous on $[a, b]$. If each $f_n$ is increasing (but not necessarily continuous), show $f_n \rightarrow f$ uniformly.
+\begin{proof}
+    Let $\eps > 0$. Define $O_n = \cbrac{x \in [a, b] : \abs{f_n(x) - f(x)} < \eps}$. Then $O_n$ is open relative to $[a, b]$, with $\bigcup_{n \in \N} O_n = [a, b]$, hence $O_n$ is an open cover for $[a, b]$. Since $[a, b]$ is compact, by the Heine-Borel Theorem, there is a finite subcover of $[a, b]$ such that
+    $$[a, b] = O_{n_1} \cup \hdots \cup O_{n_k}, \text{ where } n_1 < \hdots < n_k$$
+
+    Recall however, that $(f_n)$ is monotone increasing, so
+    $$O_{n_1} \subset O_{n_2} \subset \hdots \subset O_{n_k} \longrightarrow [a, b] = O_{n_k}$$
+
+    Then by definition of $O_{n_k}$,
+    $$[a, b] = \cbrac{x \in [a, b] : \abs{f_{n_k}(x) - f(x)} < \eps}$$
+
+    We conclude that for $\eps > 0$, choose $N = n_k$. For all $n \geq N$, we know that $\abs{f_n(x) - f(x)} < \eps$ for arbitrary $x \in [a, b]$. Then by definition, $f_n \rightarrow f$ uniformly.
+    
+
+    
+\end{proof}
+\end{questions}
+
+\end{document}
