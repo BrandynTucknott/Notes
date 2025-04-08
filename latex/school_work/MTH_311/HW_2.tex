@@ -1,0 +1,82 @@
+\documentclass{exam}
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm,dsfont}
+\usepackage{lib/extra}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{enumitem}
+
+\title{MTH 311 Lab 2}
+\author{Brandyn Tucknott}
+\date{3 October 2024}
+
+\begin{document}
+\maketitle
+
+\begin{questions}
+    \question
+\begin{parts}
+\part
+Write a formal definition of the \textit{greatest lower bound} of a set $A \subset \R$. This should be an analogue of the definition of least upper bound. The infimum of $A$ is denoted $\inf A$.
+\sol
+The greatest lower bound $s$ of the set $A$ is the smallest $s \in \R$ such that $s \leq a$ for all $a \in A$, and for any lower bound $b$ of $A$, $s \geq b$. \\
+
+\part
+Assume that $A$ is a nonempty set of positive real numbers.
+
+\begin{enumerate}[label=\textit{(\roman*)}]
+    \item
+    Is it necessarily true that $0 < \inf A$? Explain why or why not; either give a proof or state a counterexample and explain why your example really is a counterexample.
+    \sol
+    Let $A = \cbrac{x \in \R : 0 < x < 1}$. Assume that $\inf A \in A$ and note that since $\inf A$ is a real number, it can be divided. If we consider $\frac{\inf A}{2}$, this is also real, an element of $A$, and in fact smaller than $\inf A$. This is a contradiction, so our assumption that $\inf A$ was an element of $A$ was wrong, and it is not necessarily true that $\inf A > 0$. \\
+
+    
+    \item
+    Is it necessarily true that $0 \leq \inf A$? Explain why or why not; either give a proof or state a counterexample and explain why your example really is a counterexample.
+    \sol
+    First, let us write the definition of $A = \cbrac{x \in \R : x > 0}$. Then clearly any $b \leq 0 \in \R$ is a lower bound, and the greatest of these lower bounds is 0. So $\inf A = 0$, and the statement $0 \leq \inf A$ is true. Also note that if $A$ is finite or has a minimum, then we simply let $\inf A = $ minimum element of $A$, which we know exists by the well-ordering principle. We conclude it is necessarily true that $\inf A \geq 0$.
+\end{enumerate}
+
+\end{parts}
+
+\newpage
+\question
+For each of the following, either give an example of what is requested (and prove that the example has the required properties), or prove that such an example is impossible.
+
+\begin{parts}
+    \part
+    Two sets $A \subset \R$ and $B \subset \R$ that are bounded above, with $A \cap B = \emptyset$, sup $A$ = sup $B$, sup $A \notin A$, and sup $B \notin B$. \\
+    \textit{Lemma 1. }
+    If $0 < \frac{p}{q} < 1 \in \Q$, then $\frac{p + r}{q + r} > \frac{p}{q}$ for all $r > 0 \in \R$.
+    \begin{proof}
+        Let $\frac{p}{q} > 0 \in \Q$ and $r > 0 \in \R$. Recognize that
+        $$\frac{p + r}{q + r} = \frac{p}{q + r} + \frac{r}{q + r} =$$
+        $$\frac{p}{q} - \frac{rp}{q\paren{q + r}} + \frac{r}{q + r}.$$
+        With this, it is sufficient to show that
+        \begin{equation}
+            \frac{-rp}{q\paren{q + r}} + \frac{r}{q + r} > 0.
+        \end{equation}
+
+        Since $q > 0$ and $r > 0$, we know that $q + r > 0$, and we can multiply and divide out equation (1) by $r$ and $q + r$ respectively on both sides to get
+        \begin{equation}
+            \frac{-p}{q} + 1 > 0.
+        \end{equation}
+        Since $0 < \frac{p}{q} < 1$, we know that $1 - \frac{p}{q} > 0$, we equation (2) is true. With this, we have shown that 
+        equation (1) is true, and by consequence
+        $$\frac{p + r}{q + r} = \frac{p}{q} - \frac{rp}{q\paren{q + r}} + \frac{r}{q + r} = \frac{p}{q} + \epsilon,$$
+        for some $\epsilon > 0 \in \R$. We conclude that if $0 < \frac{p}{q} < 1$ for $\frac{p}{q} \in \Q$, then $\frac{p + r}{q + r} > \frac{p}{q}$ for all $r > 0 \in \R$. \\
+    \end{proof}
+    \sol
+    Let $A = \cbrac{q \in \Q: q < 1}$ and $B = \cbrac{n \in \R \backslash \Q : n < 1}$. By density of $\Q$ in $\R$, for any arbitrary $q_0 < 1$, there exists $q_1 < 1$ such that $q_0 < q_1 < 1$ for $q_0, q_1 \in \Q$. It follows then, that $\sup A = 1$. Similarly, we know that for any $n \in B$, there exists $\frac{p}{q} \in \Q$ such that $n < \frac{p}{q} < 1$. It remains to be shown that the existence of a rational number $\frac{p}{q} > n$ implies the existence of an irrational $\frac{p}{q} < \frac{p + \sqrt{2}}{q + \sqrt{2}} < 1$. But this is true by \textit{Lemma 1}, so we can also conclude that $\sup B = 1$. With this we have two disjoint sets $A$ and $B$ with the same supremum which is not an element of either set. \\
+
+
+    \part
+    A sequence of nested unbounded closed intervals $L_1 \supset L_2 \supset L_3 \supset ...$ with $\cap_{n = 1}^\infty L_n = \emptyset$. Here, unbounded closed intervals means that each interval $L_n$ has the form $L_n = [a_n, \infty)$ for some $a_n \in \R$.
+    \sol
+    Choose $a_n = n$, and define $L_n = [a_n, \infty) = [n, \infty)$. We now need to show that $L_n \supset L_{n + 1}$ and $\cap_{n = 1}^\infty L_n = \emptyset$. The first case is trivial. If $L_n = [n, \infty)$, then $L_{n + 1} = [n + 1, \infty)$ is certainly a subset of $L_n$. This becomes apparent when we rewrite $[n, \infty)$ as $[n, n + 1) \cup [n + 1, \infty)$. For the case of infinite intersections, we do a proof by contradiction. Let $S = \cap_{n = 1}^\infty L_n$, and assume that $S \neq \emptyset$. Then there is some element $s \in S \rightarrow s \in L_n$ for all $n \in \N$. Now consider $L_{s + 1} = [s + 1, \infty)$. This interval does not contain $s$, a contradiction from our assumption. Thus our assumption is incorrect, and $S = \emptyset$.
+\end{parts}
+
+\newpage
+\end{questions}
+
+\end{document}

@@ -16,5 +16,4 @@ REMAINING TO BE IMPORTED:
 * MISC
 * Not Math Related
 * Probability
-* Statistics
 * Complex Variables

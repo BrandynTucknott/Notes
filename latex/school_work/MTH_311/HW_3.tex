@@ -1,0 +1,71 @@
+\documentclass{exam}
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm,dsfont}
+\usepackage{lib/extra}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{enumitem}
+
+\title{MTH 311 Lab 3}
+\author{Brandyn Tucknott}
+\date{10 October 2024}
+
+\begin{document}
+\maketitle
+
+\begin{questions}
+    \question
+Use the definition of convergence of a sequence to prove
+$$\lim_{n\rightarrow{\infty}} \frac{n}{n^2 + 1} = 0$$
+
+\begin{parts}
+    \part
+    Begin by stating explicitly what is to be proved. For this statement, use the definition of convergence. The symbol $\epsilon$  should be involved.
+    \sol
+    We want to show that $\abs{\frac{n}{n^2 + 1} - 0} < \epsilon$
+
+    \part
+    Before you use $\epsilon$ in your proof, first give $\epsilon$ a proper introduction
+
+    \sol
+    Let $\epsilon > 0$ be an arbitrary real number.
+
+    \part
+    $\frac{n}{n^2 + 1} < \frac{n}{n^2}$ for $n \geq 1$. When you apply the definition of convergence to this problem, this inequality will be useful.
+    \begin{proof}
+        Notice that $\frac{n}{n^2 + 1} < \frac{n}{n^2}$ for $n \geq 1$, so it is sufficient to show that $\lim_{n \rightarrow \infty} {\frac{n}{n^2}} = 0$.
+        \newline
+        Let $\epsilon > 0$ be an arbitrary real number. Choose $N \in \N > \frac{1}{\epsilon}$. Then for all $n \geq N$,
+        $$n > \frac{1}{\epsilon} \rightarrow \epsilon > \frac{1}{n} \rightarrow$$
+        $$\epsilon > \frac{n}{n^2} \rightarrow$$
+        $$\epsilon > \frac{n}{n^2} - 0 \rightarrow$$
+        $$\epsilon > \abs{\frac{n}{n^2} - 0}$$
+        since $n$ is a natural number. With this we have shown that $\lim_{n \rightarrow \infty} \frac{n}{n^2}= 0$, so we conclude that the $\lim_{n \rightarrow \infty} \frac{n}{n^2 + 1}= 0$.
+    \end{proof}
+    
+\end{parts}
+
+\newpage
+\question
+\begin{parts}
+    \part
+    The definition of convergence of a sequence $(a_n)$ to a limit $a \in \R$ can be stated as follows:
+    $$\forall_{\epsilon > 0}\exists_{N \in \N} \text{ such that } \forall_{n \geq N}, \abs{a_n - a} < \epsilon$$
+    Find the negation of this statement.That is, state precisely what it means to say that a sequence does not converge to $a \in \R$.
+
+    \sol
+    The negation of convergence to $a$ is:
+    $$\exists_{\epsilon > 0} \forall_{N \in \N} \text{ such that } \exists{n \geq N}, \abs{a_n - a} > \epsilon$$
+    In English, the negation states that there exists some $\epsilon > 0 \in \R$ where for any $N \in \N$, there exists some $n \geq N$ such that $\abs{a_n - a} > \epsilon$.
+
+    \part
+    Let $a_n = (-1)^n$ for all integers $n \geq 1$. Prove that the sequence $(a_n)$ does not converge to 1; to do this, use your result from Part (a). (Actually, the sequence $(a_n)$ does not converge to \textit{anything}, but you do not need to show this.)
+    \begin{proof}
+        We wish to choose $\epsilon$ such that no matter the choice of $N$, there is always at least one $n$ such that $\abs{a_n - 1} > \epsilon$. Choose $\epsilon = 1$. Notice how no matter the choice of $N$, $\abs{a_n - 1} = \abs{(-1)^n - 1} = 0$ if $n$ is even, and 2 if $n$ is odd. Then for all $N \in \N$, we choose $n \geq N$ and $n$ odd to satisfy $$\abs{(-1)^n - 1} > \epsilon \rightarrow$$
+        $$\abs{-2} > 1 \longrightarrow 2 > 1$$
+        Since there exists $\epsilon > 0$ where for all natural numbers $N$, there is at least one $n \geq N$ to satisfying $\abs{a_n - 1} > \epsilon$, we conclude that the sequence $a_n$ does not converge to 1.
+    \end{proof}
+\end{parts}
+\end{questions}
+
+\end{document}

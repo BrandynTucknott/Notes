@@ -1,0 +1,67 @@
+\documentclass{exam}
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm,dsfont}
+\usepackage{lib/extra}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{enumitem}
+
+\title{MTH 311 Lab 7}
+\author{Brandyn Tucknott}
+\date{15 November 2024}
+
+\begin{document}
+\maketitle
+
+\begin{questions}
+    \question
+Theorem 3.2.14 on page 92 states the following.
+\newline
+(i) The union of a finite collection of closed sets in closed.
+
+\newline
+(ii) The intersection of an arbitrary selection of closed sets is closed.
+
+\newline
+
+\begin{parts}
+    \part
+    Prove that the union of a finite collection of compact sets is compact.
+    \begin{proof}
+        By the characterization of compactness in $\R$, a set $K$ is compact if and only if it is closed and bounded. We can equivalently show that the union of a finite collection of closed and bounded sets is also closed and bounded. By Theorem 3.2.14, we have that the union of a finite collection of closed sets is closed, and trivially we have that the union of a finite collection of bounded sets is bounded. We conclude then, that the union of a finite collection of compact sets is also compact.
+    \end{proof}
+
+    \part
+    Use an example to show that the union of an arbitrary selection of compact sets is not necessarily compact.
+    \begin{proof}
+        Consider $S_n = [\frac{1}{n}, 1]$ for all $n \in \N$. Then $S = \bigcup_{n \in \N} S_n = (0, 1]$. Although $S$ is bounded, it is not closed since the limit point 0 is not contained in $S$. Although each individual $S_n$ is compact, since $S$ is not both bounded and closed, $S$ is not compact.
+    \end{proof}
+\end{parts}
+
+\newpage
+\question
+\begin{parts}
+    \part
+    Find a real number $M$ such that $\abs{x^2 - 1} \leq M\abs{x - 1}$ for all $x \in [0, 2]$
+    \sol
+    Since $\abs{a \cdot b} = \abs{a} \cdot \abs{b}$ for $a,b \in \R$, we can solve for $M$.
+    $$\abs{x^2 - 1} \leq M\abs{x - 1} \longrightarrow \abs{x - 1} \cdot \abs{x + 1} \leq M\abs{x - 1} \longrightarrow \abs{x + 1} \leq M \longrightarrow$$
+
+    $$M \geq x + 1 \text{ since }x\in[0, 2]$$
+    To maximize this value, we choose $x = 2$ which yields $M = 3$.
+
+    \part
+    Use the corresponding $\eps-\delta$ definition to prove that $\lim_{x \rightarrow 1} x^2 = 1$. In this example, for a given $\eps > 0$, the corresponding $\delta > 0$ is the minimum of two quantities.
+    \begin{proof}
+        Given $\eps > 0$, choose $\delta = \min (1, \frac{\eps}{3})$. Suppose $0 < \abs{x - 1} < \delta$. Then we know that $\abs{x - 1} < 1$, and we observe that
+        $$\abs{x + 1} = \abs{x - 1 + 2} \leq \abs{x - 1} + \abs{2} = \abs{x - 1} + 2 < 1 + 2 = 3$$
+        From here, we check that $\abs{x^2 - 1} < \eps$.
+        $$\abs{x^2 - 1} = \abs{x + 1}\abs{x - 1} < 3 \cdot \frac{\eps}{3} = \eps$$
+        Since for any given $\eps > 0$ there exists $\delta > 0$ such that if $0 < \abs{x - 1} < \delta$ then $\abs{x^2 - 1} < \eps$, we conclude that $\lim_{x \rightarrow 1} x^2 = 1$.
+    \end{proof}
+\end{parts}
+
+\newpage
+\end{questions}
+
+\end{document}

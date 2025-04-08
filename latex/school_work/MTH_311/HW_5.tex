@@ -1,0 +1,102 @@
+\documentclass{exam}
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm,dsfont}
+\usepackage{lib/extra}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{enumitem}
+
+\title{MTH 311 Lab 5}
+\author{Brandyn Tucknott}
+\date{31 October 2024}
+
+\begin{document}
+\maketitle
+This Lab session is concerned with the harmonic series
+$$\sum_{k = 1}^\infty a_k = \sum_{k = 1}^\infty \frac{1}{k} = 1 + \frac{1}{2} + \frac{1}{3} + \frac{1}{4} + \hdots$$
+
+For each $n \in \N$, let $s_n = \sum_{k = 1}^n \frac{1}{k}$. One of the results in lab 1 was to show that these partial sums satisfy
+\begin{equation}
+    S_{2n} \geq \frac{1}{2} + s_n \text{ for all } n \geq 1
+\end{equation}
+
+\begin{questions}
+    \question % question 1
+The Cauchy Criterion states that a series $\sum_{k = 1}^\infty a_k$ converges if and only if for every $\eps > 0$, there exists $N \in \N$ such that for all $n > m \geq N \in \N, \abs{a_{m + 1} + \hdots a_n} < \eps$. Prove that the harmonic series violates the condition ``for every $\eps > 0$".
+
+\begin{proof}
+    Recall that the condition $\abs{a_{m + 1} + \hdots + a_n} < \eps$ is equivalent to $\abs{s_n - s_m} < \eps$. We can also rewrite equation (1) as
+    $$s_{2n} \geq \frac{1}{2} + s_n \rightarrow
+        s_{2n} - s_n \geq \frac{1}{2}$$
+        
+    Thus if we choose $\eps = \frac{1}{2}$, no matter our choice of $N \in \N$, there will always exist $2n > n \geq N$ \textit{ s.t. }
+    $$\abs{s_n - s_m} \geq \frac{1}{2} = \eps$$
+    
+    We conclude that since there exists an $\eps > 0$ where the Cauchy Criterion does not hold, the harmonic series diverges.
+\end{proof}
+
+
+
+
+
+
+
+\question % question 2
+Use the following different technique to show that the harmonic series diverges.
+\begin{parts}
+    \part
+    Give a rigorous proof that the sequence $\paren{s_n}_{n = 1}^\infty$ is not bounded above. During the proof, use the Axiom of Completeness.
+    \begin{proof}
+        Define the set $S = \cbrac{s_n : n \in \N}$. Equivalently, we want to show that $S$ does not have an upper bound. We approach this with a proof by contradiction, and assume that $S$ is bounded above. Then by the Axiom of Completeness, it has a supremum which we label as $s = \sup S$. By the definition of supremum, we know that $s$ is the smallest real number such that for all $s_n \in S, s_n \leq s$. \\
+
+        Recall equation (1), which states that
+        $$S_{2n} \geq s_n + \frac{1}{2}$$
+        This can be expanded into a new general form
+        \begin{equation}
+            s_{2^k} \geq 1 + \frac{k}{2}
+        \end{equation}
+        with equality if and only if $k = 1$.
+
+        Now suppose $s > \frac{3}{2}$, which we know is true since $s_3 = 1 + \frac{1}{2} + \frac{1}{3} > \frac{3}{2}$. Then if we let $k = 2(s - 1) > 1$ and plug back into equation (2), we get
+        $$s_{2^k} > 1 + \frac{k}{2} \longrightarrow$$
+        $$s_{2^k} > 1 + \frac{2(s - 1)}{2} \longrightarrow$$
+        $$s_{2^k} > s$$
+
+        This states that $s_{2^k} \in S > s = \sup S$, a contradiction. We infer that our assumption $S$ is bounded above was incorrect, and conclude that $S$ is not bounded above. This is equivalent to saying $\paren{s_n}_{n = 1}^\infty$ is not bounded above.
+
+        
+
+        
+    \end{proof}
+
+    \part
+    Use the result in Part (a) to prove that the harmonic series diverges.
+    \begin{proof}
+        Since $\paren{s_n}$ is not bounded above, we know that $\lim \paren{s_n}$ does not converge, and by definition $\sum_{k = 1}^\infty \frac{1}{k}$ does not converge. Since the series does not converge, it by definition diverges.
+    \end{proof}
+    
+\end{parts}
+
+
+
+
+
+
+
+\question % question 3
+Theorem 2.7.3 in the text states that if a series $\sum_{k = 1}^\infty a_k$ converges, then $\lim_{k \rightarrow \infty} a_k = 0$. Use your work in Problems 1 and 2 to explain briefly why the converse of this theorem is not true.
+\sol
+While $\lim_{k \rightarrow \infty} a_k = 0$ tells us about the term itself, it says nothing about the sum of the terms. So while individual terms might approach 0, this may not be the case when considering the sum of the very same terms. This is most obvious with the harmonic series, and as shown in Problem (2a), although $\lim_{k \rightarrow \infty} a_k = 0$, we notice that $\lim_{k \rightarrow \infty} s_n$ does not converge.
+
+
+
+
+
+\question % question 4
+Suppose that one is unaware that the harmonic series diverges and tries to compute the ``sum" of this series as follows. On a computer, add terms in the series until the accumulated total never changes; that is, if the computed value of $s_n$ is the same as $s_{n + 1}$, then regard $s_n$ as a good approximation of the ``sum" of the series, and stop. Here, the idea is that a computer can only store a finite number of digits in its representation of a number, and with this algorithm the addition stops when the numbers being added are too small to affect the result. Since $a_k \rightarrow 0$ as $k \rightarrow \infty$, the computation will terminate after finitely many steps. What is wrong with this reasoning?
+
+\sol
+Eventually, since computers have a finite amount of bits to represent numbers, the numbers being represented will be so small that they will round to 0 on a computer. When this happens, the computer treats all numbers past a certain point in the series as 0. We know this to be a mistake because by equation (1), the value of the sum grows by at least $\frac{1}{2}$ every time you double the amount of terms being summed together.
+\end{questions}
+
+\end{document}

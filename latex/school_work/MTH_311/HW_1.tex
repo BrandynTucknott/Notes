@@ -1,0 +1,74 @@
+\documentclass{exam}
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm,dsfont}
+\usepackage{lib/extra}
+\usepackage{graphicx}
+\usepackage{tikz}
+
+\title{MTH 311 Lab 1}
+\author{Brandyn Tucknott}
+\date{26 September 2024}
+
+\begin{document}
+\maketitle
+
+\begin{questions}
+    \question
+For each $n \geq 1$, let $S_n = \sum_{k=1}^n \frac{1}{k}$.
+\begin{parts}
+\part
+Prove that $S_{2n} \geq \frac{1}{2} + S_n$ for all $n \geq 1$.
+\begin{proof}
+First, we can rewrite the inequality as
+$$S_{2n} \geq S_n + \frac{1}{2} \longrightarrow$$
+$$S_{2n} - S_n \geq \frac{1}{2}.$$
+
+Substituting in the definition of $S_n$, we get
+$$\sum_{k=1}^{2n} \frac{1}{k} - \sum_{k=1}^{n} \frac{1}{k} \geq \frac{1}{2} \longrightarrow$$
+\begin{equation}
+    \sum_{k=n+1}^{2n} \frac{1}{k} \geq \frac{1}{2}.
+\end{equation}
+From here, if we can show that (1) is true, then we are done. With this in mind, notice that the LHS of (1) is bounded by the value $\frac{1}{2n}$, namely that
+$$\sum_{k=n+1}^{2n} \frac{1}{k} \geq \sum_{k=n+1}^{2n} \frac{1}{2n} = n \cdot \frac{1}{2n} = \frac{1}{2}.$$
+
+We conclude that $S_{2n} \geq S_n + \frac{1}{2}$ for all $n \geq 1$.
+\end{proof}
+
+\part
+Let $A = \cbrac{S_n : n \geq 1}$. Is $A$ bounded above? \\
+\textit{Solution.} \\
+No, $A$ is not bounded above because $\lim_{n \to \infty} S_n$ diverges since $S_n$ is a harmonic series. Because it diverges, there is no value $x \in \R$ such that $x \geq S_n$ for all $n$.
+
+\end{parts}
+\newpage
+\question
+Assume $0 < r < 1$, and let $S_n = \sum_{k=0}^n r^k$.
+\begin{parts}
+\part
+Show that
+$$S_n = \frac{1 - r^{n + 1}}{1 - r}$$
+for all $n \geq 1$.
+\begin{proof}
+    Consider the expression $S_n - rS_n$. We can write this using the definition of $S_n$ as
+    $$S_n - rS_n = \sum_{k=0}^n r^k - r\sum_{k=0}^n r^k \longrightarrow $$
+    $$S_n - rS_n = \sum_{k=0}^n r^k - \sum_{k=0}^n r^{k+1} \longrightarrow$$
+    $$S_n - rS_n = \sum_{k=0}^n r^k - \sum_{k=1}^{n+1} r^k \longrightarrow$$
+    $$S_n - rS_n = 1 - r^{n + 1} \longrightarrow$$
+    $$S_n\paren{1 - r} = 1 - r^{n + 1} \longrightarrow$$
+    $$S_n = \frac{1 - r^{n + 1}}{1 - r}.$$
+We conclude that $S_n = \frac{1 - r^{n + 1}}{1 -r}$ when $0 < r < 1$ and $S_n = \sum_{k=0}^n r^k$.
+\end{proof}
+
+\part
+Let $A = \cbrac{S_n : n \geq 1}$. Is $A$ bounded above? Explain why or why not.
+\\
+\textit{Solution.}\\
+Since $S_n$ is a geometric series with a base $0 < r < 1$, we know that $S_n$ converges as n tends to infinity. Because of this, we know that $A$ is bounded above, in particular $sup(A) = \frac{1}{1 - r}$.
+
+
+\end{parts}
+
+\newpage
+\end{questions}
+
+\end{document}

@@ -1,0 +1,65 @@
+\documentclass{exam}
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm,dsfont}
+\usepackage{lib/extra}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{enumitem}
+
+\title{MTH 311 Lab 6}
+\author{Brandyn Tucknott}
+\date{7 November 2024}
+
+\begin{document}
+\maketitle
+
+\textbf{Theorem.} A set $F \subset \R$ is a closed set $\longleftrightarrow$ for every convergent sequence $(a_n) \subset F, \lim_{n \rightarrow \infty} a_n \in F$
+
+\begin{questions}
+    \question
+    Use the above theorem to prove that the following sets are not closed. In each case, this involves finding a suitable sequence $(a_n)$.
+
+    \begin{parts}
+        \part
+        $A = \cbrac{x \in \R : 1 < x < 4}$
+        \begin{proof}
+            Consider the sequence $a_n = \frac{n + 1}{n}$. Then certainly for all $n \in \N, 1 < \frac{n + 1}{n} < 4$. Additionally, the $\lim_{n \rightarrow \infty} a_n = 1$, which is not an element of $A$. We conclude that $A$ is not closed.  
+        \end{proof}
+
+        \part
+        $B = \cbrac{\frac{1}{n} : n \in \N}$
+        \begin{proof}
+            Consider the sequence $a_n = \frac{1}{n}$. Then for all $n \in \N, a_n \in B$ by definition of B, but the $\lim_{n \rightarrow \infty} a_n = 0$. Since 0 is not contained in $B$, we conclude that $B$ is not closed.
+        \end{proof}
+    \end{parts}
+
+    \question
+    \begin{parts}
+        \part
+        Prove the forward direction of the theorem.
+        \begin{proof}
+            Given the set $F \subset \R$ is a closed set, we want to show that every convergent sequence $\paren{a_n} \subset F$ has $\lim_{n \rightarrow \infty} a_n \in F$. Let $\paren{a_n}$ be an arbitrary convergent sequence in $F$ and let $x = \lim_{n \rightarrow \infty} a_n$. We want to show that $x \in F$. We break this proof into two cases: \\
+            
+            (\textit{i}) There exists $n \in \N$ such that $a_n = x$.
+
+            (\textit{ii}) For all $n \in \N, a_n \neq x$. \\
+
+            % proof of case (i)
+            In case (i), we assume there exists an $n \in \N$ such that $a_n = x$. Since $\paren{a_n} \subset F$, by definition we have that $x = a_n \in F$ for some $n \in \N$. \\
+
+            % proof of case (ii)
+            In case (ii), we assume that for all $n \in \N, a_n \neq x$. Then $x$ is definitionally a limit point of $F$. Since we are given $F$ is closed, we conclude that $x \in F$ by definition of a closed set (3.2.7).
+            
+        \end{proof}
+
+        \part
+        Prove the reverse direction of the theorem.
+        \begin{proof}
+            We wish to show that for all convergent sequences $\paren{a_n} \subset F$, if $x = \lim_{n \rightarrow \infty} a_n$ with $x \in F$, then $F$ is a closed set. We do this with a proof my contrapositive, and instead we aim to show that if $F$ is an open set, then for all convergent sequences $\paren{a_n} \subset F, \lim_{n \rightarrow \infty} a_n \notin F$. \\
+
+            Let $F$ be an open set. Then by definition, there exists some limit point $x \notin F$. We aim to show there is a convergent sequence $a_n \subset F$ that converges to $x$. Consider $V_\eps(x) = (x - \frac{1}{\eps}, x + \frac{1}{\eps})$. Clearly if $\eps > 0$, then $V_\eps(x)$ is non-empty (we consider non-empty since $x \notin F$), so by definition 3.2.4 we know that $x$ is a limit point of $F$. Since $x$ is a limit point of $F$, by theorem 3.2.5 $x = \lim_{n \rightarrow \infty} a_n$ for some sequence $\paren{a_n} \subset F$ where $a_n \neq x$ for all $n \in \N$. With this we have shown there exists a sequence which converges to $x \notin F$, so we are done.
+        \end{proof}
+    \end{parts}
+\end{questions}
+
+\end{document}

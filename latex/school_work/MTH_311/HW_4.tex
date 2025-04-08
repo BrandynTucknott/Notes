@@ -1,0 +1,86 @@
+\documentclass{exam}
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm,dsfont}
+\usepackage{lib/extra}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{enumitem}
+
+\title{MTH 311 Lab 4}
+\author{Brandyn Tucknott}
+\date{17 October 2024}
+
+\begin{document}
+\maketitle
+
+\begin{questions}
+    \question
+Prove the following version of the Nested Interval Property:
+\newline
+For each $n \in \N$, let $\I_n = [a_n, b_n]$, where $a_n < b_n$. Assume that the sequence $\I_n$ of any closed intervals is nested, i.e. $\I_n \supset \I_{n + 1}$ for all $n \geq 1$. Prove that $\cap_{n = 1}^\infty \I_n$ is a nonempty closed interval.
+
+Do this in the following steps:
+
+\begin{parts}
+    \part % part a
+    Use the Monotone Convergence Theorem to prove that the sequences $(a_n)$ and $(b_n)$ converge.
+    \begin{proof}
+    To use the Monotone Convergence Theorem, we must first show that the sequences $(a_n)$ and $(b_n)$ are both bounded and monotone.
+    \newline
+    \newline
+    First, we show that they are both monotone. Consider the definition of $\I_n = [a_n, b_n], \I_n \supset I_{n + 1}$. This leads us to the definition that $[a_n, b_n] \supset [a_{n + 1}, b_{n + 1}]$ for all $n \geq 1$. Then by definition, $a_{n + 1} \geq a_n$ for all $n \geq 1$, because if it were not, there would exist some $\I_{k} = [a_k, b_k]$ where $\I_{k - 1} \supsetneq \I_k$. But this is a contradiction, so it must be that $a_{n + 1} \geq a_n$ for all $n \geq 1$. By a similar argument, we can show that $b_{n + 1} \leq b_n$ for all $n \geq 1$. This gives us that our sequences $(a_n)$ and $(b_n)$ are both monotone and increasing / decreasing respectively.
+    \newline
+    \newline
+    It remains to show that $(a_n)$ and $(b_n)$ are both bounded. Since $(a_n)$ is increasing, we wish to show it is bounded above, and similarly with $(b_n)$ we wish to show it is bounded below. This is significantly easier given the condition that $a_n < b_n$ for all $n \geq 1$. This tells us that $(a_n)$ is bounded above by the largest $b_n$, and that $(b_n)$ is bounded below by the smallest $a_n$. We know these to be $b_1$ and $a_1$ respectively, so we concluded that both sequences are bounded.
+    \newline
+    \newline
+    Since both $(a_n)$ and $b_n$ are monotone and bounded, we conclude that $(a_n)$ and $(b_n)$ converge by the Monotone Convergence Theorem.
+    \end{proof}
+
+
+    
+    \part % part b
+    Let $a = \lim a_n$ and $b = \lim b_n$. Use the Order Limit Theorem to prove $a \leq b$.
+    \begin{proof}
+        Since we have that $a_n < b_n$ for all $n \geq 1$ and the $\lim a_n = a$, $\lim b_n = b$, by the Order Limit Theorem we conclude that $a \leq b$.
+    \end{proof}
+
+    
+    \part % part c
+    The proof of the Monotone Convergence Theorem shows that $a = \sup \cbrac{a_n : n \in \N}$ and $b = \inf \cbrac{b_n : n \in \N}$. Prove that $a_n \leq a \leq b_n \leq b$ for all $n \in \N$.
+    \begin{proof}
+        By definition of $\sup (a_n)$ and $\inf (b_n)$ we have that $a_n \leq a$ and $b_n \leq b$ for all $n \in \N$. If we can show that $a \leq b_n$ for all $n \geq 1$, then we are done. We will do a proof by contradiction to show $a \leq b_n$. Assume that for some $k \in \N, b_k < a$. Then there exists some $a_{k + l}, l \in \N$ where $a_{k + l} > b_k$, breaking our initial condition of $a_n < b_n$ for all $n \in \N$ and leading to a contradiction. If this does not happen, then $a_n \leq b_k$ for all $n \in \N$, implying $b_k = \sup \cbrac{a_n : n \in \N}$. This too is a contradiction, since $a = \sup \cbrac{a_n : n \in \N}$ and $b_k < a$. Therefore $b_k \geq a$, and we conclude that $a_n \leq a \leq b_n \leq b$ for all $n \in \N$.
+    \end{proof}
+
+
+
+    
+    \part % part d
+    Prove that $[a, b] \subset \cap_{n = 1}^\infty \I_n$. In other words, prove that for every $x \in [a, b]$ and every $n \in \N, x \in \I_n$.
+    \begin{proof}
+        Suppose that $x \in [a, b] = [\sup \cbrac{a_n : n \in \N}, \inf \cbrac{b_n : n \in \N}$. Then by definition $x \in [a_n, b_n] = \I_n$ for all $n \in \N$. From this, we can conclude that $x \in \cap_{n = 1}^\infty \I_n$.
+    \end{proof}
+
+
+
+
+    \part % part e
+    Prove that for every $x < a, x \notin \cap_{n = 1}^\infty \I_n$. During your proof, use the fact that $a = \sup \cbrac{a_n : n \in \N}$.
+    \begin{proof}
+        Suppose that $x < a$. Then there exists some $a_k > x$, since $a_n \leq a$ for all $n \in \N$ (more specifically, we let $a_k = x + \epsilon$ for some $\epsilon > 0$). Since there exists some $a_k > x$, the interval $\I_k = [a_k, b_k]$ with $x \notin \I_k$ exists, allowing us to conclude that $x \notin \cap_{n = 1}^\infty \I_n$.
+    \end{proof}
+
+
+    
+    \part % part f
+    Use the result of Part (e) to prove $\cap_{n = 1}^\infty \subset [a, b]$.
+    \begin{proof}
+        Suppose $x \in \cap_{n = 1}^\infty \I_n$. Then by the contrapositive of Part (e), $x \geq a$. Suppose also that $x > b$. Then $x > b \geq b_n$ for all $n \in \N$, that is $x > b_n$ for all $n$. If this is true, then $x \notin \I_j$ for any $j \in \N \rightarrow x \notin \cap_{n = 1}^\infty \I_n$, a contradiction. Thus $x > b$ is false, implying that $x \leq b$. Since $a \leq x \leq b$, we have that $x \in [a, b]$ and conclude $\cap_{n = 1}^\infty \I_n \subset [a, b]$.
+    \end{proof}
+\end{parts}
+The combination of Parts (d) and (f) then yields $\cap_{n = 1}^\infty = [a, b]$, which is nonempty since $a \leq b$.
+
+\newpage
+\end{questions}
+
+\end{document}
