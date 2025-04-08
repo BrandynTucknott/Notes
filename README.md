@@ -12,7 +12,6 @@ WARNINGS:
     * due to latex relative paths
 
 REMAINING TO BE IMPORTED:
-* Analysis
 * MISC
 * Not Math Related
 * Probability

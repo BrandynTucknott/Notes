@@ -1,0 +1,117 @@
+\documentclass{exam}
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm,dsfont}
+\usepackage{lib/extra}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usepackage{bbm}
+\usepackage{pgfplots}
+\usepackage{fontenc}
+\usepackage{float}
+
+\pgfplotsset{compat=1.18}
+
+\title{MTH 312 HW 6}
+\author{Brandyn Tucknott}
+\date{25 February 2025}
+
+\begin{document}
+\maketitle
+
+
+\textbf{7.4.3. } Decide which of the following conjectures is true, and supply a short proof. For those that are not, give a counter example.
+
+\begin{parts}
+    \part If $|f|$ is integrable on $[a, b]$, then $f$ is also integrable on this set.
+    \begin{proof}
+        Suppose $f: [0, 1] \rightarrow \R$ is defined as
+        $$f(x) = \begin{cases}
+            1, & x \in \Q \\ -1, & x \notin \Q \\
+        \end{cases}$$
+        Then $|f| = 1$ on [0, 1], so $|f|$ is integrable on [0, 1]. However, by theorem 7.4.2, $g(x) = \frac{1}{2}(f(x) + 1)$ should be integrable on $[0, 1]$. But $g$ is Dirichlet's function, which we know to be un-integrable from $[0, 1]$. Since in this instance, the integrability of $|f|$ and $f$ are different, we conclude this statement in false.
+    \end{proof}
+
+    \part Assume $g$ is integrable and $g(x) \geq 0$ on [a, b]. If $g(x) > 0$ for an infinite number of points $x \in [a, b]$, then $\int_a^b g > 0$.
+    \begin{proof}
+        Consider $g: [0, 1] \rightarrow [0, 1]$ defined as
+        $$g(x) = \begin{cases}
+            1, & x = \frac{1}{n}, n \in \N \\
+            0, \text{otherwise} \\
+        \end{cases}$$
+
+        In HW 5 we computed $\int_0^1 g = 0$. There are clearly an infinite number of points of the form $\frac{1}{n} > 0 \in [0, 1]$, but $\int_0^1 g = 0$. We conclude this statement is false.
+    \end{proof}
+
+    \part If $g$ is continuous on $[a, b]$ and $g(x) \geq 0$ with $g(y_0) > 0$ for at least one point $y_0 \in [a, b]$, then $\int_a^b g > 0$.
+    \begin{proof}
+        If there exists $y_0$ s.t. $g(y_0) > 0$, then there exists $\delta > 0$ s.t. if we define $I = [a, b]\cap[y_0 - \delta, y_0 + \delta]$, then $x \in I \longrightarrow g(x) > 0$. In particular, for $\eps =\frac{g(y_0)}{2} > 0$, 
+        $$g(x) \in [g(y_0) - \eps, g(y_0) + \eps] \longrightarrow g(x) > g(y_0) - \eps = \frac{g(y_0)}{2} = \eps > 0$$
+
+        Let $c = \inf I, d = \sup I$. By theorem 7.4.1,
+        \begin{align*}
+            \int_a^b g &= \int_a^c g + \int_c^d g + \int_d^b g
+        \end{align*}
+
+        Since $g \geq 0$, by theorem 7.4.2 we have that $\int_a^c g, \int_d^b g \geq 0$, and also $\int_c^d g \geq \eps (d - c) > 0$
+
+        We conclude this statement is true.
+    \end{proof}
+\end{parts}
+
+\newpage
+\textbf{7.4.8. }
+For each $n \in \N$, let
+$$h_n(x) = \begin{cases}
+    \frac{1}{2^n}, & \text{if } \frac{1}{2^n} < x \leq 1 \\
+    0, & \text{if } 0 \leq x \leq \frac{1}{2^n} \\
+\end{cases}$$
+Set $H(x) = \sum_{n = 1}^\infty h_n(x)$. Show $H$ is integrable and compute $\int_0^1 H$.
+\begin{proof}
+    Let $N\in \N$, let $H_N: [0, 1] \rightarrow \R$ be the $N^{th}$ partial sum of $H$. Then
+    $$H_N(x) = \begin{cases}
+        0, & \text{if } x\in \brac{0, \frac{1}{2^N}} \\
+        \frac{2^k - 1}{2^N}, & \text{if } x\in \left (\frac{1}{2^{N - k + 1}}, \frac{1}{2^{N - k}} \right ] \\
+    \end{cases}$$
+    for $k \in [1, N]$. Observe that each $H_N$ is piecewise constant, thus by theorem 7.4.1 it is integrable. To explicitly compute the integral on $[0, 1]$,
+    \begin{align*}
+        \int_0^1 H_N &= \sum_{k = 1}^N \int_{2^{-(N - k + 1)}}^{2^{N - k}} H_N \\
+        &= \sum_{k = 1}^N \paren{\frac{2^k - 1}{2^N}}\paren{\frac{1}{2^{N - k}} - \frac{1}{2^{N - k + 1}}} \\
+        &= \frac{2}{3} - \frac{1}{6\cdot 4^{N - 1}} - \frac{1}{4^N} + \frac{1}{2^{N + 1}}
+    \end{align*}
+
+    Thus
+    $$\int_0^1 H_N = \underset{N \rightarrow \infty}{\lim} \int_0^1 H_N = \frac{2}{3}$$
+\end{proof}
+
+\newpage
+\textbf{7.5.2. }
+Decide whether each statement is true or false, providing a short justification for each conclusion.
+
+\begin{parts}
+    \part If $g = h'$ for some $h$ on $[a, b]$ then $g$ is continuous on $[a, b]$.
+    \sol
+    This statement is false, and is apparent when we consider the function
+    $$h(x) = \begin{cases}
+        \sin \paren{\frac{1}{x}}, & x \neq 0 \\
+        0, & x = 0 \\
+    \end{cases}$$
+    Here, $h$ is differentiable, but $h'$ is not continuous.
+
+    \part If $g$ is continuous on $[a, b]$, then $g = h'$ for some $h$ on $[a, b]$.
+    \sol
+    Since $g$ is continuous on $[a, b]$, $g$ is integrable on $[a, b]$, so we define $h(x) = \int_a^x g$, and by the Fundamental Theorem of Calculus, we have that $h' = g$. We conclude this statement is true.
+
+    \part If $H(x) = \int_a^x h$ is differentiable at $c\in [a, b]$, then $h$ is continuous at $c$.
+    \sol
+    If we consider
+    $$h(x) = \begin{cases}
+        0, & x \neq 0 \\
+        1, & x = 0 \\
+    \end{cases}$$
+    Then $\int_a^x h = 0$, everywhere and thus differentiable, but $h$ is not continuous at $c = 0$. We conclude this statement is false.
+    
+\end{parts}
+\newpage
+
+\end{document}

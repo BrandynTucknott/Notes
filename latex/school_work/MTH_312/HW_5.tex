@@ -1,0 +1,127 @@
+\documentclass{exam}
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm,dsfont}
+\usepackage{lib/extra}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usepackage{bbm}
+\usepackage{pgfplots}
+\usepackage{fontenc}
+\usepackage{float}
+
+\pgfplotsset{compat=1.18}
+
+\title{MTH 312 HW 5}
+\author{Brandyn Tucknott}
+\date{20 February 2025}
+
+\begin{document}
+\maketitle
+
+
+\textbf{7.2.3. }
+\begin{parts}
+    \part Prove that a bounded function $f$ is integrable on $[a, b]$ if and only if there exists a sequence of partitions $(P_n)_{n = 1}^\infty$ satisfying
+    $$\lim_{n \rightarrow \infty} \brac{U(f, P_n) - L(f, P_n)} = 0,$$
+    and in this case $\int_a^b f = \lim U(f, P_n) = \lim L(f, P_n)$
+    \begin{proof}
+        We wish to show the following two statements are equivalent:\\
+        \textbf{(i) } There exists a sequence of partitions satisfying
+        $$\lim_{n \rightarrow \infty} \brac{U(f, P_n) - L(f, P_n)} = 0$$
+        \textbf{(ii) } For all $\eps > 0$, there exists a partition $P_\eps$ of $[a, b]$ such that
+        $$U(f, P_\eps) - L(f, P_\eps) < \eps$$
+
+        If we can do this, then by Theorem 7.2.8 we are done.\\\\
+        \textbf{(i) $\rightarrow$ (ii)}\\
+        Assume (i) holds and $\eps > 0$ be given. Then there exists $N\in\N$ such that
+        $$\abs{U(f, P_n) - L(f, P_n)} = U(f, P_n) - L(f, P_n) < \eps$$
+        for $n \geq N$, and $p_\eps = P_n$. Thus (ii) holds.\\\\
+
+        \textbf{(ii) $\rightarrow$ (i)}\\
+        Assume (ii) holds. Then for all $n\in\N$, there exists a partition $P_n$ of $[a, b]$ such that $U(f, P_n) - L(f, P_n) < \frac{1}{n}$, and so
+        $$\lim_{n \rightarrow \infty} \brac{U(f, P_n) - L(f, P_n)} = 0$$
+
+        Now suppose there exists a sequence of partitions such that $f$ is integrable on $[a, b]$. This gives the following inequalities:
+        $$L(f, P_n) \leq L(f), U(f) \leq U(f, P_n), L(f, P_n) \leq U(f, P_n) \longrightarrow$$
+
+        $$L(f, P_n) - U(f, P_n) \leq L(f) - U(f, P_n) = U(f) - U(f, P_n) = U(f, P_n) - L(f, P_n)$$
+
+        By the Squeeze Theorem $\lim U(f, P_n) = U(f) = \int_a^b f$ and $\lim L(f, P_n) = L(f) = \int_a^b f$.
+    \end{proof}
+
+    \part For each $n$, let $P_n$ be a partition of $[0, 1]$ into $n$ equal subintervals. Find formulas for $U(f, P_n)$ and $L(f, P_n)$ if $f(x) = x$.
+    \sol
+    For each $0 \leq k\leq n - 1$ let $x_k = \frac{k}{n - 1}$, and let $P_n = \cbrac{x_0, \hdots x_{n - 1}}$. Since $f$ is strictly increasing on $[0, 1]$, 
+    $$m_k = x_{k - 1} = \frac{k - 1}{n - 1}, M_k = x_k = \frac{k}{n - 1} \longrightarrow$$
+
+    $$U(f, P_n) = \sum_{k = 1}^{n - 1} M_k(x_k - x_{k - 1}) = \sum_{k = 1}^{n - 1} \frac{k}{(n - 1)^2} = \frac{n}{2(n - 1)}$$
+    $$L(f, P_n) = \sum_{k = 1}^{n - 1} m_k(x_k - x_{k - 1}) = \sum_{k = 1}^{n - 1} \frac{k - 1}{(n - 1)^2} = \frac{n}{2(n - 1)} - \frac{1}{n - 1}$$
+    
+
+    \part Use the sequential criterion for integrability to show directly that $f(x) = x$ is integrable on $[0, 1]$ and compute $\int_0^1 f.$
+    \sol
+    By Part (b), we have that
+    $$U(f, P_n) - L(f, P_n) = \frac{1}{n - 1} \rightarrow 0$$
+    Then by Part (a), $f$ is integrable on $[0, 1]$ with
+    $$\int_0^1 f = \lim U(f, P_n) = \lim \frac{n}{2(n - 1)} = \frac{1}{2}$$
+\end{parts}
+
+
+\newpage
+\textbf{7.2.6. }
+A \textit{Tagged Partition} $(P, \cbrac{c_k})$ is one where in addition to a partition $P$, we choose a sampling point $c_k$ in each of the subintervals $[x_{k - 1}, x_k]$. Then define the corresponding Riemann sum
+$$R(f, P) = \sum_{k = 1}^n f(c_k)\Delta x_k$$
+
+\textbf{Riemann Original Integral Definition.} \\
+A bounded function $f$ is integrable on $[a, b]$ with $\int_a^b f = A$ if for all $\eps > 0$ there exists $\delta > 0$ such that for any tagged partition $P(f, \brac{c_k})$ satisfying $\Delta_k < \delta$ for all $k$, it follows that
+$$\abs{R(f, P) - A} < \eps$$
+
+Show that if $f$ satisfies the Riemann definition above, then $f$ is integrable in the sense of Definition $7.2.7$.
+\begin{proof}
+    Let $\eps > 0$, and $\delta > 0$ such that for any tagged partition $(P, \cbrac{c_k})$ satisfying $\Delta y_k < \delta$, it follows that
+    $$\abs{R(f, P) - A} < \frac{\eps}{2}$$
+
+    Let $N \in \N$ satisfy $\frac{b - a}{N} < \delta$ for all $k$, and let $y_k = a + k\frac{b - a}{N}$. Let also $Q_1$ be the partition $\cbrac{y_0 \hdots y_n}$ of $[a, b]$. Since $U(f)$ is the infimum of the set $\cbrac{U(f, Q) : Q \in \mathcal{P}}$, there exists a partition $Q_2$ of $[a, b]$ such that
+    $$U(f) \leq U(f, Q_2) < U(f) + \frac{\eps}{4}$$
+    Now let $P = Q_1 \cup Q_2$ be the common refinement of $Q_1, Q_2$ and note that
+    $$\Delta x_k \leq \Delta y_k = \frac{b - a}{N} < \delta \longrightarrow$$
+    \begin{equation}\abs{R(f, P) - A} < \frac{\eps}{2}\end{equation}
+    Since $Q_2 \subseteq P$, by lemma 7.2.3 we have that
+    \begin{equation}U(f) \leq U(f, P) \leq U(f, Q_2) < U(f) + \frac{\eps}{4}\end{equation}
+
+    Note that if $M_k$ is the supremum of $f$ over $[x_{k - 1}, x_k]$, there exists some $c_k\in [x_{k - 1}, x_k]$ such that
+    $$M_k - \frac{\eps}{4(b - a)} < f(c_k) \leq M_k$$
+    Furthermore
+    \begin{equation}0 \leq U(f, P) - R(f, P) = \sum_{k = 1}^n \Delta (M_k - f(c_k))x_k < \frac{\eps}{4(b - a)}\sum_{k = 1}^n \Delta x_k = \frac{\eps}{4}\end{equation}
+
+    By equations (1), (2), (3):
+    $$\abs{U(f) - A} \leq \abs{U(f) - R(f, P)} + \abs{R(f, P) - A} \leq \abs{U(f) - U(f, P)} + \abs{U(f, P) - R(f, P)} + \abs{R(f, P) - A < \frac{\eps}{4} + \frac{\eps}{4} + \frac{\eps}{2}} = \eps$$
+
+    Since epsilon was arbitrary, $U(f) = A$, and we similarly show $L(f) = A$, and so $U(f) = L(f)$ which satisfies Definition 7.2.7.
+\end{proof}
+
+\newpage
+\textbf{7.3.3. } 
+Let 
+$$f(x) = \begin{cases}
+    1, \text{if } x = \frac{1}{n}\text{ for some }n\in \N \\
+    0, \text{otherwise}
+\end{cases}$$
+Show that $f$ is integrable on $[0, 1]$ and compute $\int_0^1 f$.
+\begin{proof}
+    Let $P = \cbrac{x_0, \hdots, x_n}$ be an arbitrary partition of $[0, 1]$. Notice that every subinterval $[x_{k - 1}, x_k]$ contains at least one irrational $y$ by the density of irrationals in $\R$. Since $f(y) = 0$ and $f$ is strictly non-negative, it follows that $m_k = 0$ and thus $L(t, P) = 0$. Because $P$ was an arbitrary partition, we know that $L(f) = 0$. It remains to be shown that $f$ is integrable.\\\\
+
+    Let $c\in (0, 1)$ be given and let $N$ be the smallest natural number such that $\frac{1}{N + 1} < c$. Restricting $f$ to $[c, 1]$, we get that
+    $$f(x) = \begin{cases}
+        1, \text{if } x = 1, \frac{1}{2}, \hdots, \frac{1}{N}\\
+        0, \text{otherwise}
+    \end{cases}$$
+    Let $P_n$ be the evenly spaced partition of $[c, 1]$ satisfying $\Delta x_k \leq \frac{1}{n}$. If $n \geq N$ and each point $1, \hdots, \frac{1}{N}$ belongs to exactly one subinterval $[x_{k - 1}, x_k]$, then $M_k = 1$ for exactly $N$ indicies, and $M_k = 0$ for all the others. Then
+    $$U(f, P_n) = \sum_{k = 1}^n M_k\Delta x_k \leq \frac{N}{n}$$
+    Since $L(f, P_n) = 0$, by the squeeze theorem we have that
+    $$\lim U(f, P_n) - L(f, P_n) = 0$$
+    By Exercise 7.2.3 $f$ is integrable on $[c, 1]$, and by Theorem 7.3.2 on $[0, 1]$. We calculate $\int_0^1 f = 0$.
+\end{proof}
+
+\end{document}

@@ -1,0 +1,72 @@
+\documentclass{exam}
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm,dsfont}
+\usepackage{lib/extra}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usepackage{bbm}
+\usepackage{pgfplots}
+\usepackage{fontenc}
+\usepackage{float}
+
+\pgfplotsset{compat=1.18}
+
+\title{MTH 312 HW 7}
+\author{Brandyn Tucknott}
+\date{4 March 2025}
+
+\begin{document}
+\maketitle
+
+
+\textbf{7.5.4. }
+Show that if $f: [a, b] \rightarrow \R$ is continuous and $\int_a^x f = 0$ for all $x\in [a, b]$, then $f(x) = 0$ everywhere on $[a, b]$. Provide an example to show this conclusion does not follow if $f$ is not continuous.
+
+\begin{proof}
+    Let $F(x) = \int_a^x f$. Since $F(x) = 0$ everywhere on $[a, b]$, $F$ must be differentiable on $[a, b]$ with $F'(x) = 0$ on for $x\in[a, b]$. Note also that $f$ is continuous, and by the Fundamental Theorem of Calculus, we have that $F'(x) = f(x)$ for all $x\in [a, b]$. Thus $f(x) = 0$ for all $x\in[a, b]$. \\\\
+    For a counter example, consider $f: [0, 1] \rightarrow \R$ defined by
+    $$f(x) = \begin{cases}
+        0, & 0 \leq x < 1 \\
+        1, & x = 1
+    \end{cases}$$
+    Then we have that $\int_0^x f = 0$ for all $x\in [0, 1]$, but it is not the case that $f(x) = 0$ for all $x\in [0, 1]$.
+\end{proof}
+
+\newpage
+\textbf{7.6.2. }
+Define
+$$h(x) = \begin{cases}
+    1, & x\in C \\
+    0, & x\notin C
+\end{cases}$$
+
+\begin{parts}
+    \part Show $h$ has discontinuities at each point of $C$ and is continuous at every point in the complement of $C$. Thus $h$ is not continuous on an uncountably infinite set.
+    \begin{proof}
+        Suppose that $x\notin C$. Since $C$ is closed, the complement of $C$ is open, and there exists some $\delta > 0$ such that $\paren{x - \delta, x + \delta}\subseteq C^c$. Thus $h$ is zero on the interval $\paren{x - \delta, x + \delta}$, and it follows that $h$ is continuous at $x$. Now suppose $x\in C$. To show $h$ is not continuous at $x$, it is sufficient to show:
+        \begin{equation}
+            \text{for any } \delta > 0, \text{ there exists }y\in \paren{x - \delta, x + \delta} \text{ such that } y\notin C
+        \end{equation} However, if there exists $\delta$ which does not satisfy equation (1), then $C$ contains a proper interval, which is a contradiction since it is totally disconnected (shown in Exercise 3.4.8). Thus $h$ is not continuous at $x$.
+    \end{proof}
+
+    \part Now prove that $h$ is integrable on $[0, 1]$. \\
+    DISCLAIMER: Exercise 7.3.9 (d) makes this problem trivial, so I refrained from using it.
+    \begin{proof}
+        We that that since $C$ has content zero, $D = C \cap [0, 1]$ also has content zero, and by Exercise 7.3.9 (a) $h$ is integrable. Let $P$ be a partition of $[0, 1]$. It follows that any subinterval $[x_{k - 1}, x_k]$ of the partition $P$ contains some $x\notin C$, thus $h(x) = 0$ and $L(h, P) = 0$. Since $P$ was arbitrary, it follows that $\int_0^1 h = L(h) = 0$.
+    \end{proof}
+\end{parts}
+
+\newpage
+\textbf{7.6.3. }
+Show that any countable set has measure zero.
+
+\begin{proof}
+    Let $A \subseteq \R$ be a countable set, and $eps > 0$ be given. Choose $n\in \N$ such that $2^{-N} < \eps$. For each $n\in \N$, let
+    $$O_n = \paren{a_n - \frac{\eps}{2^{N + n + 1}}, a_n + \frac{\eps}{2^{N + n + 1}}}$$
+    Then $A \subseteq \cup_{n = 1}^\infty O_n$, and $\abs{O_n} = 2^{-N - n}$. Then
+    $$\sum_{n = 1}^\infty \abs{O_n} = \sum_{n = 1}^\infty 2^{-N - n} = 2^{-N}\sum_{n = 1}^\infty 2^{-n} = 2^{-N} < \eps$$
+    Thus $A$ has measure zero.
+\end{proof}
+
+\end{document}

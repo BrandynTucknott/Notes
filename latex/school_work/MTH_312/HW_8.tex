@@ -1,0 +1,144 @@
+\documentclass{exam}
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm,dsfont}
+\usepackage{lib/extra}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usepackage{bbm}
+\usepackage{pgfplots}
+\usepackage{fontenc}
+\usepackage{float}
+
+\pgfplotsset{compat=1.18}
+
+\title{MTH 312 HW 8}
+\author{Brandyn Tucknott}
+\date{11 March 2025}
+
+\begin{document}
+\maketitle
+
+\begin{questions}
+    \textbf{8.2.2. } Let $C[0, 1]$ be a collection of continuous functions on the closed interval [0, 1]. Decide which of the following are metrics on $C[0, 1]$. \\
+
+\newline
+\textbf{(a) } $d(f, g) = \sup \cbrac{|f(x) - g(x)| : x \in [0, 1]}$
+\sol
+Since $|f(x) - g(x)| \geq 0$ with equality only when $f = g$ for all $x\in[0, 1]$, this satisfies property (i). It is also obvious that 
+$$|f(x) - g(x)| = |g(x) - f(x)|$$
+so property (ii) holds. Finally, observe that 
+$$|f(x) - h(x)| + |h(x) - g(x)| \geq |f(x) - h(x) + h(x) - g(x)| = |f(x) - g(x)|$$
+so property (iii) holds. With this, we conclude that $d(f, g)$ is a metric.\\
+
+\newline
+\textbf{(b) } $d(f, g) = |f(1) - g(1)|$
+\sol
+Consider when $f(x) = 0, g(x) = 1 - x$. Then
+$$|f(1) - g(1)| = |0 - 0| = 0$$
+but here $d(f, g) = 0$ with $f \neq g$, thus $d(f, g)$ is not a metric.\\
+
+\newline
+\textbf{(c) } $d(f, g) = \int_0^1 |f - g|$
+\sol
+since $|f - g|\geq 0$, certainly $\int_0^1 |f - g| \geq 0$, with equality only when $f = g$. Thus property (i) holds. It is also clear that $\int_0^1 |f - g| = \int_0^1 |g - f|$, thus property (ii) holds. Now by triangle equality we have that
+\begin{align*}
+    |f - g| &\leq |f - h| + |h - g| \\
+    \int_0^1 \leq |f - g| &\leq \int_0^1 |f - h| + \int_0^1 |h - g| \\
+\end{align*}
+Thus property (iii) holds, and we conclude that $d(f, g)$ is a metric.
+
+\newpage
+\textbf{8.2.13. }
+If $E$ is a subset of a metric space $(X, d)$, show that $E$ is nowhere dense in $X$ if and only if $\overline{E}^c$ is dense in $X$.
+\begin{proof}
+    If $\overline{E}^c$ is dense in $X$, then
+    \begin{align*}
+        X &= \overline{\overline{E}^c} \\
+        \overline{\overline{E}^c}^c &= \emptyset \\
+        \paren{\paren{\overline{E}^c}^c}^\circ &= \emptyset \\
+        \overline{E}^\circ &= \emptyset
+    \end{align*}
+    Thus $E$ is nowhere dense in $X$. Now suppose that $E$ is nowhere dense in $X$. Then
+    \begin{align*}
+        \overline{E}^\circ &= \emptyset \\
+        \paren{\paren{\overline{E}^c}^c}^\circ &= \emptyset \\
+        \overline{\overline{E}^c}^c &= \emptyset \\
+        X &= \overline{\overline{E}^c} \\
+    \end{align*}
+    Thus $\overline{E}^c$ is dense in $X$. We conclude that
+    $$\overline{E}^c\text{ is dense in } X \iff E\text{ is nowhere dense in } X$$
+\end{proof}
+
+\newpage
+\textbf{8.4.1. } For $n\in\N$, let
+$$n\# = n + (n - 1) + (n - 2) + \hdots + 2 + 1$$
+
+\textbf{(a) } Without looking ahead, decide if there is a natural way to define $0\#$. How about $(-2)\#$? Conjecture a reasonable value for $\frac{7}{2}\#$. \\
+\sol
+Observe that
+$$n\# &= n + (n - 1)\#$$
+for $n\geq 2$, and we can directly compute $1\# = 1$, but also that
+\begin{align*}
+    1\# &= 1 + 0\# \\
+    0\# &= 1\# - 1 \\
+    &= 1 - 1 \\
+    &= 0
+\end{align*}
+
+Similarly we can compute
+\begin{align*}
+    0\# &= 0 + (-1)\# \\
+    &= 0 + (-1) + (-2)\# \\
+    (-2)\# &= 1
+\end{align*}
+
+Although there is nothing "natural" about the next definition, since
+\begin{align*}
+    1\# + (-1)\# &= 1 + 0 = 0 \\
+    2\# + (-2)\# &= 3 + 1 = 4,\text{ we might guess that } \\
+    n\# + (-n)\# &= n^2
+\end{align*}
+
+To evaluate the last value, we first evaluate the intermediate value $(-\frac{1}{2})\#$.
+\begin{align*}
+    \frac{1}{2}\# &= \frac{1}{2} + (-\frac{1}{2})\# \\
+    \frac{1}{2}\# + (-\frac{1}{2})\# &= \frac{1}{2} + 2(-\frac{1}{2})\# \\
+    \frac{1}{4} &= \frac{1}{2} + 2(-\frac{1}{2})\# \\
+    (-\frac{1}{2})\# &= -\frac{1}{8} \\
+\end{align*}
+
+Using this, we evaluate $\frac{7}{2}\#$.
+\begin{align*}
+    \frac{7}{2}\# &= \frac{7 + 5 + 3 + 1}{2} + (-\frac{1}{2})\# \\
+    &= 8 + -\frac{1}{8} \\
+    &= \frac{63}{8}
+\end{align*}
+\newpage
+
+
+
+\textbf{(b) } Now prove that $n\# = \frac{1}{2}n(n + 1)$ for all $n\in\N$, and revisit Part (a). \\
+\begin{proof}
+    We will use induction to prove the relation. As a base case, observe that when $n = 1$, 
+    \begin{align*}
+        1\# &= \frac{1}{2}(1)(1 + 1) = \frac{1}{2}(1)(2) = 1
+    \end{align*}
+    This holds with the traditional definition of $n\#$, so we assume the definition holds up to $n - 1$, and we aim to show this implies it is true for $n$.
+    \begin{align*}
+        (n - 1)\# &= \frac{(n - 1)n}{2} \\
+        n + (n - 1)\# &= n + \frac{n(n - 1)}{2} \\
+        n\# &= \frac{2n + n^2 - n}{2} \\
+        &= \frac{n(n + 1)}{2}
+    \end{align*}
+\end{proof}
+Using our new formula, we can now directly calculate the expressions.
+    \begin{align*}
+        0\# &= \frac{0(0 + 1)}{2} = 0 \\
+        (-2)\# &= \frac{(-2)(-2 + 1)}{2} = 1 \\
+        \frac{7}{2}\# &= \frac{\frac{7}{2}\paren{\frac{7}{2} + 1}}{2} = \frac{63}{8}
+    \end{align*}
+    These values align exactly with what was found in Part (a).
+\end{questions}
+
+\end{document}
