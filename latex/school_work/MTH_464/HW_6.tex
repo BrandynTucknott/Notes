@@ -1,0 +1,183 @@
+\documentclass{exam}
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm,dsfont}
+\usepackage{lib/extra}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usepackage{bbm}
+\usepackage{pgfplots}
+\usepackage{fontenc}
+\usepackage{float}
+
+\pgfplotsset{compat=1.18}
+
+\title{MTH 464 HW 6}
+\author{Brandyn Tucknott}
+\date{3 March 2025}
+
+\begin{document}
+\maketitle
+
+\begin{questions}
+    \question Assume $(X_1, X_2)$ is a bivariate normal random variable, with Variance-Covariance matrix
+$$\Sigma = \paren{\begin{matrix}
+    \sigma_1^2 & \rho\sigma_1\sigma_2 \\
+    \rho\sigma_1\sigma_2 & \sigma_2^2 \\
+\end{matrix}}$$
+and mean $\E{X_j} = \mu_j$ with $j = 1, 2$. Assume $Z_1, Z_2$ are iid standard normal random variables.
+
+\begin{parts}
+    \part Let
+    $$M = \paren{\begin{matrix}
+        \sigma_1 & 0 \\
+        \rho\sigma_2 & \sigma_2\sqrt{1 - \rho^2}
+    \end{matrix}}$$
+    Show that
+    $$\paren{\begin{matrix}
+        X_1 \\ X_2
+    \end{matrix}} = M\paren{\begin{matrix}
+        Z_1 \\ Z_2
+    \end{matrix}} + \paren{\begin{matrix}
+        \mu_1 \\ \mu_2
+    \end{matrix}}$$
+    \begin{proof}
+        We just need to verify that $X_1, X_2$ have the same variance and covariance as shown in $M$. We explicitly calculate $X_1, X_2$ to be
+        $$\paren{\begin{matrix}
+        X_1 \\ X_2
+    \end{matrix}} = \paren{\begin{matrix}
+        \sigma_1Z_1 + \mu_1 \\
+        \sigma_2\rho Z_1 + \sigma_2\sqrt{1 - \rho^2}Z_2 + \mu_2
+    \end{matrix}}$$
+    Now we compute the variance and covariances.
+    \begin{align*}
+        \var{X_1} &= \var{\sigma_1Z_1 + \mu_1} = \sigma_1^2\var{Z_1} + \var{\mu_1} = \sigma_1^2 \\
+        \var{X_2} &= \var{\sigma_2\rho Z_1 + \sigma_2\sqrt{1 - \rho^2}Z_2 + \mu_2} \\
+        &= \sigma_2^2\rho^2\var{Z_1} + \sigma_2^2(1 - \rho^2)\var{Z_2} + \var{\mu_2} = \sigma_2^2 \\
+        \cov{X_1}{X_2} &= \E{X_1X_2} - \E{X_1}\E{X_2} \\
+        &= \E{X_1X_2} - \E{\sigma_1Z_1 + \mu_1}\E{\sigma_2\rho Z_1 + \sigma_2\sqrt{1 - \rho^2}Z_2 + \mu_2} \\
+        &= \E{\paren{\sigma_1Z_1 + \mu_1}\paren{\sigma_2\rho Z_1 + \sigma_2\sqrt{1 - \rho^2}Z_2 + \mu_2}} - \mu_1\mu_2 \\
+        &= \rho\sigma_1\sigma_2 + \mu_1\mu_2 - \mu_1\mu_2 \\
+        &= \rho\sigma_2\sigma_2
+    \end{align*}
+    \end{proof}
+
+    \part Find $M^{-1}$ such that
+    $$\paren{\begin{matrix}
+        Z_1 \\ Z_2
+    \end{matrix}} = M^{-1}\paren{\begin{matrix}
+        X_1 - \mu_1 \\ X_2 - \mu_2
+    \end{matrix}}$$
+    \begin{proof}
+        We can calculate $M^{-1}$ to be
+        $$M^{-1} = \paren{\begin{matrix}
+            \frac{1}{\sigma_1} & 0 \\
+            -\frac{\rho}{\sigma_1\sqrt{1 - \rho^2}} & \frac{1}{\sigma_2\sqrt{1 - \rho^2}}
+        \end{matrix}}$$
+        and the given condition necessarily follows. 
+    \end{proof}
+
+    \part Using Part (b), write $X_2$ as a linear combination of $X_1$ and $Z_2$ and note that $X_1$ and $Z_2$ are independent.
+    \begin{proof}
+    A true linear combination of the form $X_2 = aX_1 + bZ_2$ is not possible, but if we disregard the means $\mu_1, \mu_2$, we can derive the following equation.
+        $$X_2 - \mu_2= \paren{\frac{\rho\sigma_2}{\sigma_1}}\paren{X_1 - \mu_1} + \paren{\sigma_2\sqrt{1 - \rho^2}}Z_2$$
+    \end{proof}
+
+    \part Show that $\cov{X_2 - Y}{X_1} = 0$. Conclude that the best mean square linear approximation to $X_2$ given $X_1$ is
+    $$Y = \rho\sigma_2\paren{\frac{X_1 - \mu_1}{\sigma_1}} + \mu_2$$
+    \begin{proof}
+        First, we calculate the covariance.
+        \begin{align*}
+            \cov{X_2 - Y}{X_1} &= \cov{X_2}{X_1} - \cov{Y}{X_1} \\
+            &= \rho\sigma_1\sigma_2 - \cov{\rho\sigma_2\paren{\frac{X_1 - \mu_1}{\sigma_1}} + \mu_2}{X_1} \\
+            &= \rho\sigma_1\sigma_2 - \frac{\rho\sigma_2}{\sigma_1}\paren{\cov{X_1}{X_1} - \cov{\mu_1}
+            {X_1}} + \cov{\mu_2}{X_1} \\
+            &= \rho\sigma_1\sigma_2 - \frac{\rho\sigma_2}{\sigma_1}\paren{\var{X_1} - 0} + 0 \\
+            &= \rho\sigma_1\sigma_2 - \frac{\rho\sigma_2}{\sigma_1}\sigma_1^2 \\
+            &= \rho\sigma_1\sigma_2 - \rho\sigma_1\sigma_2 = 0
+        \end{align*}
+        Our results tell us our error term $X_2 - Y$ is uncorrelated with $X_1$, which in turn implies our error is minimal. If it were not, there would be some non-zero correlation, which we could further minimize.
+    \end{proof}
+
+    \part Find $\var{Y}, \var{X_2 - Y}$
+    \begin{proof}
+        We directly compute the specified values.
+        \begin{align*}
+            \var{Y} &= \var{\frac{\rho\sigma_2}{\sigma_1}(X_1 - \mu_1) + \mu_2} \\
+            &= \frac{\rho^2\sigma_2^2}{\sigma_1^2}\paren{\var{X_1} - \var{\mu_1}} + \var{\mu_2} \\
+            &= \frac{\rho^2\sigma_2^2}{\sigma_1^2}\paren{\sigma_1^2 - 0} + 0 = \rho^2\sigma_2^2 \\
+            \var{X_2 - Y} &= \var{X_2 - \frac{\rho\sigma_2}{\sigma_1}(X_1 - \mu_1) - \mu_2} \\
+            &= \var{X_2} - \frac{\rho^2\sigma_2^2}{\sigma_1^2}\paren{\var{X_1} - \var{\mu_1}} - \var{\mu_2} \\
+            &= \sigma_2^2 - \frac{\rho^2\sigma_2^2}{\sigma_1^2}\paren{\sigma_1^2 - 0} - 0 \\
+            &= \sigma_2^2(1 - \rho^2)
+        \end{align*}
+    \end{proof}
+\end{parts}
+
+
+
+\newpage
+\question Let $Y = aX + b$ where $a, b$ are constants and $X$ is a random variable with moment generating function $M_X(t)$. Express the moment generating function $M_Y(t)$ of $Y$ in terms of $M_X$.
+\begin{proof}
+    \begin{align*}
+        M_Y(t) &= \E{e^{Yt}} \\
+        &= \E{e^{t(aX + b)}} \\
+        &= \E{e^{taX + tb}} \\
+        &= e^{tb}\E{e^{taX}} \\
+        &= e^{tb}M_X(ta)
+    \end{align*}
+\end{proof}
+
+\newpage
+\question Let $X$ have a moment generating function $M_X(t)$. Define the cumulant generating function $\Psi_X(t) = \ln M_X(t)$. Show that
+$$\frac{d^2 \Psi}{dt^2}\Bigg |_{t = 0} = \var{X}$$
+\begin{proof}
+First, we calculate the second derivative with respect to $t$ of $\Psi_X(T)$.
+    \begin{align*}
+        \frac{d^2 \Psi}{dt^2} &= \frac{d}{dt}\brac{\frac{d}{dt} \ln M_X(t)} \\
+        &= \frac{d}{dt}\brac{\frac{1}{M_X(t)}M_X'(t)} \\
+        &= \frac{M_X(t)M_X''(t) - M_X'(t)M_X'(t)}{M_X^2(t)} \\
+    \end{align*}
+
+    We now evaluate this at $t = 0$, keeping in mind that $M_X(0) = 1, M_X'(0) = \E{X}, M_X''(0) = \E{X^2}$:
+    \begin{align*}
+        \frac{d^2 \Psi}{dt^2}\Bigg |_{t = 0} &= \frac{M_X(t)M_X''(t) - M_X'(t)M_X'(t)}{\paren{M_X(t)}^2} \Bigg |_{t = 0} \\
+        &= \frac{M_X(0)M_X''(0) - \paren{M_X'(0)}^2}{\paren{M_X(0)}^2} \\
+        &= \frac{1\cdot \E{X^2} - (\E{X})^2}{1^2} \\
+        &= \E{X^2} - (\E{X})^2 \\
+        &= \var{X}
+    \end{align*}
+\end{proof}
+
+\newpage
+\question Recall that a non-negative $Y$ is called a \textit{lognormal random variable} with parameters $\mu$ and $\sigma^2$ if $X = \ln (Y)$ is a normal random variable with mean $\mu$ and variance $\sigma^2$. Find $\E{Y}$ and $\var{Y}$.
+\begin{proof}
+Using the moment generating function for $M_X(t)$, observe that
+$$\E{Y} = \E{e^X} = M_X'(t) = e^{\mu + \frac{\sigma^2}{2}}$$
+
+Similarly, note that
+$$\E{Y^2} = \E{e^{2X}} = M_X''(t)\Bigg|_{t = 0} = e^{2(\mu + \sigma^2)}$$
+
+which we use to compute the variance
+$$\var{Y} = \E{Y^2} - \paren{\E{Y}}^2 = e^{2(\mu + \sigma^2)} - e^{2\mu + \sigma^2}$$
+\end{proof}
+
+\newpage
+\question Show that for random variables $X, Y$,
+$$\E{(X - W)^2} = \E{X^2} - \E{W^2}$$
+where $W = \E{X | Y}$.
+\begin{proof}
+$$\E{(X - W)^2} = \E{X^2 - 2XW + W^2} = \E{X^2} -2\E{XW} + \E{W^2}$$
+From here, recognize that we will be done if we can show
+$$-2\E{XW} + \E{W^2} = -\E{W^2} \text{ or equivalently } \E{XW} = \E{W^2}$$
+We directly calculate $\E{XW}$ to be
+\begin{align*}
+    \E{XW} &= \E{X\E{X | Y}} \\
+    &= \E{\E{X\E{X | Y} | Y}} \\
+    &= \E{\E{X | Y}\E{X | Y}} \\
+    &= \E{W^2}
+\end{align*}
+\end{proof}
+\end{questions}
+
+\end{document}

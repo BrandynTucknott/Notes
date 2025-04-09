@@ -1,0 +1,231 @@
+\documentclass{exam}
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm,dsfont}
+\usepackage{lib/extra}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usepackage{bbm}
+\usepackage{pgfplots}
+\usepackage{fontenc}
+\usepackage{float}
+
+\pgfplotsset{compat=1.18}
+
+\title{MTH 464 HW 7}
+\author{Brandyn Tucknott}
+\date{12 March 2025}
+
+\begin{document}
+\maketitle
+
+\begin{questions}
+    \question 
+Let $\cbrac{T_j}_{j = 1}^\infty$ be a sequence of iid random variables of an Exponential distribution with parameter $\lambda > 0$. We will use $T$ to denote a term in this sequence of random variables.
+
+\begin{parts}
+    \part Find the expected value and variance of $T$.
+    \begin{proof}
+        Since $T = T_j \sim$ Exp$(\lambda)$ is iid, we know that
+        \begin{align*}
+            \E{T} &= \frac{1}{\lambda} \\
+            \var{T} &= \frac{1}{\lambda^2}
+        \end{align*}
+    \end{proof}
+
+    \part A properly normalized sum of $n$ terms $S_n$ converges to $Z\sim$ N(0, 1). Determine $S_n$ and find its moment generating function (MGF) $M_{S_n}$ in terms of the MGF of $T$.
+    \begin{proof}
+        Define $X_n = \sum_{j = 1}^n T_j$. Then
+        $$S_n = \frac{X_n - \E{X_n}}{\sqrt{\var{X_n}}}$$
+        First we compute the expected value $X_n$.
+        \begin{align*}
+            \E{X_n} &= \E{\sum T_j} \\
+            &= \sum \E{T_j} \\
+            &= \sum \frac{1}{\lambda} \\
+            &= \frac{n}{\lambda} \\
+        \end{align*}
+        Similarly for variance, we have that
+        \begin{align*}
+            \var{X_n} &= \E{X_n^2} - (\E{X_n})^2 \\
+            &= \E{\paren{\sum_{j = 1}^n T_j}^2} - \paren{\frac{n}{\lambda}}^2 \\
+            &= \E{\sum_{j = 1}^n T_j^2 + 2\sum_{i < j}^n T_i T_j} - \frac{n^2}{\lambda^2}\\
+            &= n\E{T^2} + 2\cdot \frac{n (n - 1)}{2}\E{T}\E{T} - \frac{n^2}{\lambda^2}\text{, since } T_j = T \text{ and } T_j \text{ iid}\\
+            &= \frac{2n}{\lambda^2} + n(n - 1)\frac{1}{\lambda}\frac{1}{\lambda}- \frac{n^2}{\lambda^2} \\
+            &= \frac{2n + n^2 - n - n^2}{\lambda^2} \\
+            &= \frac{n}{\lambda^2}
+        \end{align*}
+
+        We expand $S_n$ to
+        $$S_n = \frac{X_n - \E{X_n}}{\sqrt{\var{X_n}}} = \frac{X_n - n / \lambda}{\sqrt{n / \lambda^2}}$$
+
+        and then directly calculate the MGF.
+        \begin{align*}
+            M_{S_n} &= \E{e^{S_nt}} \\
+            &= \E{e^{t\frac{X_n - \E{X_n}}{\sqrt{\var{X_n}}}}} \\
+            &= \E{e^{t\frac{X_n - n / \lambda}{\sqrt{n} / \lambda}}} \\
+            &= \E{e^{\frac{tX_n}{\sqrt{n} / \lambda}}e^{\frac{-tn / \lambda}{\sqrt{n} / \lambda}}} \\
+            &= e^{-t\sqrt{n}}\E{e^{\frac{tX_n}{\sqrt{n} / \lambda}}} \\
+            &= e^{-t\sqrt{n}}\E{e^{\frac{t\sum T_j}{\sqrt{n} / \lambda}}} \\
+            &= e^{-t\sqrt{n}}\E{e^{\frac{t(T_1 + \hdots + T_n)}{\sqrt{n} / \lambda}}} \\
+            &= e^{-t\sqrt{n}}\E{e^{\frac{tT_1}{\sqrt{n} / \lambda}} \cdot \hdots \cdot e^{\frac{tT_n}{\sqrt{n} / \lambda}}} \\
+            &= e^{-t\sqrt{n}}\E{e^{\frac{tT_1}{\sqrt{n} / \lambda}}} \hdots \E{e^{\frac{tT_n}{\sqrt{n} / \lambda}}} \\
+            &= e^{-t\sqrt{n}}\paren{M_T\paren{\frac{t}{\sqrt{n} / \lambda}}}^n
+        \end{align*}
+    \end{proof}
+
+    \part Show that $\lim_{n \to \infty} M_{S_n} = e^{t^2 / 2}$.
+    \begin{proof}
+        Keeping in mind that the Taylor expansion for 
+        $$\ln (1 - x) \approx -x - \frac{x^2}{2}$$
+        for very small $x$, we evaluate the limit as
+        \begin{align*}
+            \underset{n \to \infty}{\lim} M_{S_n} &= \underset{n \to \infty}{\lim} e^{-t\sqrt{n}}\paren{M_T\paren{\frac{t}{\sqrt{n} / \lambda}}}^n \\
+            &= \underset{n \to \infty}{\lim} e^{-t\sqrt{n}}\paren{\frac{\lambda}{\lambda - \frac{t}{\sqrt{n} / \lambda}}}^n \\
+            &= \underset{n \to \infty}{\lim} e^{-t\sqrt{n}}\paren{\frac{1}{1 - \frac{t}{\sqrt{n}}}}^n \\
+            &= \underset{n \to \infty}{\lim} e^{-t\sqrt{n}}e^{n\ln \paren{\frac{1}{1 - \frac{t}{\sqrt{n}}}}} \\
+            &= \underset{n \to \infty}{\lim} e^{-t\sqrt{n}}e^{n\ln (1) -n\ln \paren{1 - \frac{t}{\sqrt{n}}}} \\
+            &= \underset{n \to \infty}{\lim} e^{-t\sqrt{n}}e^{-n\ln \paren{1 - \frac{t}{\sqrt{n}}}} \\
+            &= \underset{n \to \infty}{\lim} e^{-t\sqrt{n}}e^{-n \paren{-\frac{t}{\sqrt{n}} - \frac{t^2}{2n} }} \\
+            &= \underset{n \to \infty}{\lim} e^{-t\sqrt{n}}e^{t\sqrt{n}}e^{n\frac{t^2}{2n}} \\
+            &= \underset{n \to \infty}{\lim} e^{n\frac{t^2}{2n}} \\
+            &= \underset{n \to \infty}{\lim} e^{\frac{t^2}{2}} \\
+            &= e^{\frac{t^2}{2}} 
+        \end{align*}
+    \end{proof}
+\end{parts}
+
+\newpage
+\question
+Assume that $X$ is a random variable with mean $\E{X} = 50$ and $\var{X} = 25$.
+
+\begin{parts}
+    \part Use Markov's inequality to estimate $\p{X > 60}$.
+    \sol
+    Using Markov's inequality, we can bound the probability with
+    \begin{align*}
+        \p{X > 60} &\leq \frac{\E{X}}{60} \\
+        \p{X > 60} &\leq \frac{50}{60} \\
+        \p{X > 60} &\leq \frac{5}{6} 
+    \end{align*}
+
+    \part Use Chebyshev's inequality to estimate $\p{X > 60}$.
+    \sol
+    The probability can be rewritten as
+    $$\p{X > 60} = \p{|X - \mu_X| > |60 - \mu_X|}$$
+    
+    Using Chebyshev's inequality, we can bound the probability with
+    \begin{align*}
+        \p{X > 60} &= \p{|X - \mu_X| > |60 - \mu_X|} \\
+        \p{X > 60} &\leq \frac{\var{X}}{|60 - \mu_X|^2} \\
+        &= \frac{25}{|60 - 50|^2} \\
+        &= \frac{1}{4}
+    \end{align*}
+
+    \part Assume further that $X$ is a binomial random variable Bin$(n, p)$. From the values of the mean and variance, determine $n$ and $p$ and use the Central Limit Theorem to approximate $\p{X > 60}$.
+    \sol
+    Since $X$ is a binomial, we know the mean and variance take from $np, np(1 - p)$ respectively. We now derive a system of two equations $n$ and $p$ to be
+    \begin{align*}
+        \E{X} &= np \\
+        50 &= np \\
+        \var{x} &= np(1 - p) \\
+        25 &= np(1 - p)
+    \end{align*}
+
+    Solving for this system gives us values
+    $$p = \frac{1}{2}, \hspace{0.15cm} n = 100$$
+
+    By the Central Limit Theorem, since $X$ is Binomial, for large $n$, $X\approx N(\mu_X, \sigma_X^2)$. Thus
+    $$Z = \frac{X - \mu_X}{\sigma_X} \sim N(0, 1)$$
+
+    After applying continuity correction, we rewrite the probability as
+    \begin{align*}
+        \p{X > 60} &= \p{\frac{X - \mu_X}{\sqrt{\var{X}}} > \frac{60.5 - \mu_x}{\sqrt{\var{X}}}} \\
+        &= \p{Z > 2.1} \\
+        &= 1 - \Phi (2.1) \\
+        &= 1 - 0.9821 \\
+        &= 0.0177
+    \end{align*}
+\end{parts}
+
+\newpage
+\question
+Recall that a Poisson random variable $X$ with parameter $\lambda > 0$ has $\p{X = k} = e^{-\lambda}\frac{\lambda^k}{k!}$.
+
+\begin{parts}
+    \part For $j = 1, \hdots, n$, let $X_j$ be a Poisson random variable with parameter $\lambda_j$. Assume that $\cbrac{X_j}_{j = 1}^\infty$ are independent. Let $Y = \sum_{j = 1}^n X_j$. Using the MGF of $X_j$ and $Y$, show that $Y$ is a Poisson random variable with parameter $\lambda = \sum_{j = 1}^n \lambda_j$.
+    \begin{proof}
+        We know that the MGF for a Poisson random variable is
+        $$M_{X_j}(t) = e^{\lambda_j(e^t - 1)}.$$
+
+        We can directly calculate the MGF of $Y$ as
+        \begin{align*}
+            M_Y(t) &= \E{e^{tY}} \\
+            &= \E{e^{t\sum X_j}} \\
+            &= \E{e^{tX_1}\hdots e^{tX_n}} \\
+            &= \E{e^{tX_1}} \hdots \E{e^{tX_n}} \\
+            &= M_{X_1}(t)\hdots M_{X_n}(t) \\
+            &= e^{\lambda_1(e^t - 1)}\hdots e^{\lambda_n(e^t - 1)} \\
+            &= {e^{\paren{\sum \lambda_j}(e^t - 1)}}
+        \end{align*}
+
+        We conclude that $Y$ is Poisson with parameter $\lambda = \sum_{j = 1}^n \lambda_j$.
+    \end{proof}
+
+    \part With the same notation as in Part (a), take $n = 100$, and $\lambda_j = 1$. Then $Y$ is a Poisson random variable with parameter 100 written as a sum of 100 iid random variables. Use the Central Limit Theorem to approximate $\p{Y > 120}$.
+    \begin{proof}
+        We first compute the expectation and variance of $Y$.
+        \begin{align*}
+            \E{Y} &= \lambda = \sum_{j = 1}^{100} \lambda_j = 100 \\
+            \var{Y} &= \lambda = 100
+        \end{align*}
+        
+        By the Central Limit Theorem, $Y\sim N(\mu_Y, \sigma_Y^2)$ for large $n$. Then $Z = \frac{Y - \mu_Y}{\sigma_Y}\sim N(0, 1)$. After continuity correction,
+        \begin{align*}
+            \p{Y > 120} &= \p{\frac{Y - \mu_Y}{\sigma_Y} > \frac{120.5 - \mu_Y}{\sigma_Y}} \\
+            &= \p{Z > \frac{120.5 - \cdot100}{\sqrt{100}}} \\
+            &= \p{Z > 2.05} \\
+            &= 1 - \Phi (2.05) \\
+            &= 1 - 0.9798 \\
+            &= 0.0202
+        \end{align*}
+    \end{proof}
+\end{parts}
+
+
+\newpage
+\question
+This is a continuation of Problem (2.c). Assume, as in there, that $X\sim$ Bin$(n, p)$ random variable with parameters determined in that problem. Use the Chernoff inequality to estimate $\p{X > 60}$.
+\sol
+The Chernoff Bound states that
+$$\p{X \geq a} = \p{e^{tX} \geq e^{ta}} \leq M_X(t)e^{-ta}\text{, for all } t > 0$$
+
+Recall the moment generating function for a binomial
+$$M_X(t) = \paren{(1 - p) + pe^t}^n$$.
+Since we know $n, p$, we sub them in, yielding
+$$M_X(t) = \paren{\frac{1}{2} + \frac{1}{2}e^t}^{100}$$
+
+The R.H.S of the Chernoff bound re-evaluates to 
+$$e^{-60t}\paren{\frac{1}{2} + \frac{1}{2}e^t}^{100}$$
+which we wish to minimize. Since the Chernoff Bound holds for all $t > 0$, we achieve the minimum by choosing $t > 0$ to minimize the R.H.S.
+
+To find the critical points, we take the derivative of the bound and set it equal to zero.
+\begin{align*}
+    \frac{d}{dt} e^{-60t}\paren{\frac{1}{2} + \frac{1}{2}e^t}^{100} &= -60e^{-60t}\paren{\frac{1}{2} + \frac{1}{2}e^t}^{100} + 100\paren{\frac{1}{2} + \frac{1}{2}e^t}^{99}\frac{e^t}{2}\cdot e^{-60t} = 0 \longrightarrow\\
+    100\paren{\frac{1}{2} + \frac{1}{2}e^t}^{99}\frac{e^t}{2}\cdot e^{-60t} &= 60e^{-60t}\paren{\frac{1}{2} + \frac{1}{2}e^t}^{100} \\
+    5e^t &= 6\paren{\frac{1}{2} + \frac{1}{2}e^t} \\
+    5e^t &= 3 + 3e^t \\
+    5e^t &= 3 + 3e^t \\
+    2e^t &= 3\\
+    t &= \ln \paren{\frac{3}{2}}
+\end{align*}
+
+It can be shown that this critical point is a minimum by checking if the bound is convex, but this calculation is tedious and not the point of the problem, so we will skip it, and proceed under the assumption that $t = \ln (1.5)$ minimizes the bound.
+
+Plugging in $t = \ln (1.5)$ into the bound will minimize our bound, allowing us to conclude
+\begin{align*}
+    \p{X > 60} &\leq e^{-60t}M_X(t)\Bigg |_{t = \ln (1.5)} \\
+    \p{X > 60} &\leq 0.1335 \\
+\end{align*}
+\end{questions}
+
+\end{document}

@@ -1,0 +1,113 @@
+\documentclass{exam}
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm,dsfont}
+\usepackage{lib/extra}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usepackage{bbm}
+
+\title{MTH 464 HW 4}
+\author{Brandyn Tucknott}
+\date{12 Feburary 2025}
+
+\begin{document}
+\maketitle
+
+\begin{questions}
+    \question
+Let $X$ be a random variable with $\mu = \E{X}$ and $\sigma^2 = \var{X}$. Determine $a, b$ such that $Y = a + bX$ satisfies $\E{Y} = 0, \var{Y} = 4\sigma^2$, and $\corr{X}{Y} = -1$.
+
+\begin{equation}
+\E{Y} = \E{a + bX} = \E{a} + \E{bX} = a + b\E{X} = a + b\mu = 0
+\end{equation}
+
+\begin{equation}
+\var{Y} = \var{a + bX} = \var{a} + \var{bX} = b^2\var{X} = b^2\sigma^2 = 4\sigma^2
+\end{equation}
+
+\begin{equation}
+\corr{X}{Y} = \frac{\cov{X}{Y}}{\sigma_x \sigma_y} = \frac{\E{XY} - \E{X}\E{Y}}{\sigma_x \sigma_y} = \frac{\E{X(a + bX)}}{\sigma_x \sigma_y} = -1
+\end{equation}
+
+Solving for equation (1) gives $a = -b\mu$. Using this, we can further reduce equation (3) into
+$$\corr{X}{Y} = \frac{\E{aX + bX^2}}{\sigma_x \sigma_y} = \frac{a\E{X} + b\E{X^2}}{\sigma_x \sigma_y} = \frac{a\mu + b(\sigma^2 + \mu^2)}{\sigma\cdot 2\sigma} = \frac{-b\mu^2 + b\sigma^2 + b\mu^2}{2\sigma^2} =$$
+$$= \frac{b}{2} = -1 \longrightarrow b = -2$$
+
+Since $a = -b\mu$, we can sub-in $b=-2$ and conclude that $a = 2\mu, b = -2$.
+
+\newpage
+\question
+Assume that the joint density of $X, Y$ is given by
+$$f_{X, Y}(x, y) = \frac{1}{y}e^{-(y + \frac{x}{y})}\ind_{[0, \infty) \times[0, \infty)}(x, y)$$
+
+\begin{parts}
+    \part
+    Check that $f$ is a pdf.
+    \sol
+    To verify that $f$ is a pdf, we need to check that it integrates to 1 over its domain, and also that $0 \leq f_{X, Y} (x, y) \leq 1$ for all $x, y \in \R$.
+    
+    Examining $f$ reveals it is negative only when $y < 0$, and since $y \in [0, \infty)$, we conclude that $f \geq 0$.
+
+    To check that it integrates to 1 over its domain, we compute
+    $$\npint \npint f_{X, Y}(x, y) dxdy = \zpint \zpint \frac{1}{y}e^{-(y + \frac{x}{y})} dxdy = \zpint e^{-y}dy = 1$$
+
+    \part
+    Find $\E{X}$ and $\E{Y}$.
+    \sol
+    $$\E{X} = \zpint \zpint xf_{X, Y}(x, y)dxdy = \zpint \zpint \frac{x}{y}e^{-y - \frac{x}{y}}dxdy = \zpint ye^{-y} dy = 1$$
+
+    
+    $$\E{Y} = \zpint \zpint yf_{X, Y}(x, y)dxdy = \zpint \zpint e^{-y - \frac{x}{y}}dxdy = \zpint ye^{-y}dy = 1$$
+
+    \part
+    Show that the $\cov{X}{Y} = 1$.
+    \begin{proof}
+        Note that 
+        $$\cov{X}{Y} = \E{XY} - \E{X}{Y}$$
+        Since we calculated $\E{X}, \E{Y}$ in Part (b), all that remains is to calculate $\E{XY}$ and put them together.
+
+        $$\E{XY} = \zpint \zpint xe^{-y - \frac{x}{y}}dxdy = \zpint y^2e^{-y}dy = 2$$
+
+        We compute $\cov{X}{Y} = \E{XY} - \E{X}\E{Y} = 2 - 1\cdot 1 = 1$, and we are done.
+    \end{proof}
+\end{parts}
+
+\newpage
+\question
+Let $Z\sim N(0, 1)$ be a standard normal random variable. Let $I$ be independent of $Z$ such that $P(I = -1) = P(I = 1) = \frac{1}{2}$. Define $Y = Z\times I$.
+
+\begin{parts}
+    \part
+    Show that $Y$ is a standard normal random variable.
+    \begin{proof}
+        Recall that for a standard normal distribution, $\Phi(a) = 1 - \Phi(-a)$. Then
+        $$P(Y \leq a) = P(ZI \leq a) = \frac{1}{2}P(Z \leq a) + \frac{1}{2}P(Z \geq -a) =$$
+        $$= \frac{1}{2}\Phi (a) + \frac{1}{2}(1 - \Phi(-a)) = \frac{1}{2}\Phi (a) + \frac{1}{2}\Phi(a) = \Phi(a)$$
+
+        Since $Y$ has the same cdf as a standard normal, we conclude that $Y$ is standard normal.
+    \end{proof}
+
+    \part
+    Show that $\cov{Y}{Z} = 0$.
+    \begin{proof}
+        $$\cov{Y}{Z} = \E{YZ} - \E{Y}\E{Z} = \E{ZI\cdot Z} - 0 = \E{Z\cdot Z} = \E{Z^2} = 0$$
+    \end{proof}
+
+    \part
+    Show that $Z, Y$ are not independent. This provides an example of uncorrelated variables which are not independent.
+    \begin{proof}
+        Consider the case where $z = y = a$. If $Z, Y$ were independent, given both $Z, Y \sim N(0, 1)$ we would expect 
+        $$P(Z\leq a \land Y \leq a) = P(Z \leq a)P(Y \leq a) = \paren{\Phi (a)}^2$$
+
+        We now directly calculate the joint probability to be
+        $$P(Z \leq a \land Y \leq a) - P(Z\leq a \land ZI\leq a) =$$
+        $$= P(I = 1)P(Z\leq a \land ZI \leq a | I = 1) + P(I = -1)P(Z\leq a \land ZI \leq a | I = -1) =$$
+        $$= \frac{1}{2}P(Z \leq a \land Z \leq a) + \frac{1}{2}P(Z \leq a \land Z\geq -a) = \frac{1}{2}\Phi (a) + \frac{1}{2}(\Phi (a) - \Phi (-a)) =$$
+        $$= \Phi (a) - \frac{\Phi (-a)}{2} \neq (\Phi (a))^2$$
+        We conclude that since $P(Z \leq a \land Y \leq a) \neq P(Z \leq a)P(Y\leq a)$, $Z, Y$ are not independent.
+    \end{proof}
+\end{parts}
+\end{questions}
+
+\end{document}

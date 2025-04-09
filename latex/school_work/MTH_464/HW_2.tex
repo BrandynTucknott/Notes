@@ -1,0 +1,187 @@
+\documentclass{exam}
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm,dsfont}
+\usepackage{lib/extra}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usepackage{bbm}
+
+\title{MTH 464 HW 2}
+\author{Brandyn Tucknott}
+\date{27 January 2025}
+
+\begin{document}
+\maketitle
+
+\begin{questions}
+    \question
+Let $U\sim \text{Unif}(0, 2\pi)$ and $T\sim \text{Exp}(1)$ be independent random variables. Show that $X = \sqrt{2T}\cos U, Y = \sqrt{2T}\sin U$ are independent standard normal random variables.
+
+\begin{proof}
+    Before any work is done, there are two important observations to make. The first is that
+    \begin{equation}
+        X^2 + Y^2 = 2T(\cos^2 U + \sin^2 U) \longrightarrow T = \frac{X^2 + Y^2}{2}
+    \end{equation}
+
+    The similarly we can find that
+    \begin{equation}
+        2T = \frac{X}{\cos U} = \frac{Y}{\sin U} \longrightarrow
+        U = \arctan \paren{\frac{Y}{X}}
+    \end{equation}
+
+    The second important observation is to recognize that since $U, T$ are independent, the joint distribution of $T, U$ can be written as
+    \begin{equation}
+        f_{T, U} (t, u) = \frac{1}{2\pi}e^{-t}
+    \end{equation}
+
+    From here, it is just a simple change of variables to show that $X, Y \sim N(0, 1)$.
+    To make it simple, we compute the Jacobian beforehand:
+    $$J = \paren{\begin{matrix}
+        \frac{\partial X}{\partial T} & \frac{\partial X}{\partial U} \\
+        \frac{\partial Y}{\partial T} & \frac{\partial Y}{\partial U} \\
+    \end{matrix}} = \paren{\begin{matrix}
+        \frac{\cos u}{\sqrt{2t}} & -\sqrt{2t}\sin u \\
+        \frac{\sin u}{\sqrt{2t}} & \sqrt{2t}\cos u \\
+    \end{matrix}} \longrightarrow \det J = 1 \longrightarrow \frac{1}{\abs{\det J}} = 1$$
+
+    Now we directly use a change of variables to find the joint distribution for $X, Y$.
+    $$f_{X, Y}(x, y) = f_{T, U}(t(x, y), u(x, y))\cdot \frac{1}{\abs{\det J}} = f_{T, U} \paren{t = \frac{x^2 + y^2}{2}, u = \arctan \paren{\frac{Y}{X}}}, \text{ by equations (1) and (2)}$$
+    
+    $$= \frac{1}{2\pi}\cdot e^{-\frac{x^2 + y^2}{2}} = \frac{1}{\sqrt{2\pi}}e^{-\frac{x^2}{2}} \cdot \frac{1}{\sqrt{2\pi}}e^{-\frac{y^2}{2}} = f_X(x)\cdot f_Y(y)$$
+
+    Where $f_X(x)$ is the marginal distribution of $X$, and $f_Y(y)$ is the marginal distribution of $Y$. It is obvious now to see that the joint is the product of two marginals, in particular $X, Y\sim N(0, 1)$ and also that the random variables $X, Y$ are independent (since the product of the marginals is the joint).
+\end{proof}
+
+\newpage
+\question
+Assume $X\sim \text{Exp}(\lambda), Y\sim \text{Exp}(\mu)$ be independent random variables.
+
+\begin{parts}
+    \part
+    Let $W = \min(X, Y)$. Show that $W\sim \text{Exp}(\lambda + \mu)$.
+    \begin{proof}
+        Consider $P(X > w)$. Then by independence of $X, Y$, we can say that
+        $$P(W > w) = P(X > w \text{ and } Y > w) = P(X > w)P(Y > w) = e^{\lambda w}\cdot e^{-\mu w} = e^{-(\lambda + \mu)w}$$
+
+        Note that
+        $$1 - e^{-(\lambda + \mu)w} = 1 - P(W > w) = P(W \leq w)$$
+        
+        which is the cumulative distribution for an exponential distribution with parameter $\lambda + \mu$. We conclude then that $W\sim \text{Exp}(\lambda + \mu)$.
+    \end{proof}
+
+    \part
+    Show that $P\paren{W = X} = \frac{\lambda}{\lambda + \mu}$ and $P\paren{W = Y} = \frac{\mu}{\lambda + \mu}$.
+    \begin{proof}
+        In order to find $P(W = X)$, require that $X = \min(X, Y)$. That is,
+        $$P(W = X) = P(X \leq Y) = \zpint \int_0^y \lambda e^{-\lambda x} \mu e ^{-\mu y} dx dy = \frac{\lambda}{\lambda + \mu}$$
+        $$P(W = Y) = P(Y \leq X) = \zpint \int_0^x \lambda e^{-\lambda x} \mu e ^{-\mu y} dy dx = \frac{\mu}{\lambda + \mu}$$
+    \end{proof}
+\end{parts}
+\newpage
+\question
+Let $U\sim \text{Unif}[0, 1]$ and $a \in (0, 1)$.
+
+\begin{parts}
+    \part
+    Find the conditional distribution of $U$ given that $U < a$, $P\paren{U \leq u | U < a}$. Find also the corresponding conditional pdf.
+
+    \sol
+    $$F_{U | U < a} = P(U \leq u | U < a) = \frac{P(U < u \text{ and } U < a)}{P(U < a)} =
+    \begin{cases}
+        \frac{u}{a}, & 0 \leq 0 < u < a \\
+        1, & \text{otherwise} \\
+    \end{cases}$$
+
+    We can find the pdf of the conditional by taking the derivative with respect to $u$.
+
+    $$f_{U | U < a} = \frac{d}{da}F_{U | U < a} =
+    \begin{cases}
+        \frac{1}{a}, & 0 < u < a \\
+        0, & \text{otherwise} \\
+    \end{cases}$$
+
+    \part
+    Find the conditional distribution of $U$ given that $U > a$.
+    \sol
+    $$F_{U | U > a} = P(U \leq u  | U > a) = \frac{P(U \leq u\text{ and } U > a)}{P(U > a)} = 
+    \begin{cases}
+        0, & u \leq a \\
+        \frac{\int_a^u 1 dt}{1 - a}, & u > a \\
+    \end{cases} = 
+    \begin{cases}
+        \frac{u - a}{1 - a}, & 1 \geq u > a \\
+        0, & \text{otherwise} \\
+    \end{cases}$$
+    Similarly to Part (a), we can take the derivative of the conditional cumulative distribution to find the conditional pdf.
+    $$f_{U | U > a} = \frac{d}{du}F_{U | U > a} =
+    \begin{cases}
+        \frac{1}{1 - a}, & 1 \geq u > a \\
+        0, & \text{otherwise} \\
+    \end{cases}$$
+\end{parts}
+
+\newpage
+\question
+Assume that the number of years that a machine functions, denoted by $T$, is a random variable with hazard rate
+$$\lambda(t) = 
+\begin{cases}
+    0.2, & 0 < t < 2 \\
+    0.2 + 0.3(t - 2), & 2 \leq t < 5 \\
+    1.1, & t > 5 \\
+\end{cases}$$
+That is, $P(T > t) = e^{-\int_0^t \lambda(s)ds}$
+
+\begin{parts}
+    \part
+    What is the probability that the machine will still be working six years after being purchased?
+    \sol
+    To find the probability the machine still works after 6 years is equivalent to finding the probability that it does not break for at least 6 years.
+    $$P(T > 6) = e^{-\int_0^6 \lambda(s)ds} = e^{-\paren{\int_0^2 0.2 ds + \int_2^5 0.2 + 0.3(s - 2) ds + \int_5^6 1.1 ds}} \approx 0.0317$$
+
+    \part
+    If the machine is still working after six years of being purchased, what is the conditional probability that it will fail within the succeeding two years?
+    \sol
+    Given $T > 6$, we want to find the $P(T \leq 8)$. Observe that $P(T \leq 8) = 1 - P(T > 8)$. Recall that $\lambda(t) = \frac{f(t)}{1 - F(t)} = \frac{f(t)}{P(T > t)}$. We can solve for the pdf to be $f(t) = P(T > t)\lambda(t)$.
+    $$P(T \leq 8 | T > 6) = \frac{P(T \leq 8 \text{ and } T > 6)}{P(T > 6)} = \frac{\int_6^8 f(t) dt}{0.0317} = \frac{\int_6^8 \lambda(t)\text{Exp}\paren{-\int_0^t \lambda(s)ds} dt}{0.0317} =$$
+
+    $$= \frac{\int_6^8 1.1\cdot e^{3.15 - 1.1t} dt}{0.0317} = \frac{e^{3.15}\int_6^8 1.1e^{-1.1t} dt}{0.0317} = \frac{0.0282}{0.0317} \approx 0.8896$$
+\end{parts}
+
+\newpage
+\question
+Let $Z_1, Z_2$ be standard normal random variables (iid) with mean 0 and variance 1. Show that $X = \frac{Z_1}{Z_2}$ is a Cauchy random variable with pdf given by
+$$f(x) = \frac{1}{\pi}\cdot \frac{1}{1 + x^2}$$
+
+\begin{proof}
+    Define $Y = Z_2$, and observe that $X = \frac{Z_1}{Z_2}\rightarrow Z_1 = XZ_2 = XY$. To compute the pdf of $X$, our approach will be to first compute the joint of $X, Y$, and take the marginal of $X$. First, we compute the Jacobian
+    $$|J| = \abs{\det \paren{\begin{matrix}
+        \frac{\partial Z_1}{\partial X} & \frac{\partial Z_1}{\partial Y} \\
+        \\
+        \frac{\partial Z_2}{\partial X} & \frac{\partial Z_2}{\partial Y} \\
+    \end{matrix}}} = \abs{\det \paren{\begin{matrix}
+        y & x \\
+        0 & 1 \\
+    \end{matrix}}} = |y|$$
+    Since $Z_1, Z_2$ are iid, we know their joint pdf is the product of their marginals, and since both are standard normal, we compute the joint pdf to be
+    $$f_{Z_1, Z_2}(z_1, z_2) = \frac{1}{2\pi}e^{-\frac{z_1^2 + z_2^2}{2}}$$
+
+    We are now able to solve for the joint pdf of $X, Y$
+    $$f_{X, Y}(x, y) = f_{Z_1, Z_2}\paren{z_1 = xy, z_2 = y}|J| = \frac{1}{2\pi}|y|e^{-\frac{x^2y^2 + y^2}{2}} = \frac{1}{2\pi}|y|e^{-\frac{y^2(x^2 + 1)}{2}}$$
+
+    All that remains is to find the marginal of $X$ of the joint pdf $X, Y$, and confirm that it is identical to the pdf of Cauchy$(\theta = 0, \sigma = 1)$.
+
+    $$f_X(x) = \npint f_{X, Y}(x, y) dy = \npint \frac{1}{2\pi}|y|e^{-\frac{y^2(x^2 + 1)}{2}} dy = \frac{1}{2\pi}\npint |y| e^{-\frac{y^2(x^2 + 1)}{2}}dy$$
+
+    Here we recognize that the integrand is even with respect to $y$, so we change the bounds (and in the process eliminate the absolute value) to be
+    $$f_X(x) = \frac{1}{2\pi}\cdot 2\zpint ye^{-\frac{y^2(x^2 + 1)}{2}}dy \text{, let }u = \frac{y^2(x^2 + 1)}{2} \rightarrow du = y(x^2 + 1) dy$$
+
+    $$f_X(x) = \frac{1}{\pi}\zpint \frac{1}{1 + x^2} e^{-u}du = \frac{1}{\pi}\cdot \frac{1}{1 + x^2}\zpint e^{-u}du = \frac{1}{\pi}\cdot \frac{1}{1 + x^2}$$
+
+    We conclude that $X\sim$ Cauchy$(\theta = 0, \sigma = 1)$.
+\end{proof}
+
+\newpage
+\end{questions}
+
+\end{document}

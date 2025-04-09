@@ -1,0 +1,198 @@
+\documentclass{exam}
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm,dsfont}
+\usepackage{lib/extra}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usepackage{bbm}
+
+\title{MTH 464 HW 3}
+\author{Brandyn Tucknott}
+\date{31 January 2025}
+
+\begin{document}
+\maketitle
+
+\begin{questions}
+    \question
+Let $X_1, \hdots, X_5\sim \text{Unif}[0, 1]$ be iid distributed. Let $X_{(1)}, \hdots, X_{(5)}$ be its ordered values. The median of this sample of 5 random variables can be taken to be $X_{(3)}$. Find $P\paren{\frac{1}{4} < X_{(3)} < \frac{3}{4}}$.
+
+\sol
+Our approach will be to find the pdf for $X_{(3)}$, and then integrate over the appropriate bounds. To find the pdf, we use the formula
+\begin{equation}
+f_{X_{(k)}} = \frac{n!}{(k - 1)!(n - k)!}\paren{F(x)}^{k - 1}\paren{1 - F(x)}^{n - k} f(x)
+\end{equation}
+Where $f, F$ are the pdf and cdf for the distribution of $X_k$, which in this case will be Unif$[0, 1]$. Using equation (1) evaluated at $n = 5, k = 3$, we get
+$$f_{X_{(3)}} = 30x^2(1 - x)^2$$
+
+To find $P(\frac{1}{4} < X_{(3) < \frac{3}{4}})$ can be found using the cdf for $X_{(3)}$, found by integrating over its pdf.
+$$P(\frac{1}{4} < X_{(3)} < \frac{3}{4}) = \int_\frac{1}{4}^\frac{3}{4} 30x^2(1 - x)^2 dx \approx 0.793$$
+
+\newpage
+\question
+Let $X_{(1)}, \hdots, X_{(n)}$ be the ordered values of $n$ iid random variables uniformly distributed on $[0, 1]$. Define $X_{(0)} = 0$, $X_{n + 1} = 1$. Show that for any $1 \leq k \leq n$
+$$P\paren{X_{(k + 1)} - X_{(k)} > t} = (1 - t)^n$$
+
+\begin{proof}
+    Notice that $P\paren{X_{(k + 1)} - X_{(k)} > t} = P\paren{X_{(k + 1)} > t + X_{(k)}}$. Another way to view this is: for an arbitrary fixed $x_{(k)}$, the remaining points must fall outside of the interval $[x_{(k)}, X_{(k)} + t]$. This interval is of length $t$, and since $X_{(i)}$ is uniformly distributed along the interval $[0, 1]$, the probability any $x_{(i \neq k)}$ falls outside of $[x_{(k)}, x_{(k)} + t] = 1 - t$. Since there are $n$ independent points in which this must be true, we conclude
+    $$P\paren{X_{(k + 1)} - X_{(k)} > t} = (1 - t)^n$$
+\end{proof}
+\newpage
+\question
+Let $Z_1, Z_2$ be independent standard normal random variables and define $X = Z_1, Y = Z_1 + Z_2$.
+
+\begin{parts}
+    \part
+    Find the joint density of $(X, Y)$.
+    \sol
+    Since $Z_1, Z_2$ are independent, we know the joint pdf to be
+    \begin{equation}
+        f_{Z_1, Z_2}(z_1, z_2) = \frac{1}{2\pi}e^{-\frac{1}{2}\paren{z_1^2 + z_2^2}}
+    \end{equation}
+
+    We compute the necessary Jacobian to be
+    $$J = \paren{\begin{matrix}
+        \frac{\partial X}{\partial Z_1} & \frac{\partial X}{\partial Z_2} \\
+        \\
+        \frac{\partial Y}{\partial Z_1} & \frac{\partial Y}{\partial Z_2} \\
+    \end{matrix}} = \paren{\begin{matrix}
+        1 & 0 \\
+        1 & 1 \\
+    \end{matrix}} \longrightarrow \det J = 1$$
+    \begin{equation}
+        \abs{\frac{1}{\det J}} = 1
+    \end{equation}
+    Using a change of variables as well as Equations (2) and (3), we can find the pdf of $X, Y$ to be
+    $$f_{X, Y}(x, y) = f_{Z_1, Z_2}(z_1 = x, z_2 = y - x)\cdot \abs{\frac{1}{\det J}} = \frac{1}{2\pi}e^{-\frac{1}{2}\paren{x^2 + (y - x)^2}} = \frac{1}{2\pi}e^{-\frac{1}{2}\paren{2x^2 - 2xy + y^2}}$$
+
+    \part
+    Find $\E{X}, \E{Y}$.
+    \sol
+    $$\E{X} = \E{Z_1} = 0$$
+    $$\E{Y} = \E{Z_1 + Z_2} = \E{Z_1} + \E{Z_2} = 0$$
+
+    \part
+    Find the Variance-Covariance matrix of the bivariate normal $(X, Y)$.
+    \sol
+    Observe that since $Z_1, Z_2$ are independent
+    $$\var{X} = \var{Z_1} = 1$$
+    $$\var{Y} = \var{Z_1 + Z_2} = 2$$
+    $$\cov{X}{Y} = \cov{Y}{X} = \E{XY} - \E{X}\E{Y} = \E{Z_1(Z_1 + Z_2)} + \E{Z_1}\E{Z_1 + Z_2} =$$
+    $$= \E{Z_1^2 + Z_1Z_2} + 0 = \E{Z_1^2} + \E{Z_1Z_2} = 1 + \E{Z_1}\E{Z_2} = 1$$
+
+    We can then construct the Variance-Covariance Matrix to be
+    $$\Sigma^2 = \paren{\begin{matrix}
+        \sigma_x^2 & \sigma_{xy} \\
+        \\
+        \sigma_{yx} & \sigma_y^2 \\
+    \end{matrix}} = \paren{\begin{matrix}
+        1 & 1 \\
+        1 & 2 \\
+    \end{matrix}}$$
+\end{parts}
+
+\newpage
+\question
+Let $Z_1, Z_2\sim N(0, 1)$ be iid random variables. Show that
+$$X = \frac{1}{\sqrt{2}}\paren{Z_1 + Z_2}, Y = \frac{1}{\sqrt{2}}\paren{Z_1 - Z_2}$$
+are also independent, identically distributed $N(0, 1)$ random variables.
+\begin{proof}
+    First, we will show that $X, Y$ have a standard normal distribution, and then we will show they are independent.
+
+    To show they are both standard normal, it is required that the expected value and variance $X, Y$ is 0 and 1 respectively. Note that $\var{Z_1} = \E{Z_1^2} - \E{Z_1}^2 = \E{Z_1^2} = 1$, similarly $\E{Z_2^2} = 1$.
+
+    $$\E{X} = \E{\frac{Z_1 + Z_2}{\sqrt{2}}} = \frac{1}{\sqrt{2}}\paren{\E{Z_1} + \E{Z_2}} = 0$$
+    $$\E{Y} = \E{\frac{Z_1 - Z_2}{\sqrt{2}}} = \frac{1}{\sqrt{2}}\paren{\E{Z_1} - \E{Z_2}} = 0$$
+
+    $$\E{X^2} = \E{\frac{Z_1^2 + 2Z_1Z_2 + Z_2^2}{2}} = \frac{1}{2}\paren{\E{Z_1^2} + 2\E{Z_1}\E{Z_2} + \E{Z_2^2}} = 1$$
+    $$\E{Y^2} = \E{\frac{Z_1^2 - 2Z_1Z_2 + Z_2^2}{2}} = \frac{1}{2}\paren{\E{Z_1^2} - 2\E{Z_1}\E{Z_2} + \E{Z_2^2}} = 1$$
+
+    Therefore $\mu_X, \mu_Y = 0 \text{ and } \sigma_X^2, \sigma_Y^2 = 1$, and we confirm that $X, Y\sim N(0, 1)$.
+
+    Next, we claim they are independent. Note first the individual pdfs for $X$ and $Y$.
+    $$f_X(x) = \frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}x^2}, f_Y(y) = \frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}y^2}$$
+
+    Observe that $X + Y = \frac{2Z_1}{\sqrt{2}}, X - Y = \frac{2Z_2}{\sqrt{2}}$, and the Jacobian is
+    $$\abs{\frac{1}{\det J}} = \abs{\frac{1}{\det\paren{\begin{matrix}
+        \frac{1}{\sqrt{2}} & \frac{1}{\sqrt{2}} \\
+        \\
+        \frac{1}{\sqrt{2}} & -\frac{1}{\sqrt{2}} \\
+    \end{matrix}}}} = \abs{\frac{1}{1}} = 1$$
+
+    
+    $$f_{X, Y}(x, y) = f_{Z_1, Z_2}\paren{z_1 = \frac{\sqrt{2}}{2}(x -+ y), z_2 = \frac{\sqrt{2}}{2}(x - y)}\cdot \abs{\frac{1}{\det J}} =$$
+
+    $$= \frac{1}{2\pi}e^{-\frac{1}{2}\paren{\frac{\sqrt{2}}{2}(x + y)^2 + \frac{\sqrt{2}}{2}(x - y)^2}}\cdot 1 =$$
+
+    $$= \frac{1}{2\pi}e^{-\frac{1}{4}(x^2 + 2xy + y^2 + x^2 - 2xy + y^2)} = $$
+    $$= \frac{1}{2\pi}e^{-\frac{1}{4}(2x^2 + 2y^2)} = $$
+    $$= \frac{1}{2\pi}e^{-\frac{1}{2}(x^2 + y^2)} =$$
+    $$= \frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}x^2}\frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}y^2} = f_X(x)f_Y(y)$$
+
+    
+
+    Since $f_{X, Y} = f_Xf_Y$, we conclude that $X, Y\sim\text{Unif}(0, 1)$ are independent.
+\end{proof}
+\newpage
+\question
+Let $Z_1, Z_2$ be independent standard normal random variables. Find an affine transformation $T: \R^2 \rightarrow \R^2$ such that $(X, Y) = T(Z_1, Z_2)$ is a bivariate normal random vector with the following properties:
+$$\E{X} = 0, \E{Y} = 1, \var{X} = 4, \var{Y} = 1, \corr{X}{Y} = \frac{\sqrt{3}}{2}$$
+
+\sol
+The affine transformation we seek is of the form
+$$\paren{\begin{matrix}
+    X \\ Y \\
+\end{matrix}} = M\paren{\begin{matrix}
+    Z_1 \\ Z_2 \\
+\end{matrix}} + \paren{\begin{matrix}
+    \mu_X \\ \mu_Y \\
+\end{matrix}}$$
+
+We know $\mu_X = 0, \mu_Y = 1$, and rewrite the transformation as
+$$\paren{\begin{matrix}
+    X \\ Y \\
+\end{matrix}} = M\paren{\begin{matrix}
+    Z_1 \\ Z_2 \\
+\end{matrix}} + \paren{\begin{matrix}
+    0 \\ 1 \\
+\end{matrix}}$$
+
+We need to find $M$, where $\Sigma^2 = MM^T$. Since variance is given, we need to find covariance.
+$$\rho = \corr{X}{Y} = \frac{\cov{X}{Y}}{\sigma_X\sigma_Y} \longrightarrow \cov{X}{Y} = \sigma_X\sigma_Y\rho$$
+Using this, we can derive the covariance to be
+$$\cov{X}{Y} = \cov{Y}{X} = 2\cdot 1\cdot \frac{\sqrt{3}}{2} = \sqrt{3}$$
+
+We can construct $M$ as
+$$M = \paren{\begin{matrix}
+    \sigma_X & 0 \\
+    \sigma_Y\rho & \sigma_Y\sqrt{1 - \rho^2} \\
+\end{matrix}} = \paren{\begin{matrix}
+    2 & 0 \\
+    \frac{\sqrt{3}}{2} & \sqrt{1 - \paren{\frac{\sqrt{3}}{2}}^2}\\
+\end{matrix}} = \paren{\begin{matrix}
+    2 & 0 \\
+    \frac{\sqrt{3}}{2} & \frac{1}{2} \\
+\end{matrix}}$$
+
+Finally, we define the affine transformation we seek as
+$$\paren{\begin{matrix}
+    X \\ Y \\
+\end{matrix}} = 
+\paren{\begin{matrix}
+    2 & 0 \\
+    \frac{\sqrt{3}}{2} & \frac{1}{2} \\
+\end{matrix}}\paren{\begin{matrix}
+    Z_1 \\ Z_2 \\
+\end{matrix}} + \paren{\begin{matrix}
+    0 \\ 1 \\
+\end{matrix}}$$
+
+$$\paren{\begin{matrix}
+    X \\ Y \\
+\end{matrix}} = \paren{\begin{matrix}
+    2Z_1 \\ \frac{\sqrt{3}}{2}Z_1 + \frac{1}{2}Z_2 + 1
+\end{matrix}}$$
+\end{questions}
+
+\end{document}
