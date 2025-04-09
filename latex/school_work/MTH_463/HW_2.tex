@@ -1,0 +1,125 @@
+\documentclass{exam}
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm,dsfont}
+\usepackage{lib/extra}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{enumitem}
+
+\title{MTH 463 HW 2}
+\author{Brandyn Tucknott}
+\date{6 October 2024}
+
+\begin{document}
+\maketitle
+
+\begin{questions}
+    \question
+A total of 10 balls will be distributed among 4 urns. Assume each ball can be placed in any urn with equal probability $\frac{1}{4}$.
+
+\begin{parts}
+    \part
+    What is the probability all the balls will be placed in a single urn?
+    \sol
+    $$P(\text{all in one urn}) = \frac{4}{4^{10}}=\frac{1}{4^9}$$
+
+    \part
+    What is the probability that Urn 1 contains 3 balls, Urn 2 contains 2 balls, Urn 3 contains 0 balls, and Urn 4 contains 5 balls?
+    \sol
+    $$P(U_1 = 3, U_2 = 2, U_3 = 0, U_4 = 5) = \frac{10!}{3! \cdot 2! \cdot 0! \cdot 5!} \cdot \paren{\frac{1}{4}}^{10}$$
+
+    \part
+    What is the probability that 3 balls are placed in one urn 2 balls in another urn and 5 balls in another?
+    \sol
+    $$P(E) = \binom{4}{3} \cdot \frac{10!}{3! \cdot 2! \cdot 0! \cdot 5!} \cdot \paren{\frac{1}{4}}^{10}$$
+    
+\end{parts}
+
+\newpage
+\question
+An urn contains 5 red, 6 blue, and 8 green balls. A set of 3 ball is randomly selected without replacement.
+
+\begin{parts}
+    \part
+    Find the probability that the 3 selected balls are of the same color.
+    \sol
+    $$P(\text{all red}) + P(\text{all blue}) + P(\text{all green}) = \frac{\binom{5}{3}}{\binom{19}{3}} + \frac{\binom{6}{3}}{\binom{19}{3}} + \frac{\binom{8}{3}}{\binom{19}{3}} = \frac{86}{969}$$
+
+    \part
+    Find the probability that the 3 selected balls are different colors.
+    \sol
+    $$P(\text{1 of each color}) = \frac{\binom{8}{1} \cdot \binom{6}{1} \cdot \binom{5}{1}}{\binom{19}{3}} = \frac{240}{969}$$
+    
+\end{parts}
+
+\newpage
+\question
+As in problem 2, the urn originally contains 5 red, 6 blue, and 8 green balls. Consider now \textit{sampling with replacement}.
+
+\begin{parts}
+    \part
+    Find the probability that the 3 selected balls are of the same color.
+    \sol
+    $$P(\text{all red}) + P(\text{all blue}) + P(\text{all green}) = \paren{\frac{5}{19}}^3 + \paren{\frac{6}{19}}^3 + \paren{\frac{8}{19}}^3 = \frac{853}{6859}$$
+
+    \part
+    Find the probability that the 3 selected balls are different colors.
+    \sol
+    $$P(\text{1 of each color}) = \frac{8 \cdot 6 \cdot 5}{19^3} = \frac{240}{6859}$$
+
+    
+\end{parts}
+
+
+
+\newpage
+\question
+An urn contains one green, one red, one blue, and one yellow ball. Draw 4 with replacement. What is the probability that there is at least one color repeated exactly twice (call this event $E$)?
+\sol
+First, recognize that the sample space 
+$$\Omega = \cbrac{G, R, B, Y} \times \cbrac{G, R, B, Y} \times \cbrac{G, R, B, Y} \times  \cbrac{G, R, B, Y} = \cbrac{G, R, B, Y}^4,$$
+and by extension that $\abs{\Omega} = 4^4 = 256.$ Now notice that to find the probability of at least any 1 color being repeated twice, we can fix a color and find the probability that it is either accompanied by another twice repeated color or not. We can then take this result and multiply by 4 (1 for each color) to go back from our specific case to the general case.
+
+\newline
+
+With this in mind, without loss of generality, fix green to be our twice repeated color. Then there are two cases to consider, either
+\begin{parts}
+    \part
+    green and another color appear exactly twice.
+
+    \part
+    green appears exactly twice, and no other color appears exactly twice.
+\end{parts}
+
+\newline
+
+\textbf{Case (a) \\}
+If green appears with another color exactly twice as listed in case (a), then we are looking for how many ways we can permute
+$$(G, G, C, C),$$
+where $C$ is a color that is not green. In this case, there were originally four colors, so there are 3 options for $C$, leaving us with 3 possibilities. But in addition to this we can swap the order of $C$s and $G$s around into
+$$(G, G, C, C), (G, C, G, C), (G, C, C, G)$$
+
+leading us to a total of $3 \cdot 3 = 9$. \\
+Note we do not consider a different permutation such as $(C, C, G, G)$ because we would be overcounting when we unfix $G$. In particular, there are $\frac{\binom{4}{2}}{2}$ distinct ways to permute the colors for each fixed color in this case.
+ 
+\newline
+
+\textbf{Case (b) \\}
+In this case we count the number of ways to permute a similar object, but it is instead written as
+$$(G, G, C_1, C_2),$$
+where $C_1, C_2$ are distinct colors that are not green. This time there are (3 options for $C_1$) $\cdot$ (2 options for $C_2$), giving us 6 possibilities. But again we divide the number of permutations by 2! because we have 2 non-distinct $G$s, and by another 2 to make them unique to each fixed color. This leaves us with $6 \cdot \frac{4!}{2! \cdot 2} = 6 \cdot 6 = 36$.
+
+\newline
+
+\textbf{Final Computations \\}
+Adding up the results from case (a) and (b) together give us a total of $9 + 36 = 45$ possible ways to achieve at least exactly two colors given that one color is fixed. By unfixing this color, we can multiply 36 by the number of colors are in the urn to achieve our final answer of $4 \cdot 45 = 180$ ways. We can then divide by our the size of our sample space to reach a probability of
+$$P(E) = \frac{180}{\abs{\Omega}} = \frac{180}{256} = \frac{45}{64}.$$
+
+
+
+
+
+\newpage
+\end{questions}
+
+\end{document}

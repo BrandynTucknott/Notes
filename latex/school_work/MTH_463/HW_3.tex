@@ -1,0 +1,139 @@
+\documentclass{exam}
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm,dsfont}
+\usepackage{lib/extra}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{enumitem}
+
+\title{MTH 463 HW 3}
+\author{Brandyn Tucknott}
+\date{16 October 2024}
+
+\begin{document}
+\maketitle
+
+\begin{questions}
+    \question
+Consider the following variation of the random walk. If you are at the origin 0, you stay there with probability $p$ or take a step to 1 with probability 1 - $p$. In other words, a transition between states 0 and 1 occurs with probability 1 - $p$. Denote by $P_n$ the probability that starting at 0, you are back at 0 after $n$ steps. Show that for $n \geq 1$,
+$$P_n = (2p - 1)P_{n - 1} + (1 - p)$$
+and $P_0 = 1$. Using this recurrence conclude that $P_n = \frac{1}{2} + \frac{1}{2}\paren{2p - 1}^n$.
+
+\begin{proof}
+    First, we begin by showing the recursive definition for $P_n$.
+    $$P_n = p \cdot P(\text{at 0 after $n - 1$ moves}) + (1 - p) \cdot P(\text{at 1 after $n - 1$ moves}) \longrightarrow$$
+    $$P_n = p \cdot P_{n - 1} + (1 - p) \cdot (1 - P_{n - 1}) = \longrightarrow$$
+    $$P_n = P_{n - 1}\paren{p + -1 \cdot (1 - p)} + (1 - p) \longrightarrow$$
+    $$P_n = P_{n - 1}(2p - 1) + (1 - p)$$
+
+    With this we have shown the recursive definition. We will now show that $P_n = \frac{1}{2} + \frac{1}{2} \cdot (2p - 1)^n = \frac{1}{2} \cdot (1 + (2p - 1)^n))$ using the recursive definition and induction.
+
+    As a base case, we need to show that $P_1$ has the same value for both formulas.
+
+    In the recurrence case:
+    $$P_1 = (2p - 1)P_0 + (1 - p) = (2p - 1) + (1 - p) = p$$
+
+    In the formulaic case:
+    $$P_1 = \frac{1}{2} + \frac{1}{2}(2p - 1)^1 = \frac{1}{2} + p - \frac{1}{2} = p$$
+
+    Since both cases are equal, know there is at least one case where the formulaic definition holds. We aim to show that for a general case, if it is true for $n$, then it is true for $n + 1$.
+
+    Assume that the relation holds for a general case $n$. We will now show that it holds for $n + 1$.
+    $$P_{n + 1} = (2p - 1)P_n + (1 - p) \longrightarrow$$
+    $$P_{n + 1} = (2p - 1) \cdot \paren{\frac{1}{2} (1 + (2p - 1)^n)} + (1 - p) \longrightarrow$$
+    $$P_{n + 1} = 2p \cdot \frac{1 + (2p - 1)^n}{2} - \frac{1 + (2p - 1)^n}{2} + (1 - p) \longrightarrow$$
+    $$P_{n + 1} = p \cdot (1 + (2p - 1)^n) - \frac{1 + (2p - 1)^n}{2} + (1 - p) \longrightarrow$$
+    $$P_{n + 1} = p + p \cdot (2p - 1)^n - \frac{1}{2} - \frac{(2p - 1)^n}{2} + 1 - p \longrightarrow$$
+    $$P_{n + 1} = \frac{1}{2} + p \cdot (2p - 1)^n - \frac{(2p - 1)^n}{2}\longrightarrow$$
+    $$P_{n + 1} = \frac{1}{2} + (2p - 1)^n \cdot \paren{p - \frac{1}{2}} \longrightarrow$$
+    $$P_{n + 1} = \frac{1}{2} + (2p - 1)^n \cdot \frac{1}{2} \paren{2p - 1} \longrightarrow$$
+    $$P_{n + 1} = \frac{1}{2} + \frac{1}{2} \cdot (2p - 1)^{n + 1}$$
+
+    We conclude that given the recurrence relation $P_n = (2p - 1)P_{n - 1} + (1 - p)$, the general formula $P_n = \frac{1}{2} + \frac{1}{2} \cdot (2p - 1)^n$ is true.
+\end{proof}
+
+
+
+\newpage
+\question
+An insurance company classifies drivers in three categories: good risks, average
+risks and bad risk drivers. Records indicate that the probability of good, average and bad risk drivers will be involved in an accident in a 1 year span are, respectively, 0.05, 0.15 and 0.30. If 20\% of the population is a good risk, 50\% is average risk and 30\% is bad risk, what proportion of the people have accidents in a fixed year? If policy holder A had no accidents in a particular year, what is probability that this driver is a good or average risk?
+
+\sol
+This problem asks two questions, and we will answer them one at a time. Let $A$ be the event of an accident, $G$ be an event of good risk, $M$ denote the event of average risk (mean), and $B$ be the event of bad risk.
+\begin{parts}
+    \part
+    What proportion of the people have accidents in a fixed year?
+    \newline
+    To answer this, we consider the sum of the probabilities of an accident for each group weighted by their population size.
+    $$P(A) = P(A | G) \cdot (G \text{ pop. size}) + P(A | M) \cdot (M \text{ pop. size}) + P(A | B) \cdot (B \text{ pop. size}) \longrightarrow$$
+    $$P(A) = 0.05 \cdot 0.2 + 0.15 \cdot 0.5 + 0.30 \cdot 0.30 = 0.175$$
+
+    \part
+    If a policy holder $A$ had no accidents in a particular year, what is the probability that this driver is a good or average risk?
+    \newline
+    $$P(G \cup M | \overline{A}) = P(G | \overline{A}) + P(M | \overline{A}) = \frac{P(\overline{A} | G)P(G)}{P(\overline{A}} + \frac{P(\overline{A} | M)P(M)}{P(\overline{A})} = \frac{0.95 \cdot 0.2}{0.825} + \frac{0.85 \cdot 0.5}{0.825} = 0.745$$
+\end{parts}
+
+
+
+
+\newpage
+\question
+An urn has $r$ red balls and $b$ blue balls that are randomly removed one at a time. Let $R_i$ denote the event that the $i^{th}$ ball removed is red. Find
+
+\begin{parts}
+    \part
+    $P(R_i)$
+    \sol
+    First, we look at $P(R_1)$ and $P(R_2)$.
+    $$P(R_1) = \frac{r}{r + b}$$
+    $$P(R_2) = P(r | R_1)P(R_1) + P(r | \overline{R_1})P(\overline{R_1}) = \frac{r - 1}{r + b - 1} \cdot \frac{r}{r + b} + \frac{r}{r + b - 1} \cdot \frac{b}{r + b}$$
+    $$P(R_2) = \frac{r(r + b - 1)}{(r + b)(r + b - 1)} = \frac{r}{r + b}$$
+
+    Since $P(R_2) = P(R_1)$, we can conclude that $P(R_i) = \frac{r}{r + b}$ (The full justification is an inductive proof, but that is not required for this problem).
+
+    \part
+    $P(R_3 | R_1)$
+    \sol
+    Let $AB$ denote $A \cap B$.
+    $$P(R_3 | R_1) = P(R_3 R_2 | R_1) + P(R_3 \overline{R_2} | R_1) = P(R_3 | R_2 R_1)P(R_2 | R_1) + P(R_3 | \overline{R_2} R_1)P(\overline{R_2} | R_1) \longrightarrow$$
+    $$P(R_3 | R_1) = \frac{r - 2}{r + b - 2} \cdot \frac{r - 1}{r + b - 1} + \frac{r - 1}{r + b - 2} \cdot \frac{b}{r + b - 1} = \frac{(r - 1)(r + b - 2)}{(r + b - 1)(r + b - 2)} = \frac{r - 1}{r + b - 1}$$
+\end{parts}
+
+\newpage
+\question
+Suppose you are gambling against an infinitely rich adversary and at each stage of the game you either win or lose 1 token with probability $p$ and $q = 1 - p$ respectively. Assume that you start with $i$ tokens. Show that the probability you eventually go broke is
+$$\begin{cases}
+    1, \text{ if } p \leq \frac{1}{2} \\
+    \paren{\frac{q}{p}}^i, \text{ if } p > \frac{1}{2}
+\end{cases}$$
+\begin{proof}
+    We prove this in two parts. First, we show that if $p \leq \frac{1}{2}$, the probability of loosing is 1, and second, we show that if $p > \frac{1}{2}$, the probability of loosing is $\paren{\frac{q}{p}}^i$. Note also that the probability of winning $P_i$ is 
+    $$P_i = \frac{\paren{\frac{q}{p}}^i - 1}{\paren{\frac{q}{p}}^N - 1}$$
+    where we start with $i$ tokens and our opponent starts with $N - i$ tokens. Since our opponent starts with infinite tokens, the probability of us winning is
+    $$\lim_{N \rightarrow \infty} P_i.$$
+    \begin{parts}
+        \part
+        Assume that $p < \frac{1}{2}$. Then $q > p \longrightarrow \frac{q}{p} > 1 \longrightarrow$
+        $$\lim_{N \rightarrow \infty} P_i = \lim_{N \rightarrow \infty}\frac{\paren{\frac{q}{p}}^i - 1}{\paren{\frac{q}{p}}^N - 1} = 0$$
+        Since the probability of us winning is 0, the probability of us loosing is 1.
+
+        In the special case where $p = q = 0.5$, we have that the probability of winning is $\frac{i}{N}$, and when our opponent has infinite tokens, $N$ tends towards infinity. So the probability of winning is
+        $$P_i = \lim_{n \rightarrow \infty} \frac{i}{N} = 0$$
+        So if our probability of winning is 0, the probability of loosing is 1.
+        
+        \part
+        Now assume that $p > \frac{1}{2}$. Then we have that $p > q \longrightarrow \frac{q}{p} < 1 \longrightarrow$
+        $$\lim_{N \rightarrow \infty} P_i = \lim_{N \rightarrow \infty}\frac{\paren{\frac{q}{p}}^i - 1}{\paren{\frac{q}{p}}^N - 1} = \frac{\paren{\frac{q}{p}}^i - 1}{-1} = 1 - \paren{\frac{q}{p}}^i$$
+        Since the probability of winning is $1 - \paren{\frac{q}{p}}^i$, we can conclude that the probability of loosing is $\paren{\frac{q}{p}}^i$.
+    \end{parts}
+    
+    \newline
+    
+    Now that we have shown both cases, we can conclude that if $p \leq \frac{1}{2}$, then the probability of us loosing is 1, and if $p > \frac{1}{2}$, then the probability of loosing is $\paren{\frac{q}{p}}^i$.
+    
+\end{proof}
+\end{questions}
+
+\end{document}

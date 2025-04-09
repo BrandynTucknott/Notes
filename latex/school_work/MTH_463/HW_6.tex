@@ -1,0 +1,116 @@
+\documentclass{exam}
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm,dsfont}
+\usepackage{lib/extra}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{enumitem}
+
+\title{MTH 463 HW 6}
+\author{Brandyn Tucknott}
+\date{15 November 2024}
+
+\begin{document}
+\maketitle
+
+\begin{questions}
+    \question
+A random variable $X$ is produced through the following experiment. First, a fair die is rolled to get an outcome $Y$ taking value in the set $\cbrac{1, 2, 3, 4, 5, 6}$. Then, if $Y = k$, $X$ is chosen uniformly from the interval $[0, k]$. Find the cumulative distribution function $F_X(x)$ and the probability density function $f_X(x)$ for $3 < x < 4$.
+\sol
+First, note that the probability that $Y$ takes on a particular $k$ value $P(Y = k) = \frac{1}{6}$. Next, we find the cumulative distribution function $F_X(x)$. Note that since our random variable $X$ is bounded by $[0, k]$, 
+$$P(X \leq x) = P(X \in [0, k] \leq x \in (3, 4))P(Y = k) =  1 \cdot P(Y = k) \text{ for }k = 1, 2, 3$$
+
+Our next goal will be to find $F_X(x)$ for $k = 4, 5, 6$. We do this by recognizing that the interval from $[0, x]$ contains values less than or equal to $x$, so 
+$$P(X \leq x) = \frac{x - 0}{k - 0}P(Y = k) \text{ for } k = 4, 5, 6$$
+
+We can then write
+$$P(X \leq x) =
+\begin{cases}
+    1 \cdot P(Y = k), & k = 1, 2, 3 \\
+    \frac{x}{k}P(Y = k), & k = 4, 5, 6 \\
+\end{cases}$$
+
+We then derive the cumulative distribution function to be
+$$F_X(x) = \sum_{k = 1}^6 P(X \leq x) = \frac{1}{6}\paren{1 + 1 + 1 + \frac{x}{4} + \frac{x}{5} + \frac{x}{6}} = \frac{1}{2} + \frac{37x}{360}$$
+
+Since we have $F_X(x)$, we can easily derive $f_X(x)$ to be
+$$f_X(x) = \frac{dF_X}{dx} = \frac{37}{360}$$
+
+
+\newpage
+\question
+\begin{parts}
+    \part
+    A fire station is to be located along a road of length $A$, with $A < \infty$. It is assumed that fires will occur at a point uniformly chosen on $(0, A)$. Find the location to place the fire station so that it minimizes the distance to the fire. That is, find $a \in (0, A)$ such that $E\paren{\abs{X - a}}$ is minimized with $X \sim \text{Uniform}(0, A)$.
+    \sol
+    Our goal is to find a formula in terms of $a$ for the expected value $\abs{X - a}$, then minimize said formula.
+    $$E(\abs{X - a}) = \int_0^A \abs{x - a}\frac{1}{A}dx = \frac{1}{A}\paren{\int_0^a (a - x) dx + \int_a^A (x - a) dx} = \frac{1}{A}\paren{\paren{ax - \frac{x^2}{2}}\Bigg|_0^a + \paren{\frac{x^2}{2} - ax}\Bigg|_a^A} =$$
+    
+    $$= \frac{1}{A}\paren{\paren{a^2 - \frac{a^2}{2}} + \paren{\frac{A^2}{2} - aA - \frac{a^2}{2} + a^2}} = \frac{a^2}{A} - a + \frac{A}{2}$$
+
+    We now optimize the expected value by taking the derivative, setting it to 0, and solving for $a$.
+    $$\frac{dE(\abs{X - a})}{da} = \frac{d}{da}\paren{\frac{a^2}{A} - a + \frac{A}{2}} = 0 \longrightarrow$$
+
+    $$\frac{2a}{A} - 1 = 0 \longrightarrow a = \frac{A}{2}$$
+
+    \part
+    Now suppose the road is of infinite length. If the distance to a fire from point 0 is an exponential random variable with parameter $\lambda > 0$, where should the fire station be located?
+    \sol
+    Our approach is the same as in Part (a).
+    $$E\paren{\abs{X - a}} = \int_0^\infty \abs{x - a}\lambda e^{-\lambda x}dx = \int_0^a (a - x)\lambda e^{-\lambda x} dx + \int_a^\infty (x - a) \lambda e^{-\lambda x}dx =$$
+
+    $$= \lambda\paren{\int_0^a (a - x)e^{-\lambda x}dx + \int_a^\infty (x - a)e^{-\lambda x}dx}$$
+
+    Simple integration by parts gives you
+    $$E\paren{\abs{X - a}} = \lambda\paren{\frac{a}{\lambda} + \frac{2}{\lambda^2}e^{-\lambda a} - \frac{1}{\lambda^2}} = a + \frac{2}{\lambda}e^{-\lambda a} - \frac{1}{\lambda}$$
+
+    We then solve for $\frac{dE}{da} = 0$, giving us
+    $$\frac{dE(\abs{X - a})}{da} = \frac{d}{da}\paren{a + \frac{2}{\lambda}e^{-\lambda a} - \frac{1}{\lambda}} = 1 - 2e^{-\lambda a} = 0 \longrightarrow$$
+
+    $$2e^{-\lambda a} = 1 \longrightarrow a = -\frac{\ln \paren{\frac{1}{2}}}{\lambda} \longrightarrow$$
+
+    $$a = \frac{\ln (2)}{\lambda}$$
+\end{parts}
+
+\newpage
+\question
+Assume that $Y$ is uniformly distributed on $[0, 5]$. What is the probability that the roots of the equation
+$$4x^2 + 4xY + Y + 2 = 0$$
+are both real?
+\sol
+We first find an explicit formula for the roots using the quadratic equation. This gives us
+$$x = \frac{-4xy \pm \sqrt{(4y)^2-4\cdot4\cdot(y + 2)}}{2 \cdot 4}$$
+
+Recognize that the roots are both real when the quantity under the square root is non-negative.
+$$(4y)^2-4\cdot4\cdot(y + 2) \geq 0 =$$
+$$16y^2 - 16(y + 2) \geq 0 =$$
+\begin{equation}
+    y^2 - y - 2 = (y - 2)(y + 1) \geq 0
+\end{equation}
+This lets us redefine our problem, and if we can find and interval on which $y \geq 0$, all roots of the original polynomial will be real. Notice this parabola is concave up, so the all points $y \in (-\infty, -1] \cup [2, \infty)$ are greater than or equal to 0, while all points $y \in (-1, 2)$ are less than 0.
+
+\newline
+Since We are interested in the section where $y \geq 0$, we examine $y \in (-\infty, -1] \cup [2, \infty)$. Since we know $y$ is only defined on the interval $[0, 5]$, we can simplify the interval to
+$$y \in (-\infty, -1] \cup [2, \infty) \equiv y \in [2, 5]$$
+We are given that $Y$ is uniformly distributed across the interval, so we simply take the ratios to get our final probability.
+
+$$P(4x^2 + 4xY + Y + 2 = 0 \text{ has real roots}) = \frac{5 - 2}{5 - 0} = \frac{3}{5}$$
+
+\newpage
+\question
+Assume that $T$ is an exponential with random variable with parameter $\lambda$, that is, it's cumulative distribution function is
+$$F(t) =
+\begin{cases}
+    1 - e^{-\lambda t}, & t \geq 0 \\
+    0, & \text{otherwise} \\
+\end{cases}$$
+Define the random variable $U$ taking values on the interval $[0, 1]$ by
+$$U = F(t)$$
+Show that $U$ is uniformly distributed on $[0, 1]$.
+\sol
+Consider $P(U \leq u)$. This can be written out as
+$$P(U \leq u) = P(F(T) \leq u) = P(T \leq F^{-1}(u)) = F(F^{-1}(u)) = u$$
+This is by definition the CDF of a uniform distribution, so we know that $U$ is uniformly distributed. If we now consider the interval on which $U$ is defined, it will just be the interval on which $F(t)$ is defined, which would be $[0, 1]$ by definition of a CDF. From this, we conclude that $U \sim \text{Uniform}(0, 1)$.
+\end{questions}
+
+\end{document}

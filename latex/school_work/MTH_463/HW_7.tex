@@ -1,0 +1,157 @@
+\documentclass{exam}
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm,dsfont}
+\usepackage{lib/extra}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{enumitem}
+
+\title{MTH 463 HW 7}
+\author{Brandyn Tucknott}
+\date{25 November 2024}
+
+\begin{document}
+\maketitle
+
+\begin{questions}
+    \question
+A fair die is rolled 18,000 times. Use the DeMoivre-Laplace Central Limit Theorem to approximate to approximate the binomial distribution, estimate the probability that 6 comes up at least 3060 times.
+\sol
+We approximate the binomial distribution as a normal distribution with $\mu = np, \sigma^2 = np(1 - p)$ by the DeMoivre-Laplace Central Limit Theorem. We know we can use this since the number of trials $n$ is sufficiently large. Note that
+
+$$P(X = 6 \text{ occurs} \geq 3060 \text{ times}) = 1 - P(X = 6 \text{ occurs} \leq 3060 \text{ times})$$
+
+We now standardize the distribution with $Z = \frac{X - \mu}{\sigma}$, so to find the probability that $X \leq 3060$, we find the z-score for $x = 3060$, and match it to to a standardized normal distribution probability table.
+
+First, we calculate the mean and variance to be
+$$\mu = np = 18000\cdot \frac{1}{6} = 3000$$
+
+$$\sigma^2 = \mu(1 - p) = 3000 \cdot \frac{5}{6} = 2500 \rightarrow \sigma = 50$$
+
+We now compute a z-score,
+$$z = \frac{x - \mu}{\sigma} = \frac{3060 - 3000}{50} = \frac{6}{5} = 1.2$$
+
+The table tells us that this is 0.8849, so we know that $P(X = 6 \text{ occurs} \leq 3060) = 0.8849$, and we conclude that
+$$P(X = 6 \text{ occurs} \geq 3060 \text{ times}) = 1 - 0.8849 = 0.1151$$
+\newpage
+\question
+An experiment consists of 1210 independent Bernoulli trials with probability of success $p = \frac{1}{11}$. Use the DeMoivre-Laplace Central Limit Theorem to estimate the probability of the event that 
+$$98 \leq\text{ Number of successes } \leq 116$$
+
+\sol
+Since the number of trials is sufficiently large, we use the DeMoivre-Laplace Central Limit Theorem to estimate the probability that the number of successes is between 98 and 116 with
+$$\mu = np = \frac{1210}{11} = 110$$
+
+$$\sigma^2 = \mu(1 - p) = 110\cdot \frac{10}{11} = 100 \rightarrow \sigma = 10$$
+
+Let X denote the number of successes and note that
+$$P(98 \leq X \leq 116) = P(X \leq 116) - P(X \leq 98)$$
+
+We find the z-score of 116 and 98 to find the probability that $X \leq 116, 98$ respectively.
+$$z_{116} = \frac{116 - \mu}{\sigma} = \frac{116 - 110}{10} = \frac{6}{10} = 0.6 \longrightarrow P(X \leq 116) = 0.7257$$
+
+$$z_{98} = \frac{98 - \mu}{\sigma} = \frac{98 - 110}{10} = \frac{-12}{10} = -1.2 \longrightarrow P(X \leq 98) = 0.1151$$
+
+$$P(98 \leq X \leq 116) = P(X \leq 116) - P(X \leq 98) = 0.7257 - 0.1151 = 0.6106$$
+
+\newpage
+\question
+Henry flips a fair coin 5 times every morning for 30 consecutive days. Let $X$ denote the number of mornings over these 30 days in which all 5 flips were tails.
+
+\begin{parts}
+    \part
+    Compute to 4 decimal digits the probability that $P(X = 2)$.
+    \sol
+    First, recognize that a success is when all 5 flips result in tails, so $p = \frac{1}{2^5} = \frac{1}{32}$. Then $X \sim$ Bin($n, p$), and we directly calculate $P(X = 2)$ using the probability mass function of $X$.
+    $$P(X = 2) = \binom{n}{2}p^2(1 - p)^{n - 2} = \binom{30}{2}\paren{\frac{1}{32}}^2\paren{\frac{31}{32}}^{28} \approx 0.1746$$
+
+    \part
+    Use the Poisson approximation to estimate $P(X = 2)$.
+    \sol
+    Using the Poisson approximation, we let
+    $\lambda = np = 30\cdot \frac{1}{32} = \frac{15}{16}$. Then
+    $$P(X = 2) \approx e^{-\lambda}\frac{\lambda^x}{x!} = e^{-\frac{15}{16}}\frac{\paren{\frac{15}{16}}^2}{2!} \approx 0.1721$$
+
+    \part
+    Try the normal approximation to estimate $P(X = 2)$. Compare your results and comment.
+    \sol
+    Using the normal approximation, we let
+    $$\mu = np = \frac{15}{16}$$
+    $$\sigma^2 = \mu(1 - p) = \frac{15}{16}\cdot \frac{31}{32} = \frac{465}{512} \rightarrow \sigma = \sqrt{\frac{465}{512}}$$
+    
+    $$P(X = 2) \approx P(X \leq 2.5) - P(X \leq 1.5)$$
+
+    Converting to a z-score, we have that
+
+    $$z_{2.5} = \frac{2.5 - \frac{15}{16}}{\sqrt{\frac{465}{512}}} \approx 1.64$$
+
+    $$z_{1.5} = \frac{1.5 - \frac{15}{16}}{\sqrt{\frac{465}{512}}} \approx 0.59$$
+
+    This lets us evaluate our probability as
+    $$P(X = 2) \approx 0.9495 - 0.7224 = 0.2271$$
+
+    We conclude that for $n$ not sufficiently large enough, the normal approximation is not a good estimate, and that the Poisson may be a better estimate for smaller $n$.
+\end{parts}
+
+
+
+\newpage
+\question
+Consider modeling losses from an accident using a uniform random variable $X$ on the interval $[0, M]$ with $M > 0$. To reduce its risk, an individual purchases an insurance policy with deductible $D < M$. Denote $Y$ by the random payment that the policy holder makes in the event of a loss, that is
+$$Y =
+\begin{cases}
+    X, & X \leq D \\
+    D, & D < X \leq M \\
+\end{cases}$$
+
+\begin{parts}
+    \part
+    Compute the expected loss by the policy holder, $E(Y)$.
+    \sol
+    $$E(Y) = \int_0^D xf_X(x)dx + \int_D^M D f_X(x)dx = \int_0^D x\frac{1}{M}dx + \int_D^M D \frac{1}{M}dx =$$
+
+    $$= \frac{1}{M}\frac{x^2}{2}\Bigg|_0^D + \frac{D}{M}x\Bigg|_D^M = \frac{D^2}{2M} + D - \frac{D^2}{M} = D - \frac{D^2}{2M}$$
+
+    \part
+    Compute the value $R = E(X)P(X \leq D)$. Show that $R \leq E(Y)$ with equality if and only if $D = M$.
+    \sol
+    $$R = E(X)P(X \leq D) = \frac{M}{2}\int_0^D f_X(x)dx = \frac{M}{2M}x\Bigg|_0^D = \frac{D}{2}$$
+
+    We now examine the inequality
+    $$R \leq E(Y) =$$
+
+    $$\frac{D}{2} \leq D - \frac{D^2}{2M} =$$
+
+    $$\frac{1}{2} \leq 1 - \frac{D}{2M}$$
+
+    $$\frac{D}{M} \leq 1$$
+
+    Obviously $D < M$ implies $\frac{D}{M} < 1$, and equality if and only if $D = M$.
+    
+\end{parts}
+
+
+\newpage
+\question
+Let $Z$ be a standard normal random variable. For $\sigma > 0, \mu \in \R$, define $X = e^{\mu + \sigma Z}$.
+
+\begin{parts}
+    \part
+    Find the probability density function of $X$.
+    \sol
+    We are trying to find $f_X(x)$ in terms of the random variable $Z$, and we do this using the Jacobian.
+    $$Z = \frac{\ln X - \mu}{\sigma} \longrightarrow \frac{dZ}{dX} = \frac{1}{\sigma X}$$
+    $$f_X(x) = f_Z(z)\cdot \abs{\frac{dZ}{dX}} = f_Z(z)\cdot \frac{dZ}{dX} = \frac{1}{\sqrt{2\pi}}e^{-\frac{z^2}{2}}\cdot \frac{1}{\sigma x} = \frac{1}{x\sigma \sqrt{2\pi}} e^{-\frac{(\ln x - \mu)^2}{2\sigma^2}}$$
+    
+
+    \part
+    Find $E(X)$.
+    \sol
+    $$E(X) = E\paren{e^{\mu + \sigma Z}} = \npint e^{\mu + \sigma z}\frac{1}{\sqrt{2\pi}}e^{-\frac{z^2}{2}}dz = \frac{e^\mu}{\sqrt{2\pi}}\npint e^{-\frac{z^2 - 2\sigma z}{2}}dz = \frac{e^\mu}{\sqrt{2\pi}} \npint e^{-\frac{z^2 - 2\sigma z + \sigma^2 - \sigma^2}{2}}dz =$$
+
+    $$= \frac{e^{\mu + \frac{\sigma^2}{2}}}{\sqrt{2\pi}} \npint e^{-\frac{(z - \sigma)^2}{2}} dz, \text{ let } u = z - \sigma \rightarrow du = dz$$
+    $$= \frac{e^{\mu + \frac{\sigma^2}{2}}}{\sqrt{2\pi}} \npint e^{-\frac{u^2}{2}}du = \frac{e^{\mu + \frac{\sigma^2}{2}}}{\sqrt{2\pi}} \cdot \sqrt{2\pi} = e^{\mu + \frac{\sigma^2}{2}}$$
+\end{parts}
+\end{questions}
+
+\end{document}

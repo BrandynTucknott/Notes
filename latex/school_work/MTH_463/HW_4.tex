@@ -1,0 +1,181 @@
+\documentclass{exam}
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm,dsfont}
+\usepackage{lib/extra}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{enumitem}
+
+\title{MTH 463 HW 4}
+\author{Brandyn Tucknott}
+\date{22 October 2024}
+
+\begin{document}
+\maketitle
+
+\begin{questions}
+    \question
+A bag contains 3 different coins, $C_j, j = 1, 2, 3$. The probability that when a coin $C_j$ is tossed comes up heads is $p_j$, where $0 < p_j < 1$.
+
+\newline
+
+\begin{parts}
+\part
+Assume that a coin is picked from the bag, so that each one has probability $\frac{1}{3}$ of being chosen. This coin is tossed twice. Find the probability that both tosses resulted in heads.
+\sol
+$$P(\text{choosing a coin + 2 heads}) = P(2H | C_1)P(C_1) + P(2H | C_2)P(C_2) + P(2H | C_3)P(C_3) =$$
+$$p_1^2 \cdot \frac{1}{3} + p_2^2 \cdot \frac{1}{3} + p_3^2 \cdot \frac{1}{3} = \frac{p_1^2 + p_2^2 + p_3^2}{3}$$
+
+
+\part
+Assume that after one toss, the coin is put back into the bag. Once again select a coin at random and toss it. What is the probability that both tosses resulted in heads?
+\sol
+$$P(\text{2H by flipping 2 random coins}) = P(H | C_j) \cdot P(H | C_j) =$$
+$$\paren{\frac{p_1 + p_2 + p_3}{3}} \cdot \paren{\frac{p_1 + p_2 + p_3}{3}} = \frac{\paren{p_1 + p_2 + p_3}^2}{9}$$
+
+
+    
+\end{parts}
+
+\newpage
+\question
+An urn initially contains one red ball and one blue ball. At each stage, a ball is randomly selected and is replaced by two balls of the same color. Show by mathematical induction that for $1 \leq i \leq n + 1$, the probability that there are $i$ red balls after $n$ stages is $\frac{1}{n + 1}$.
+
+\begin{proof}
+    Note that the urn starts with 2 balls (1 red and 1 blue). To use proof by induction, we first have to show a base case. We want to show that after 1 stage, the probability that there are $1 \leq i \leq 2$ balls is $\frac{1}{2}$.
+
+    \newline
+    Let $P_i(n)$ denote the probability that there are exactly $i$ red balls after $n$ stages in the urn.
+
+    \textbf{Base Case.}
+    After 1 step, we can either have selected a red ball, or blue ball, giving the urn net $1$ red or blue for either choice respectively. If we picked red, 2 of the 3 balls in the urn are red, and 1 of 3 if we picked blue. Since we have an equal chance for either event to happen, we have that $P_1(n) = P_2(n) = \frac{1}{2}$.
+
+    \newline
+
+    \textbf{Inductive Step.}
+    Assume then, that for all $1 \leq i \leq n + 1$, $P_i(n) = \frac{1}{n + 1}$. If we can show that $P_i(n + 1) = \frac{1}{n + 2}$ for all $1 \leq i \leq n + 2$, then we are done. 
+    \newline
+    \newline
+    \textbf{Case 1:} If $i = 1$,
+    $$P_i(n + 1) = P_1(n + 1) = P_1(n)P(\text{draw a blue}) = \frac{1}{n + 1} \cdot \frac{n + 2 - 1}{n + 2} = \frac{n + 1}{(n + 1)(n + 2)} = \frac{1}{n + 2}$$
+    
+    \textbf{Case 2:} If $2 \leq i \leq n + 1$
+    $$P_i(n + 1) = P(i - 1 \text{ red [add another red]})P(\text{draw a red}) + P(i \text{ red [add a blue]})P(\text{draw a blue}) =$$
+    $$P_{i-1}(n)\frac{i - 1}{n + 2} + P_i(n)\frac{n + 2 - i}{n + 2} = \frac{1}{n + 1} \cdot \frac{i - 1}{n + 2} + \frac{1}{n + 1} \cdot \frac{n + 2 - i}{n + 2} = \frac{i - 1}{(n + 1)(n + 2)} + \frac{n + 2 - i}{(n + 1)(n + 2)} = $$
+    $$\frac{i - 1 + n + 2 - i}{(n + 1)(n + 2)} = \frac{n + 2 - 1}{(n + 1)(n + 2)} = \frac{n + 1}{(n + 1)(n + 2)} = \frac{1}{n + 2}$$
+
+    \textbf{Case 3:} Finally, if $i = n + 2$, then
+    $$P_i(n + 1) = P_i(n)P(\text{drawing a red}) = \frac{1}{n + 1} \cdot \frac{n + 2 - 1}{n + 2} = \frac{n + 1}{(n + 1)(n + 2)} = \frac{1}{n + 2}$$
+
+    With this, we have shown that for all $1 \leq i \leq n + 2, P_i(n + 1) = \frac{1}{n + 2}$. We conclude that the probability there are $i$ red balls after $n$ stages is $\frac{1}{n + 1}$.
+\end{proof}
+
+
+
+\newpage
+\question
+Consider a sample size 3 drawn in the following manner. we start with an urn containing 5 white balls and 7 red balls. At each stage, a ball is drawn and its color is noted. The ball is returned to the urn, along with another ball of the same color. Find the probability that the sample will contain:
+
+\begin{parts}
+    \part
+    No white balls.
+    \sol
+    $$P(\text{no white}) = P(\text{draw a red})P(\text{draw a red})P(\text{draw a red}) = \frac{7}{12} \cdot \frac{8}{13} \cdot \frac{9}{14} = \frac{21}{91}$$
+    
+    \part
+    1 white ball.
+    \sol
+    $$P(\text{1 white}) = P(\text{white first}) + P(\text{white second}) + P(\text{white third}) = \frac{5}{12} \cdot \frac{7}{13} \cdot \frac{8}{14} + \frac{7}{12} \cdot \frac{5}{13} \cdot \frac{8}{14} + \frac{7}{12} \cdot \frac{8}{13} \cdot \frac{5}{14} \longrightarrow$$
+    $$P(\text{1 white}) = \frac{3 \cdot 5 \cdot 7 \cdot 8}{12 \cdot 13 \cdot 14} = \frac{5}{13}$$
+    
+    
+    \part
+    3 white balls.
+    \sol
+    $$P(\text{all white}) = P(\text{draw a white})P(\text{draw a white})P(\text{draw a white}) = \frac{5}{12} \cdot \frac{6}{13} \cdot \frac{7}{14} = \frac{5}{52}$$
+
+    
+\end{parts}
+
+
+\newpage
+\question
+Assume the $A, B, C$ are independent events.
+
+\begin{parts}
+    \part
+    Show that $A$ and $B$ are independent given $C$.
+    \begin{proof}
+        To show that $A$ and $B$ are independent given $C$, we need to show that
+        $P(A | C) = P(A)$ and $ P(B | C) = P(B)$. Recall that $A, B, C$ are independent events. Then by definition $P(A \cap C) = P(A)P(C)$. We expand out
+        $$P(A | C) = \frac{P(A \cap C)}{P(C)} = \frac{P(A)P(C)}{P(C)} = P(A)$$
+        By a similar argument, we show that $P(B | C) = P(B)$, and conclude that $A$ and $B$ are independent given $C$.
+    \end{proof}
+
+    \part
+    Show that $A \cup B$ and $C$ are independent.
+    \begin{proof}
+        In order to prove that $A \cup B$ and $C$ are independent, we need to show that $P((A \cup B) \cap C) = P(A \cup B)P(C)$. We equivalently write
+        $$P((A \cup B) \cap C) = P((A \cup B) | C)P(C) = P(A | C)P(C) + P(B | C)P(C)$$
+        Which we know is true since we showed in part (a) that $A$ and $B$ were conditionally independent given $C$. We continue to rewrite it as
+        $$P(A | C)P(C) + P(B | C)P(C) - P(A \cap B | C)P(C) = P(A)P(C) + P(B)P(C) - P(A)P(B)P(C) =$$
+        $$\paren{P(A) + P(B) - P(A)P(B)}P(C) = (P(A) + P(B) - P(A \cap B))P(C) = P(A \cup B)P(C)$$
+        This gives us the final equation of $P((A \cup B) \cap C) = P(A \cup B)P(C)$. With this we have shown that if $A, B, C$ are independent and $A, B$ are conditionally independent given $C$, then $A \cup B, C$ are independent.
+    \end{proof}
+
+    
+\end{parts}
+
+
+\newpage
+\question
+Assume that $E_1, E_2, \hdots, E_n$ are independent events.
+
+\begin{parts}
+    \part
+    Show that $E_1^c, E_2^c, \hdots, E_n^c$ are independent events.
+    
+    \begin{proof}
+    We will now directly calculate $P(\cap_{j = 1}^n E_{j_k})$.
+    \begin{equation}
+        P\paren{\bigcap_{j = 1}^n E_{j_k}^c} = 1 - P\paren{\bigcup_{k = 1}^n E_{j_k}}
+    \end{equation}
+
+    Using an equivalent definition of $P(\text{union of events})$, we get
+    \begin{equation}
+        1 - P\paren{\bigcup_{k = 1}^n E_{j_k}} = 1 - \sum_{k = 1}^n\paren{(-1)^{k + 1} \sum_{1 \leq j_1 < \hdots < j_k \leq n} P(E_{j_1} \cap \hdots \cap E_{j_k})}
+    \end{equation}
+
+    $$= 1 - \sum_{k = 1}^n\paren{(-1)^{k + 1} \sum_{1 \leq E_{j_1} < \hdots < E_{j_k} \leq n} P(E_{j_1}) \hdots P(E_{j_k})} =$$
+    
+    $$= 1 - \sum_{k = 1}^n\paren{(-1)^{k + 1} \sum_{1 \leq E_{j_1} < \hdots < E_{j_k} \leq n} (1 - P(E_{j_1}^c)) \hdots (1 - P(E_{j_k}^c))} =$$
+
+    \begin{equation}
+        = P(E_{j_1}^c)\hdots P(E_{j_n}^c) = \prod_{k = 1}^n E_{j_k}^c
+    \end{equation}
+
+    It is incredibly important to recognize that equation (2) simplifies to (3) if and only if $E_1, \hdots, E_n$ are mutually independent. Only because we are given this in the problem statement are we allowed to make this logical jump. With this, we conclude that the probability of any finite intersection $P(E_{j_1}^c \cap \hdots \cap E_{j_k}) = P(E_{j_1}^c) \hdots P(E_{j_k}^c)$, and by definition $E_1^c, \hdots, E_n^c$ are mutually independent.
+    
+
+
+    \end{proof}
+
+    \part
+    Show that
+    $$P\paren{\cup_{j = 1}^n E_j} = 1 - \prod_{j = 1}^n \paren{1 - P(E_j)}$$
+    \begin{proof}
+        Note that by De Morgan's Law,
+        $$\paren{\bigcup_{j = 1}^n E_j}^c = \bigcap_{j = 1}^n E_j^c$$
+        
+        By part (a), since $E_1^c, \hdots, E_n^c$ are independent events,
+        \begin{equation}
+            P(\paren{\cup_{j = 1}^n E_j}^c) = P(\cap_{j = 1}^n E_j^c) = \prod_{j = 1}^n P(E_j^c)
+        \end{equation}
+
+        By subbing in equation (4), we can rewrite $P(\cup_{j = 1}^c E_j)$ as
+        $$P(\cup_{j = 1}^n E_j) = 1 - P(\paren{\cup_{j = 1}^n E_j}^c) = 1 - \prod_{j = 1}^c P(E_j^c) = 1 - \prod_{j = 1}^c \paren{1 - P(E_j)}$$
+    \end{proof}
+\end{parts}
+\end{questions}
+
+\end{document}

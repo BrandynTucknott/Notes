@@ -1,0 +1,178 @@
+\documentclass{exam}
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm,dsfont}
+\usepackage{lib/extra}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usepackage{bbm}
+\usepackage{pgfplots}
+\usepackage{fontenc}
+\usepackage{float}
+
+\pgfplotsset{compat=1.18}
+
+\title{MTH 464 Final}
+\author{Brandyn Tucknott}
+\date{21 March 2025}
+
+\begin{document}
+\maketitle
+
+\begin{questions}
+    \question
+The Strong Law of Large Numbers is a statement about the successive arithmetic averages of a sequence of iid random variables. Using the continuity of the exponential and
+logarithmic functions, find the almost sure limit of the successive geometric averages of iid non-negative random variables. That is assume that $\cbrac{X_j}_{j = 1}^\infty$ are iid non-negative random variables and assume that $\E{\ln (X)} = \rho$. Find
+$$\lim_{n \to \infty} \brac{\prod_{j = 1}^n X_j}^\frac{1}{n}$$
+\begin{proof}
+    Let $P_n = \prod_{j = 1}^n X_j$. Observe that
+    \begin{align*}
+        \ln\paren{P_n}^\frac{1}{n} &= \ln\paren{\prod_{j = 1}^n X_j}^\frac{1}{n} \\
+        &= \frac{1}{n}\ln\paren{\prod_{j = 1}^n X_j} \\
+        &= \frac{1}{n}\sum_{j = 1}^n \ln (X_j) \\
+        &= \E{\ln (X)} \\
+        &= \rho
+    \end{align*}
+    Thus we can evaluate the limit as follows.
+    \begin{align*}
+        \lim_{n \to \infty} \brac{\prod_{j = 1}^n X_j}^\frac{1}{n} &= \lim_{n \to \infty} [P_n]^\frac{1}{n} \\
+        &= \lim_{n\to\infty} e^{\ln \paren{P_n}^\frac{1}{n}} \\
+        &= \lim_{n\to\infty} e^\rho \\
+        &= e^\rho
+    \end{align*}
+\end{proof}
+
+
+
+\newpage
+\question
+Recall that if $Z = N(\mu, \sigma), X = e^Z$ is called a lognormal random variable with parameters $\mu, \sigma$. In this problem, let $Z$ be a standard normal. We know that the probability density function of $X$ vanishes for $x \leq 0$, and for $x > 0$ is given by
+$$f(x) = \frac{1}{\sqrt{2\pi}}\frac{1}{x}\text{exp}\paren{-\frac{1}{2}(\log (x))^2}$$
+
+\begin{parts}
+    \part Evaluate $\mu_n = \E{X^n}$, the $n^{th}$ moment of $X$.
+    \begin{proof}
+        \begin{align*}
+            \mu_n &= \E{X^n} \\
+            &= \E{\brac{e^Z}^n} \\
+            &= \E{e^{nZ}} = \text{ MGF(Z) at }t = n\\
+            &= e^{n\mu + n^2\sigma^2 / 2} \\
+            &= e^{n^2 / 2}
+        \end{align*}
+        since $Z$ is standard normal.
+    \end{proof}
+
+    \part Show that the power series
+    $$\sum_{n = 0}^\infty \frac{\mu_n t^n}{n!}$$
+    is only defined at $t = 0$.
+    \begin{proof}
+        Recall the ratio test checks if a series $\sum a_n$ converges, and if $L$ is defined to be 
+        $$L = \lim_{n\to\infty} \abs{\frac{a_{n + 1}}{a_n}}$$
+        our series converges absolutely if $L < 1$. Conditional convergence is not needed for this problem, so we will ignore it. First we evaluate $\frac{a_{n + 1}}{a_n}$.
+        \begin{align*}
+            \frac{a_{n + 1}}{a_n} &= \frac{\mu_{n + 1}t^{n + 1} / (n + 1)!}{\mu_nt^n / n!} \\
+            &= \frac{\exp\paren{\mu(n + 1) + (n + 1)^2 \sigma^2 / 2}t^{n + 1} / (n + 1)!}{\exp\paren{\mu n + \sigma^2n^2 / 2} / n!} \\
+            &= \frac{t^{n + 1}\exp\paren{\mu + \sigma^2 (2n + 1) / 2}\exp\paren{\mu n + \sigma^2 n^2 / 2} / \paren{(n + 1)n!}}{t^n\exp\paren{\mu n + \sigma^2n^2 / 2} / n!} \\
+            &= \frac{\exp\paren{\mu + \sigma^2 (2n + 1) / 2}t}{n + 1} \\
+            &= \frac{e^{(2n + 1) / 2}}{n + 1}
+        \end{align*}
+
+        since $Z$ is standard normal. Thus we can evaluate the limit $L$ to be
+        \begin{align*}
+            L&= \lim_{n\to\infty} \abs{\frac{a_{n + 1}}{a_n}} \\
+            &= \lim_{n\to\infty} \abs{\frac{te^{(2n + 1) / 2}}{n + 1}} \\
+        \end{align*}
+
+        Since $\lim_{n\to\infty} \frac{e^n}{n}$ diverges, $L$ clearly diverges unless $t = 0$, in which case $L = 0$, and $\sum_{n = 0}^\infty \frac{\mu_nt^n}{n!}$ converges absolutely by the ratio test.
+    \end{proof}
+
+    \newpage
+    \part For $-1 \leq a \leq 1$ let
+    $$f_a(x) = f(x)\brac{1 + a\sin (2\pi \log (x))}$$
+    and let $\mu_n^{(a)}$ denote the moments of this density. Show that $\mu_n^{(a)} = \mu_n$ for all $|a| \leq 1$.
+    \begin{proof}
+        Observe that
+        \begin{align*}
+            \mu_n^{(a)} &= \zpint x^nf_a(x)dx \\
+            &= \zpint x^nf(x)dx + \zpint x^nf(x)a\sin\paren{2\pi\log x}dx \\
+            &= \mu_n + a\zpint x^nf(x)\sin\paren{2\pi\log x}dx
+        \end{align*}
+
+        Thus we are done if we can show that $a\zpint x^nf(x)\sin\paren{2\pi\log x} = 0$. First, observe that we can perform a change of variables
+        $$t = \ln x \leftrightarrow x = e^t, dt = \frac{1}{x}dx$$
+        Then we can rewrite the integral as
+        \begin{align*}
+            a\zpint x^nf(x)\sin(2\pi\ln x) &= a\zpint x^n\frac{1}{\sqrt{2\pi}x}e^{-1/2 (\ln x)^2}\sin (2\pi\ln x)dx \\
+            &= \frac{a}{\sqrt{2\pi}}\npint e^{nt}\cdot e^{-t^2 / 2}\sin(2\pi t) dt \\
+            &= \frac{a}{\sqrt{2\pi}}\npint e^{nt - t^2 / 2}\sin(2\pi t) dt \\
+        \end{align*}
+        We can refocus our attention on just the following integral:
+        $$\npint e^{nt - t^2 / 2}\sin(2\pi t) dt.$$
+
+        Let $g(t) = e^{nt - t^2 / 2}\sin(2\pi t)$. A hope would be that $g(t)$ is odd about some $t = k$, in which case the integral over the reals would evaluate to 0. With this new goal, we will show that given $n, g(t)$ is odd about $t = k = n$. That is,
+        $$g(n + t) = -g(n - t)$$
+        \begin{align*}
+            -g(n - t) &= -\sin(2\pi(n - t))e^{n(n - t) - (n - t)^2 / 2} \\
+            &= \sin(2\pi (n + t))e^{n^2 - nt - (n^2 -2nt + t^2) / 2} \\
+            &= \sin\paren{2\pi(n + t)}e^{n^2 - nt - n^2 / 2 + nt - t^2 / 2} \\
+            &= \sin\paren{2\pi(n + t)}e^{n^2 + nt - n^2 / 2 - nt - t^2 / 2} \\
+            &= \sin\paren{2\pi(n + t)}e^{n(n + t) - (n^2 + 2nt + t^2) / 2} \\
+            &= \sin\paren{2\pi(n + t)}e^{n(n + t) - (n + t)^2 / 2} \\
+            &= g(n + t)
+        \end{align*}
+
+        Thus given $n, g(t)$ is symmetric about $t = n$, and $\npint e^{nt - t^2 / 2}\sin(2\pi t) dt = 0$, allowing us to conclude that $\mu_n^{(a)} = \mu_n$.
+    \end{proof}
+\end{parts}
+
+\newpage
+\question
+Let $Y$ be a random variable that represents the value of a random number of donations to a foundation. A reasonable model is
+$$Y = \sum_{j = 1}^N R_j$$
+where $N$ denotes the number of donations, $R_j$ the amount of the $j^{th}$ donation. We assume $N\sim \text{Geometric}(p)$ and $\cbrac{R_j}_{j = 1}^\infty$ are iid lognormal random variables with parameter $\mu, \sigma$ for $j \geq 0$. That is,
+$$R_j = \exp (\mu + \sigma Z_j)\text{ where } \cbrac{Z_j}_{j = 1}^\infty\sim N(0, 1)\text{ are iid}$$
+We further assume that $N$ and $\cbrac{Z_j}_{j = 1}^\infty$ are independent.
+
+\begin{parts}
+    \part Find $\E{Y} = \mu_Y$ and $\var{Y} = \sigma_Y^2$.
+    \begin{proof}
+        Note that if $R_j\sim \text{lognormal}(\mu, \sigma^2)$, then $R_j = e^X$ where $X\sim N(\mu, \sigma)$. Note that
+        \begin{align*}
+            \E{R_j} &= \E{e^X} \\
+            &= e^{\mu + \sigma^2 / 2} \\
+            \var{R_j} &= \var{e^X} \\
+            &= \E{e^{2X}} - \paren{\E{e^X}}^2 \\
+            &= e^{2\mu + 2\sigma^2} - e^{2\mu + \sigma^2}
+        \end{align*}
+        We now directly calculate both expectation and variance of $Y$. 
+        \begin{align*}
+            \E{Y} &= \E{\sum_{j = 1}^N R_j} \\
+            &= \E{\E{\sum_{j = 1}^N R_j | N}} \\
+            &= \E{N\E{R_j}} \\
+            &= \E{N}\E{R_j} \\
+            &= \frac{1}{p}e^{\mu + \sigma^2 / 2} \\
+            \var{Y} &= \var{\sum_{j = 1}^N R_j} \\
+            &= \E{\brac{\sum_{j = 1}^N}^2} - \brac{\E{\sum_{j = 1}^N R_j}}^2 \\
+            &= \E{\E{\brac{\sum_{j = 1}^N R_j}^2 | N}} - \brac{\E{\E{\sum_{j = 1}^N R_j | N}}}^2 \\
+            &= \E{Ne^{2\mu + 2\sigma^2}} - \brac{\frac{1}{p}e^{\mu + \sigma^2 / 2}}^2 \\
+            &= \E{N}e^{2\mu + 2\sigma^2} - \frac{1}{p^2}e^{2\mu + \sigma^2} \\
+            &= \frac{1}{p}e^{2\mu + \sigma^2}\paren{e^{\sigma^2} - \frac{1}{p}}
+        \end{align*}
+    \end{proof}
+
+    \part Use the Chebyshev inequality to estimate $\p{|Y - \mu_Y| > \mu_Y}$.
+    \begin{proof}
+        Directly applying Chebyshev's inequality, we get
+        \begin{align*}
+            \p{|Y - \mu_Y| > \mu_Y} &\leq \frac{\var{Y}}{\mu_Y^2} \\
+            &= \frac{\frac{1}{p}e^{2\mu + \sigma^2}\paren{e^{\sigma^2} - \frac{1}{p}}}{\frac{1}{p^2}e^{2\mu + \sigma^2}} \\
+            &= \frac{e^{\sigma^2} - \frac{1}{p}}{\frac{1}{p}} \\
+            &= pe^{\sigma^2} - 1
+        \end{align*}
+    \end{proof}
+\end{parts}
+
+\newpage
+\end{questions}
+
+\end{document}

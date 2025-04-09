@@ -1,0 +1,187 @@
+\documentclass{exam}
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm,dsfont}
+\usepackage{lib/extra}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{enumitem}
+
+\title{MTH 463 HW 5}
+\author{Brandyn Tucknott}
+\date{4 November 2024}
+
+\begin{document}
+\maketitle
+
+\begin{questions}
+    \question
+Assume $X$ is a discrete random variable with the probability mass function
+
+$$m(x) =
+\begin{cases}
+    \frac{1}{2} & x = 0 \\
+    \frac{1}{3} & x = 1 \\
+    \frac{1}{6} & x = 2 \\
+\end{cases}$$
+
+Find $E(X), E(X^2), \text{and Var}(X)$.
+
+\sol
+We calculate the following to be
+$$E(X) = \sum_{j = 1}^3 x_j \cdot P(x_j) = 0 \cdot \frac{1}{2} + 1 \cdot \frac{1}{3} + 2 \cdot \frac{1}{6} = \frac{2}{3}$$
+
+$$E(X^2) = \sum_{j = 1}^3 x_j \cdot P(x_j) = 0^2 \cdot \frac{1}{2} + 1^2 \cdot \frac{1}{3} + 2^2 \cdot \frac{1}{6} = 1$$
+
+$$\text{Var}(X) = E(X^2) - E^2(X) = 1 - \paren{\frac{2}{3}}^2 = 1 - \frac{4}{9} = \frac{5}{9}$$
+
+
+\newpage
+\question
+Let $X$ be a Binomial random variable with parameters $n, p$. Show that
+$$E\paren{\frac{1}{1 + X}} = \frac{1 - (1 - p)^{n + 1}}{(n + 1)p}$$
+
+\begin{proof}
+    First, note that since
+    $$k \binom{n}{k} = n \binom{n - 1}{k - 1} \longrightarrow$$
+    \begin{equation}
+        k\binom{n + 1}{k} = (n + 1)\binom{n}{k - 1} \rightarrow
+        \binom{n}{k - 1} = \frac{k}{n + 1} \binom{n + 1}{k}
+    \end{equation}
+
+    Also recognize that since
+    $$1 = 1^{n + 1} = \sum_{k = 0}^{n + 1} \binom{n + 1}{k}p^k(1 - p)^{(n + 1) - k} \longrightarrow$$
+    $$1 = \binom{n + 1}{0}p^0(1 - p)^{(n + 1) - 0} + \sum_{k = 1}^{n + 1} \binom{n + 1}{k}p^k(1 - p)^{(n + 1) - k}  = (1 - p)^{n + 1} + \sum_{k = 1}^{n + 1} \binom{n + 1}{k}p^k(1 - p)^{(n + 1) - k}\longrightarrow$$
+    \begin{equation}
+        1 - (1 - p)^{n + 1} = \sum_{k = 1}^{n + 1} \binom{n + 1}{k}p^k(1 - p)^{(n + 1) - k}
+    \end{equation}
+    
+    
+    These are important, and will be used later in the proof. To find $E\paren{\frac{1}{1 + X}}$, we simply compute it. Since $X \sim \text{binomial}(n, p)$,
+
+    $$E\paren{\frac{1}{1 + X}} = \sum_{k = 0}^n \frac{1}{1 + k}\binom{n}{k}p^k(1 - p)^{n - k}) =$$
+    $$= \sum_{k = 1}^{n + 1} \frac{1}{1 + (k - 1)}\binom{n}{k - 1}p^{k - 1}(1 - p)^{n - (k - 1)} =$$
+    \begin{equation}
+        \sum_{k = 1}^{n + 1} \frac{1}{k}\binom{n}{k - 1}p^{k - 1}(1 - p)^{(n + 1) - k}
+    \end{equation}
+
+    By substituting equation (1) into equation (3), we get
+    $$E\paren{\frac{1}{1 + X}} = \sum_{k = 1}^{n + 1} \frac{1}{k}\paren{\frac{k}{n + 1}\binom{n + 1}{k}}p^{k - 1}(1 - p)^{(n + 1) - k} =$$
+    $$= \sum_{k = 1}^{n + 1}\frac{1}{n + 1}\binom{n + 1}{k}p^{k - 1}(1 - p)^{(n + 1) - k} =$$
+
+    \begin{equation}
+        \frac{1}{p(n + 1)}\sum_{k = 1}^{n + 1}\binom{n + 1}{k}p^k(1 - p)^{(n + 1) - k}
+    \end{equation}
+
+    Another substitution of (2) into (4) yields
+    $$E\paren{\frac{1}{1 - X}} = \frac{1}{p(n + 1)} \cdot \paren{1 - (1 - p)^{n + 1}} = \frac{1 - (1 - p)^{n + 1}}{p(n + 1)}$$
+
+    This matches the claim, so we are done.
+\end{proof}
+
+\newpage
+\question
+Let $X$ be a Poisson random variable with parameter $\lambda$, that is for $k = 0, 1, 2, \hdots$
+$$P(X = k) = e^{-\lambda} \frac{\lambda^k}{k!}$$
+
+Find $E\paren{\frac{1}{1 + X}}$.
+
+\sol
+Recall that
+\begin{equation}
+    e^x = \sum_{k = 0}^\infty \frac{x^k}{k!}
+\end{equation}
+
+Similarly to Question (2), we directly calculate the expected value.
+$$E\paren{\frac{1}{1 + X}} = \sum_{k = 0}^\infty \frac{1}{1 + k} e^{-\lambda} \frac{\lambda^k}{k!} = e^{-\lambda} \sum_{k = 0}^\infty \frac{1}{k + 1}\frac{\lambda^k}{k!} \cdot \frac{\lambda}{\lambda} = \frac{e^{-\lambda}}{\lambda}\sum_{k = 0}^\infty \frac{\lambda^{k + 1}}{(k + 1)!} =$$
+$$= \frac{e^{-\lambda}}{\lambda}\sum_{k = 0}^\infty \frac{\lambda^k}{k!} - \frac{e^{-\lambda}}{\lambda}\frac{\lambda^0}{0!} = \frac{e^{-\lambda}}{\lambda}\sum_{k = 0}^\infty \frac{\lambda^k}{k!} - \frac{e^{-\lambda}}{\lambda} =$$
+
+\begin{equation}
+    = \frac{e^{-\lambda}}{\lambda}\paren{\sum_{k = 0}^\infty \frac{\lambda^k}{k!} - 1}
+\end{equation}
+
+We can substitute in equation (5) into equation (6) using $e^\lambda$ instead of $e^x$. This gives us
+
+$$E\paren{\frac{1}{1 + X}} = \frac{e^{-\lambda}}{\lambda}\paren{e^\lambda - 1} = \frac{1 - e^{-\lambda}}{\lambda}$$
+
+
+
+\newpage
+\question
+Let $X$ be a continuous random variable with probability density function given by
+$$f_X(x) = c(1 - x^2)\mathbb{1}_{[-1, 1]}(x) =
+\begin{cases}
+    c(1 - x^2) & \text{for } -1 \leq x \leq 1 \\
+    0 & \text{otherwise}
+\end{cases}$$
+
+\begin{parts}
+    \part % part a
+    What is the value of $c$?
+    \sol
+    $$\int_{-\infty}^\infty f_X(x)dx = \int_{-1}^1 c(1 - x^2)dx = \int_{-1}^1 c dx - \int_{-1}^1 cx^2 dx = 2c - \frac{c}{3} \cdot 2 = \frac{4}{3}c = 1$$
+
+    Solving for $c$ gives $c = \frac{3}{4}$.
+
+    
+    \part % part b
+    Find the cumulative distribution of $X$.
+    \sol
+    $$F_X(x) = \int_{-\infty}^x c(1 - t^2) dt = c\paren{t - \frac{t^3}{3}}\Bigg|_{-1}^x = c\paren{\paren{x - \frac{x^3}{3}} - \paren{-1 + \frac{1}{3}}} = \frac{3}{4}\paren{x - \frac{x^3}{3} + \frac{2}{3}}$$
+    
+    \part % part c
+    Find $E(X)$ and $\text{Var}(X)$.
+    \sol
+    $$E(X) = \int_{-\infty}^\infty x \cdot P(x) dx = \int_{-1}^1 x \cdot c(1 - x^2) dx = c\int_{-1}^1 x - x^3 dx = c \cdot 0 = 0 \text{ since } x - x^3 \text{ is an odd function}$$
+
+    $$\text{Var}(X) = c\int_{-\infty}^\infty x^2 (1 - x^2) dx - E^2(X) = c\int_{-1}^1 x^2 - x^4 dx - 0 = c \cdot 2\paren{\frac{x^3}{3} - \frac{x^5}{5}}\Bigg|_0^1 =$$
+    $$= 2c \cdot \frac{2}{15} = \frac{4}{15} \cdot \frac{3}{4} = \frac{3}{15}$$
+    
+    \part % part d
+    Find $P(\abs{X} < \frac{1}{2})$.
+    \sol
+    $$P\paren{\abs{X} < \frac{1}{2}} = P\paren{-\frac{1}{2} < X < \frac{1}{2}} = P\paren{X < \frac{1}{2}} - P\paren{X < -\frac{1}{2}} = F_X\paren{\frac{1}{2}} - F_X\paren{-\frac{1}{2}} =$$
+    $$= \frac{3}{4}\paren{\frac{1}{2} - \frac{1}{3} \cdot \paren{\frac{1}{2}}^3 + \frac{2}{3}} - \frac{3}{4}\paren{-\frac{1}{2} + \frac{1}{3} \cdot \paren{\frac{1}{2}}^3 + \frac{2}{3}} = \frac{3}{4}\paren{\frac{1}{2} - \frac{1}{24} + \frac{2}{3} + \frac{1}{2} - \frac{1}{24} - \frac{2}{3}} = \frac{3}{4} \cdot \frac{11}{12} = \frac{11}{16}$$
+    
+\end{parts}
+
+\newpage
+\question
+A real valued random variable $X$ is said to have a Standard Cauchy Distribution if it has pdf
+$$f_X(x) = \frac{1}{\pi}\cdot \frac{1}{1 + x^2}$$
+
+\begin{parts}
+    \part
+    Find $F_X(x)$, the cumulative distribution of $X$. Check that your answer satisfies $\lim_{x \rightarrow -\infty} F_X(x) = 0$ and $\lim_{x \rightarrow \infty} F_X(x) = 1$.
+    \sol
+    $$F_X(x) = \int_{-\infty}^x f_X(t) dt = \int_{-\infty}^x \frac{1}{\pi} \cdot \frac{1}{1 + t^2} dt = \frac{1}{\pi} \cdot \arctan t \Big|_{-\infty}^x =$$
+    $$= \frac{1}{\pi}\paren{\arctan (x) - \arctan (-\infty)} = \frac{\arctan (x)}{\pi} - (-\frac{\pi}{2\pi}) = \frac{\arctan x}{\pi} + \frac{1}{2}$$
+
+    \newline
+
+    We now do a sanity check and see if our answer satisfies the limits as $x$ approaches positive and negative infinity.
+    $$\lim_{x \rightarrow -\infty} F_X(x) = \lim_{x \rightarrow -\infty} \frac{\arctan x}{\pi} + \frac{1}{2} = \frac{\arctan(-\infty)}{\pi} + \frac{1}{2} = -\frac{\pi}{2}\frac{1}{\pi} + \frac{1}{2} = 0$$
+    $$\lim_{x \rightarrow \infty} F_X(x) = \lim_{x \rightarrow \infty} \frac{\arctan x}{\pi} + \frac{1}{2} = \frac{\arctan(\infty)}{\pi} + \frac{1}{2} = \frac{\pi}{2}\frac{1}{\pi} + \frac{1}{2} = 1$$
+
+
+
+    \part
+    Show that $Y = \frac{1}{X}$ is also a Standard Cauchy random variable.
+    \begin{proof}
+        Since $Y = \frac{1}{X}, y = \frac{1}{x} \rightarrow x = \frac{1}{y}$. We wish to show that the pdf for $Y$ is
+        $$f_Y(y) = \frac{1}{\pi} \cdot \frac{1}{1 + y^2}$$
+
+        We can accomplish this by writing the cdf for $Y$ in terms of $X$ and taking the derivative with respect to $y$.
+        $$F_Y(y) = P(Y \leq y) = P(\frac{1}{X} \leq \frac{1}{x}) = P(X \geq x) = 1 - P(X \leq x) = 1 - F_X(x)$$
+        Note that since we are dealing with continuous random variables, $P(X > x)$ and $P(X \geq x)$ are indistinguishable since $\R$ is uncountably infinite $\rightarrow P(X = x) = 0$. Then we compute 
+        $$f_Y(y) = \frac{d}{dy}F_Y(y) = \frac{d}{dy}\paren{1 - F_X(x)} = \frac{d}{dy}\paren{1 - \paren{\frac{\arctan (x)}{\pi} + \frac{1}{2}}} =$$
+        $$\frac{d}{dy} \paren{1 - \frac{\arctan x}{\pi} - \frac{1}{2}} = \frac{d}{dy} \paren{\frac{1}{2} - \frac{\arctan x}{\pi}} = -\frac{d}{dy} \paren{\frac{\arctan x}{\pi}}$$
+
+        Substituting in $x = \frac{1}{y}$, we end up with 
+        $$f_Y(y) = -\frac{d}{dy} \paren{\frac{\arctan \paren{\frac{1}{y}}}{\pi}} = \frac{-1}{\pi} \cdot \paren{\frac{1}{1 + \paren{\frac{1}{y}}^2} \cdot \frac{-1}{y^2}} = \frac{1}{\pi} \cdot \frac{1}{1 + y^2}$$
+
+        This is exactly what we were hoping to show, so we conclude that if $X$ is a Standard Cauchy random variable, then $Y = \frac{1}{X}$ is as well.
+    \end{proof}
+\end{parts}
+\end{questions}
+
+\end{document}
