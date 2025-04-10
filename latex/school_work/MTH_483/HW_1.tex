@@ -1,0 +1,271 @@
+\documentclass{exam}
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm,dsfont}
+\usepackage{lib/extra}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usepackage{bbm}
+\usepackage{pgfplots}
+\usepackage{fontenc}
+\usepackage{float}
+
+\pgfplotsset{compat=1.18}
+
+\title{MTH 483 HW 1}
+\author{Brandyn Tucknott}
+\date{9 April 2025}
+
+\begin{document}
+\maketitle
+
+\begin{questions}
+    % Question 1
+    \question Let $z = 2 - 3i$ and $w = -1 + 2i$. Compute the following:
+
+    \begin{parts}
+        \part $z + 3\overline{w}$.
+        \sol $z + 3\overline{w} = 2 - 3i + 3(-1 - 2i) = -1 - 9i$.
+        
+        \part $z^3$
+        \sol $z^3 = (2 - 3i)^3 = 2^3 + 3\cdot 2^2 (-3i) + 3\cdot 2(-3i)^2 + (-3i)^3 = -46 - 9i$.
+        
+        \part $w^2 + \overline{z} + i$.
+        \sol $w^2 + \overline{z} + i = (-1 + 2i)^2 + 2 + 3i + i = -1$
+        
+        \part $\real{w^2 + w}$.
+        \sol $\real{w^2 + w} = \real{(-3 - 4i) + (-1 + 2i)} = -4$
+    \end{parts}
+
+
+
+
+    % Question 2
+    \question Find the real and imaginary parts of each of the following:
+    \begin{parts}
+        \part $\frac{3 + i}{3i}$.
+        \sol $\frac{3 + i}{3i} = \frac{3}{3i} + \frac{i}{3i} = \frac{1}{3} + \frac{1}{i} = \frac{1}{3} - i$. Thus the real and imaginary components are $\frac{1}{3}$ and -1 respectively.
+        
+        \part $(3 + 2i)^2 - (4 - i)^2$.
+        \sol $(3 + 2i)^2 - (4 - i)^2 = (5 + 12i) - (15 - 8i) = -10 + 20i$. Thus the real and imaginary components are -10 and 20 respectively.
+        
+        \part $i^n$ for any $n \in \Z$.
+        \sol We break this down into cases. Let $k \in \Z$. Then
+        \begin{align*}
+            n &= 4k \longrightarrow i^n = 1 \longrightarrow \real{i^n} = 1, \im{i^n} = 0 \\
+            n &= 4k + 1 \longrightarrow i \longrightarrow \real{i^n} = 0, \im{i^n} = 1\\
+            n &= 4k + 2 \longrightarrow -1 \longrightarrow \real{i^n} = -1, \im{i^n} = 0\\
+            n &= 4k + 3 \longrightarrow i^n = -i \longrightarrow \real{i^n} = 0, \im{i^n} = -1
+            \end{align*}
+        
+        \part $\frac{7i}{2 - i}$.
+        \sol $\frac{7i}{2 - i} = \frac{-7 + 14i}{5}$. Thus the real and imaginary components are $-\frac{7}{5}$ and $\frac{14}{5}$ respectively.
+    \end{parts}
+
+
+
+    \newpage
+    % Question 3
+    \question Write in Polar Form:
+    \begin{parts}
+        \part $-1 - \sqrt{3}i = -2e^{i\frac{\pi}{3}}$
+        
+        \part $\frac{\sqrt{3}}{2} + \frac{i}{2} = e^{i\frac{\pi}{6}}$
+        
+        \part $\frac{i}{10 + 10i} = \frac{1}{20} + i\frac{1}{20} = \frac{1}{10\sqrt{2}}e^{i\frac{\pi}{4}}$
+        
+        \part $\frac{1 + i}{1 - i} = i = e^{i\frac{\pi}{2}}$
+    \end{parts}
+
+
+
+
+
+
+    % Question 4
+    \question Write in Rectangular Form:
+    \begin{parts}
+        \part $\sqrt{2}e^{-i\frac{\pi}{2}} = -i\sqrt{2}$
+        \part $\frac{1}{2}\paren{\cos(\frac{64\pi}{3}) + i\sin(\frac{64\pi}{3})} = \frac{1}{2}\paren{\cos(\frac{4\pi}{3}) + i\sin(\frac{4\pi}{3})} = \frac{1}{2}(-\frac{1}{2} - i\frac{\sqrt{3}}{2}) = -\frac{1}{4} - i\frac{\sqrt{3}}{4}$
+        \part $(1 + i)^{30} = \paren{\sqrt{2}e^{i\frac{\pi}{4}}}^{30} = 2^{15}e^{\frac{30\pi}{4}} = 2^{15}e^{\frac{3\pi}{2}} = -2^{15}i$
+        \part $\frac{d}{d\phi}e^{\phi + i\phi} = ie^{\phi + i\phi} = ie^\phi\paren{e^{i\phi}} = ie^\phi\paren{\cos\phi + i\sin\phi} = -e^\phi\sin\phi + ie^\phi\cos\phi$
+    \end{parts}
+
+
+
+    % Question 5
+    \question Given $x, y\in \R$, define the matrix $M(x, y) := \paren{\begin{matrix}
+        x & -y \\ y & x
+    \end{matrix}}$. Show that
+    $$M(x, y) + M(a, b) = M(x + a, y + b) \text{ and } M(x, y)M(a, b) = M(xa - yb, xb + ya)$$
+    \begin{proof}
+        \begin{align*}
+            M(x, y) + M(a, b) &= \paren{\begin{matrix}
+                x & -y \\ y & x
+            \end{matrix}} + \paren{\begin{matrix}
+                a & -b \\ b & a
+            \end{matrix}} \\
+            &= \paren{\begin{matrix}
+                x + a & -(y + b) \\ y + b & x + a
+            \end{matrix}} \\
+            &= M(x + a, y + b)
+        \end{align*}
+        Similarly,
+        \begin{align*}
+            M(x, y)M(a, b) &= \paren{\begin{matrix}
+                x & -y \\ y & x
+            \end{matrix}}\paren{\begin{matrix}
+                a & -b \\ b & a
+            \end{matrix}} \\
+            &= \paren{\begin{matrix}
+                xa - yb & -(xb + ya) \\ ay + xb & -by + ax
+            \end{matrix}} \\
+            &= M(xa - yb, xb + ya)
+        \end{align*}
+    \end{proof}
+
+
+
+
+    
+    % Question 6
+    \question Find $\cos(5t)$ and $\sin(5t)$ in terms of $\cos(t)$ and $\sin(t)$.
+    \begin{proof}
+        Using De Moivre's Identity and binomial theorem, we know that $$\cos(5t) + i\sin(5t) = \paren{\cos(t) + i\sin(t)}^5 = \sum_{k = 0}^5 \binom{5}{k} \cos(t)^{5 - k} \paren{i\sin(t)}^k$$
+
+        Examining this, observe that $\cos(5t)$ is the real portion of the sum, or when $k$ is even. Similarly, $\sin(5t)$ is determined when $k$ is odd. Thus
+        \begin{align*}
+            \cos(5t) &= \binom{5}{0}\cos(t)^5i^0\sin(t)^0 + \binom{5}{2}\cos(t)^3i^2\sin(t)^2 + \binom{5}{4}\cos(t)i^4\sin(t)^4 \\
+            &= \cos(t)^5 - 10\cos(t)^3\sin(t)^2 + 5\cos(t)\sin(t)^4 \\
+            i\sin(5t) &= \binom{5}{1}\cos(t)^4i\sin(t) +  \binom{5}{3}\cos(t)^2i^3\sin(t)^3 + \binom{5}{5}i^5\sin(t)^5 \\
+            &= i\paren{5\cos(t)^4\sin(t) - 10\cos(t)^2\sin(t)^3 + \sin(t)^5}
+        \end{align*}
+    \end{proof}
+
+
+
+    \newpage
+    % Question 7
+    \question In this exercise, we derive the solution to the cubic equation
+    \begin{equation}x^3 + ax^2 + bx + c = 0\end{equation}
+    where $a,b,c\in\R$.
+
+    \begin{parts}
+        \part Use the change of variables $x = y - \frac{a}{3}$ to transform the equation to the following reduced form:
+        \begin{equation}y^3 + py + q = 0,\end{equation}
+        where $p = b - \frac{a^2}{3}, q = \frac{2a^3}{27} - \frac{ab}{3} + c$.
+        \begin{proof}
+            \begin{align*}
+                x^3 + ax^2 + bx + c &= (y - \frac{a}{3})^3 + a(y - \frac{a}{3})^2 + b(y - \frac{a}{3}) + c \\
+                &= y^3 - 3\frac{ay^2}{3} + 3\frac{a^2y}{9} - \frac{a^3}{27}  + ay^2 - 2\frac{a^2y}{3} + \frac{a^2}{9} + by - \frac{ab}{3} + c \\
+                &= y^3 - \frac{a^2y}{3} + \frac{2a^3}{27} + by - \frac{ab}{3} + c \\
+                &= y^3 - \paren{b - \frac{a^2}{3}}y + \paren{\frac{2a^3}{27} - \frac{ab}{3} + c} \\
+                &= y^3 + py + q = 0
+            \end{align*}
+        \end{proof}
+
+        \part Let $y$ be a solution of equation (2) written as $y = u + v$, and show that
+        $$u^3 + v^3 + (3uv + p)(u + v) + q = 0$$
+        \begin{proof}
+            \begin{align*}
+                y^3 + py + q &= (u + v)^3 + p(u + v) + q \\
+                &= u^3 + 3u^2v + 3v^2u + v^3 + p(u + v) + q \\
+                &= u^3 + v^3 + 3uv(u + v) + p(u + v) + q \\
+                &= u^3 + v^3 + (3uv + p)(u + v) + q = 0
+            \end{align*}
+        \end{proof}
+
+        \part Require that $3uv + p = 0$. Then directly we have $u^3v^3 = -\frac{p^3}{27}$ and by part (b) $u^3 + v^3 = -q$.
+
+        \part Suppose $R, W$ are numbers satisfying $R + W = -\beta$ and $RW = \gamma$. Show that $R, W$ are solutions to the quadratic equation $X^2 + \beta X + \gamma = 0$.
+        \begin{proof}
+            Observe that
+            \begin{align*}
+                (X - R)(X - W) &= X^2 - X(R + W) + RW \\
+                &= X^2 - X(-\beta) + \gamma \\
+                &= X^2 + \beta X + \gamma
+            \end{align*}
+            Thus $R, W$ are the two solutions to the given quadratic.
+        \end{proof}
+
+        \newpage
+        \part Use parts (c) and (d) to conclude that $u^3$ and $v^3$ are solutions to the quadratic equation $X^2 + qX - \frac{p^3}{27} = 0$.
+        \begin{proof}
+            By parts (c) and (d), we know that $u^3 + v^3 = -q$, and $v^3u^3 = -\frac{p^3}{27}$. Thus $u^3, v^3$ are solutions to a quadratic equation of the form:
+            $$X^2 - (v^3 + u^3)X + v^3u^3 = X^2 + qX - \frac{p^3}{27} = 0$$
+            We use the quadratic formula to derive values for $u, v$.
+            \begin{align*}
+                u^3 &= \frac{-q \pm \sqrt{q^2 + \frac{4p^3}{27}}}{2} \\
+                &= -\frac{q}{2} \pm \sqrt{\paren{\frac{q}{2}}^2 + \paren{\frac{p}{3}}^3}                
+            \end{align*}
+            and thus
+            $$u = \sqrt[3]{-\frac{q}{2} + \sqrt{\paren{\frac{q}{2}}^2 + \paren{\frac{p}{3}}^3} }\text{ and } v = \sqrt[3]{-\frac{q}{2} - \sqrt{\paren{\frac{q}{2}}^2 + \paren{\frac{p}{3}}^3} }$$
+        \end{proof}
+
+        \part Derive that
+        $$x = \sqrt[3]{-\frac{q}{2} + \sqrt{\paren{\frac{q}{2}}^2 + \paren{\frac{p}{3}}^3}} + \sqrt[3]{-\frac{q}{2} - \sqrt{\paren{\frac{q}{2}}^2 + \paren{\frac{p}{3}}^3}} - \frac{a}{3}$$
+        is a solution of equation (1).
+        \begin{proof}
+            By parts (a), (b), and (e), since $x = y - \frac{a}{3}$ and $y = u + v$, we conclude that $x = u + v - \frac{a}{3}$.
+        \end{proof}
+    \end{parts}
+
+
+
+
+    \newpage
+    % Question 8
+    \question Consider Bombelli's equation $x^3 - 15x - 4 = 0$.
+
+    \begin{parts}
+        \part Use Cardano's formula to derive the solution $x = u + v$, where
+        $$u = \sqrt[3]{2 + 11i} \text{ and } v = \sqrt[3]{2 - 11i}$$
+        \begin{proof}
+            To use the formula, first we find values for $p, q$.
+            \begin{align*}
+                p &= b - \frac{a^2}{3} \\
+                &= (-15) - \frac{0^2}{3} \\
+                &= -15 \\
+                q &= \frac{2a^3}{27} - \frac{ab}{3} + c \\
+                &= \frac{2\cdot 0}{27} - \frac{0\cdot (-15)}{3} + (-4) \\
+                &= -4
+            \end{align*}
+            Next we use the values of $p, q$ in Cardano's formula to find a solution for the given cubic equation.
+            \begin{align*}
+                x &= \sqrt[3]{-\frac{q}{2} + \sqrt{\paren{\frac{q}{2}}^2 + \paren{\frac{p}{3}}^3}} + \sqrt[3]{-\frac{q}{2} - \sqrt{\paren{\frac{q}{2}}^2 + \paren{\frac{p}{3}}^3}} - \frac{a}{3} \\
+                &= \sqrt[3]{-\frac{-4}{2} + \sqrt{\paren{\frac{-4}{2}}^2 + \paren{\frac{-15}{3}}^3}} + \sqrt[3]{-\frac{-4}{2} - \sqrt{\paren{\frac{4}{2}}^2 + \paren{\frac{-15}{3}}^3}} - \frac{0}{3} \\
+                &= \sqrt[3]{2 + \sqrt{4 - 125}} + \sqrt[3]{2 - \sqrt{4 - 125}} \\
+                &= \sqrt[3]{2 + 11i} + \sqrt[3]{2 - 11i}
+            \end{align*}
+            Since $x = u + v$, we conclude that $u = \sqrt[3]{2 + 11i}$ and $v = \sqrt[3]{2 - 11i}$.
+        \end{proof}
+
+
+        \part Notice that $u, v$ have to be conjugate for $u + v$ to be real. Set $u = a + ib$ and $v = a - ib$. Show that $a = 2, b = 1$ works.
+        \begin{proof}
+            If $a = 2, b = 1$ with $u = a + ib, v = a - ib$, we know that $x = u + v = 2a = 4$, and we simply check if $x = 4$ satisfies the equation.
+            \begin{align*}
+                x^3 - 15x - 4\Big|_{x = 4} &= 4^3 - 15(4) - 4 \\
+                &= 64 - 60 - 4 = 0
+            \end{align*}
+        \end{proof}
+
+
+        \part What is the real solution $x$ of Bombelli's equation? What are the other two solutions of Bombelli's equation?
+        \begin{proof}
+            As determined in part (b) the real solution is $x = 4$, which we factor out to yield
+            $$x^3 - 15x - 4 = (x - 4)(x^2 + 4x + 1)$$
+            Using the quadratic formula, we are able to find the remaining solutions.
+            \begin{align*}
+                x &= \frac{-4 \pm \sqrt{4^2 - 4(1)(1)}}{2(1)} \\
+                &= \frac{-4 \pm \sqrt{12}}{2} \\
+                &= -2 \pm \sqrt{3}
+            \end{align*}
+        \end{proof}
+    \end{parts}
+    
+
+    
+\end{questions}
+
+\end{document}
