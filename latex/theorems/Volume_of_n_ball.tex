@@ -1,0 +1,69 @@
+\documentclass{exam}
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm,dsfont}
+\usepackage{lib/extra}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usepackage{bbm}
+\usepackage{pgfplots}
+\usepackage{fontenc}
+\usepackage{float}
+
+\pgfplotsset{compat=1.18}
+
+\title{Volume of a N-Dimensional Ball}
+\author{Brandyn Tucknott}
+\date{Last Updated: 14 April 2025}
+
+\begin{document}
+\maketitle
+
+\textbf{Theorem (Volume of an N-Ball)} The volume of an 
+$n$-dimensional ball with radius $r$ can be expressed as follows:
+$$\text{($B^n(r)$)} = \frac{\pi^{n / 2}}{\Gamma \paren{\frac{n}{2}}\cdot \frac{n}{2}}r^n$$
+
+\begin{proof}
+    Let $\omega_n$ be the surface characteristic for a $n - 1$ dimensional 
+    sphere. Then we can express the volume of a $n$ dimensional ball with radius $r$
+    as
+    \begin{align*}
+        \text{Vol}\paren{B^n(r)} &= \int_{B^n(r)}dr \\
+        &= \int_0^r \omega_n r^{n - 1}dr \\
+        &= \omega_n \frac{r^n}{n}
+    \end{align*}
+
+    Our new goal is to find an expression for the surface characteristic, which will
+    complete our expression for the volume. Consider the multidimensional Gaussian,
+    and observe that
+    \begin{align*}
+        \npint e^{-\norm{\mathbf{x}}_2^2} d\mathbf{x} &= \npint e^{-x_1^2 - \hdots - x_n^2}dx_1\hdots dx_n \\
+        &= \underbrace{\npint e^{-x_1^2} dx_1 \hdots \npint e^{-x_n^2}dx_n}_{n \text{ times}} \\
+        &= \paren{\sqrt{\pi}}^n = \pi^{n / 2}
+    \end{align*}
+
+    However, since it is a radial function, we can also evaluate the 
+    multidimensional Gaussian as
+    \begin{align*}
+        \npint e^{-\norm{\mathbf{x}}_2^2} d\mathbf{x} &= \omega_n \zpint e^{-r^2}r^{n - 1} dr \\
+        &= \frac{\omega_n}{2} \zpint e^{-r^2} r^{n - 2}\cdot 2r dr \text{ set $t = r^2 \rightarrow dt = 2r$} \\
+        &= \frac{\omega_n}{2} \zpint e^{-t} t^{(n - 2) / 2} dt \\
+        &= \frac{\omega_n}{2} \zpint e^{-t}t^{n / 2 - 1} dt \\
+        &= \frac{\omega_n}{2} \Gamma\paren{n / 2}
+    \end{align*}
+
+    Setting the two results equal to each other, we can arive at a value for $\omega_n$.
+    \begin{align*}
+        \frac{\omega_n}{2} \Gamma (n / 2) &= \pi^{n / 2} \\
+        \omega_n &= \frac{2\pi^{n / 2}}{\Gamma (n / 2)} \\
+    \end{align*}
+
+    Finally, we substitute this into our original volume expression, and conclude that
+    \begin{align*}
+        \text{Vol}(B^n(r)) &= \omega_n\frac{r^n}{n} \\
+        &= \frac{2\pi^{n / 2}}{\Gamma \paren{\frac{n}{2}}} \frac{r^n}{n} \\
+        &= \frac{\pi^{n / 2}}{\Gamma \paren{\frac{n}{2}} \frac{n}{2}} r^n
+    \end{align*}
+    
+\end{proof}
+\end{document}
