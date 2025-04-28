@@ -42,7 +42,7 @@ for arg in "$@"; do
 
 
     # compile .tex --> .pdf
-    pdflatex -interaction=nonstopmode $latex_path/$fname.tex
+    pdflatex -interaction=nonstopmode $latex_path/$fname.tex > /dev/null
 
 
     # delete extra .aux .log .out
