@@ -1,0 +1,105 @@
+\documentclass{exam}
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm,dsfont}
+\usepackage{lib/extra}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usepackage{bbm}
+\usepackage{pgfplots}
+\usepackage{fontenc}
+\usepackage{float}
+\usepackage{hyperref}
+
+\pgfplotsset{compat=1.18}
+
+\title{RSA Cryptosystem}
+\author{Brandyn Tucknott}
+\date{Last Updated: 28 April 2025}
+
+\begin{document}
+\maketitle
+
+\section*{Introduction}
+The RSA cryptosystem was named after its creators Rivest, Shamir, Adleman. It is
+the culmination of some wonderful results in number theory, most prominently Euler totient function. The motivation for the algorithm is this: there are
+three parties: a sender, receiver, and intercepter. The sender wants to send a 
+message to the receiver without the intercepter knowing the contents of the 
+message. The catch is, we assume the intercepter is always listening, and will always 
+recieve the message. This is the setup for the development of a cryptographic algorithm,
+where the message can be encrypted, such that even when the intercepter sees the encrypted 
+message, they cannot easily decrypt it. The reciever can then use the decryption key shared by the
+sender to revert the encrypted message back to its original form. The version of RSA introduced here is
+a simple version, and although mathematically sound, is still vulnerable to attacks. For example, 
+the intercepter could send a message to alice, check the encrypted response, and work out the decryption
+scheme from there.
+
+\section*{Prerequisites}
+A strong understanding of modular arithmetic and Euler's totient function is recommended to gain
+a working understanding of RSA. We will assume the reader has an understanding of modular arithmetic,
+and briefly cover Euler's totient function and Theorem results.
+\\\\
+\textbf{Euler Totient Function.} Let $n\in\N$. Then the Euler totient function $\phi (n)$ counts
+the number of integers less than $n$ which are coprime with $n$. For RSA, we need only know two
+things:
+\begin{enumerate}
+    \item $\phi(p) = p - 1$ where $p$ is prime.
+    \item $\phi(pq) = \phi(p)\phi(q)$ where $p,q$ are prime.
+\end{enumerate}
+\textbf{Euler's Theorem.} Let $a,n\in\N$ with $\gcd(a, n) = 1$. then
+$$a^{\phi(n)} \equiv 1 \mod n$$
+
+\newpage
+\section*{The Algorithm}
+\subsection*{Choosing the Components}
+\begin{enumerate}
+    \item Choose two large primes, $p,q$.
+    \item Compute $n = pq$.
+    \item Compute $\phi(n) = (p - 1)(q - 1)$.
+    \item Choose an encryption key $e$, where $2 < e < \phi(n)$.
+    \item Set $d$ to be the multiplicative inverse of $e$ mod $\phi(n)$, that is, $e\cdot d \equiv 1 \mod \phi(n)$.
+\end{enumerate}
+
+\subsection*{The Algorithmic Process}
+Suppose Alice has a message $m$ which she wants to send to Bob. RSA dictates that she should do the following:
+After generating all of the necessary components, put out the public encryption key $(n, e)$. This is visible to anyone,
+including Bob and any malicious third parties. She should share with Bob her decryption key $(n, d)$, and throw the rest of
+the info away.
+\begin{enumerate}
+    \item Take the message $m$ and raise it to the encryption key mod $n$. This will yield the 
+    encrypted message $c = m^e$.
+    \item She should then send this message to Bob, who is waiting to receive her message.
+    \item After receiving her message, Bob can take the encrypted message $c$ and raise it to the 
+    decryption key mod $n$ to restore it to the unencrypted message. That is, $c^d = (m^e)^d = m^{ed} \equiv 1 \mod n$.
+\end{enumerate}
+
+\subsection*{Justification}
+Recall that by Euler's Theorem, $a^{\phi(n)} \equiv 1 \mod n$ if $a,n\in\N$ and $a, n$ coprime. When we 
+take a message $m^{ed}$, we rely on $e,d$ being multiplicative inverses mod $\phi(n)$ so that 
+$m^{ed} = m^{k\phi(n) + 1} \equiv m \mod n$ for some $k\in\N$. Unless we guarantee it by design, note that 
+$m$ is not actually coprime with $n$, but with large enough $p, q$ (i.e. hundreds of digits), the probability
+that they share a factor goes to 0.
+
+\subsection*{Example}
+Let $m = 7, p = 5, q = 11$. Then we can compute
+\begin{itemize}
+    \item $n = 5 \cdot 11 = 55$
+    \item $\phi(n) = (5 - 1)(11 - 1) = 4\cdot 10 = 40$
+    \item Choose $e = 13$ (arbitraily; remember the only important restrictor is that $e, \phi(n)$ are coprime)
+    \item Compute the multiplicative inverse of $e$, $d = 37$
+\end{itemize}
+Recognize that $\gcd(e, \phi(n)) = 1, \gcd(m, n) = 1$. Then the encrypted message that Alice sends to Bob is
+$$c = m^e\mod n = 7^{13} \mod 55 \equiv 2 \mod 55.$$
+Bob can decrypt this message by applying his decryption key $d$ to the encrypted message $c$:
+$$c^d \mod n= 2^{37} \mod 55 \equiv 7 \mod 55.$$
+Observe that $c^d = 7 \mod 55$ is the same as our original message $m$, and thus we conclude 
+that not only was Alice able to send an encrypted message to Bob, but also that Bob had the ability
+to decrypt it.
+
+\section*{Sources}
+\begin{itemize}
+    \renewcommand\labelitemi{}
+    \item Shoup, V. (2009). A computational introduction to number theory and algebra (2nd ed.). \href{https://shoup.net/ntb/}{Online version here}
+\end{itemize}
+
+\end{document}
