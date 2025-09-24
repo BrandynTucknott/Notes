@@ -12,14 +12,15 @@
 
 \pgfplotsset{compat=1.18}
 
-\title{Complex Numbers and the Complex Plane}
+\title{Complex Analysis Chapter 1 Section 1}
 \author{Brandyn Tucknott}
-\date{Last Updated: 23 September 2025}
+\date{Last Updated: 24 September 2025}
 
 \begin{document}
 \maketitle
 
-\section{Basic Properties}
+\section{Complex Numbers and the Complex Plane}
+\subsection{Basic Properties}
 A complex number is of form $z = x + iy$ where $x,y$ are real numbers and $i$ is imaginary
 satifying $i^2 = -1$. We call $x$ the \textbf{real part} and $y$ the \textbf{imaginary part} 
 of $z$. We write this as 
@@ -129,7 +130,95 @@ $$zw = rse^{i(\theta + \phi)},$$
 which allows us to plainly see why multiplication of complex numbers corresponds to
 dilated rotation in $\R^2$.
 
-\section{Convergence}
-left off on page 24 of pdf
+\subsection{Convergence}
+A sequence of complex numbers $\cbrac{z_1, z_2, \hdots}$ is said to \textbf{converge} to $w\in\C$
+$$\lim_{n\to\infty} \abs{z_n - w} = 0, \quad \text{ and we write } w = \lim_{n\to\infty} z_n.$$
+
+It is also true that a sequence $\cbrac{z_n}$ converges to $w$ if and only if the
+real and imaginary parts of $\cbrac{z_n}$ converge to the real and imaginary parts of $w$ respectively.
+Since it is sometimes not possible to readily identify the limit of a sequence, we have a condition
+on the sequence itself which is equivalent to convergence. A  sequence $\cbrac{z_n}$ is said to be
+a \textbf{Cauchy Sequence} (or just \textbf{Cauchy}) if
+$$\abs{z_n - z_m} \rightarrow 0 \text{ as } n,m\to\infty.$$
+
+More definitively, given $\veps > 0$ there exists an integer $N > 0$ such that $\abs{z_n - z_m} < \veps$
+whenever $n,m > N$. Since $\R$ is complete, every Cauchy sequence of real numbers converges
+to a real number, and since a squence is Cauchy if and only if itselfs real and imaginary parts are Cauchy,
+we have that every Cauchy sequence in $\C$ has a limit in $\C$. This brings us to our first theorem.
+
+\begin{theorem}\label{thm:main}
+    $\C$ is complete.
+\end{theorem}
+
+
+\subsection{Sets in the Complex Plane}
+Below we list some common sets. Let $z_0\in\C$ and $r > 0$.
+\begin{itemize}
+    \item \textbf{Open Disk of radius }$r$\textbf{ centered at }$z_0$
+    $$D_r(z_0) = \cbrac{z\in\C : \abs{z - z_0} < r}$$
+    \item \textbf{Closed Disk of radius }$r$\textbf{ centered at }$z_0$
+    $$\overline{D_r}(z_0) = \cbrac{z\in\C : \abs{z - z_0} \leq r}$$
+    \item \textbf{Boundary of a Disk}$r$\textbf{ centered at }$z_0$
+    $$C_r(z_0) = \cbrac{z\in\C : \abs{z - z_0} = r}$$
+    \item \textbf{Unit Disk}  (Radius 1 centered at the origin)
+    $$\mathbb{D} = \cbrac{z\in\C : \abs{z} < 1}$$
+\end{itemize}
+
+We follow up with some definitions for these (or really any) sets. Given a set $\Omega\subset\C$,
+a point $z_0\in\C$ is an \textbf{interior point} fo $\Omega$ if there exists $r > 0$ such that 
+$D_r(z_0) \subset\Omega$. The \textbf{interior} of $\Omega$ consists of all interior points. We 
+call $\Omega$ \textbf{open} if every point in $\Omega$ is an interior point. $\Omega$ is \textbf{closed} if
+its complement $\Omega^c = \C - \Omega$ is open.
+
+Equivalently, a point $z\in\C$ is said to be a \textbf{limit point} of $\Omega$ if there exists
+a sequence of points $z_n\in\C$ such that $z_n \neq z$ and $\lim_{n\to\infty} z_n = z$. With this,
+we can check that a set is closed if and only if it contains all of its limit points. The \textbf{closure}
+of any set $\Omega$ is the union of $\Omega$ and its limit points, and is denoted by $\overline{\Omega}$.
+
+Finally, the \textbf{boundary} of a set $\Omega$ is equal to its closure minus its interior, and is denoted
+by $\partial \Omega$. A set is bounded if there exists $M > 0$ such that $\abs{z} < M$ for all
+$z\in M$ (intuitively, if $\Omega$ is contained by some disk). If $\Omega$ is bounded, its \textbf{diameter} 
+is defined to be
+$$\text{diam}(\Omega) = \sup_{z,w\in \Omega} \abs{z - w}.$$
+
+A set $\Omega$ is said to be \textbf{compact} if it is closed and bounded.
+
+
+\begin{theorem}\label{thm:main}
+    The set $\Omega\subset\C$ is compact if and only if every sequence of $\cbrac{z_n}\subset \Omega$
+    has a subsequence that converges to a point in $\Omega$.
+\end{theorem}
+
+An open covering of $\Omega$ is a family of (not necessarily countable) open sets $\cbrac{U_\alpha}$
+such that
+$$\Omega \subset \bigcup_\alpha U_\alpha.$$
+
+\begin{theorem}\label{thm:main}
+    The set $\Omega\subset\C$ is compact if and only if every open covering of $\Omega$ has a finite
+    subcovering.
+\end{theorem}
+
+\begin{proposition}\label{prop:main}
+    If $\Omega_1 \supset \Omega_2 \supset \hdots \supset \Omega_n \supset \hdots$ is a sequence of 
+    non-empty compact sets in $\C$ with the property that
+    $$\text{diam}\paren{\Omega_n} \to 0 \text{ as } n\to\infty,$$
+    then there exists a unique point $w\in\C$ such that $w\in\Omega_n$ for all $n$.
+\end{proposition}
+\begin{proof}
+    Choose a point $z_n$ in each $\Omega_n$. The condition diam$(\Omega_n)\to 0$ implies that $\cbrac{z_n}$
+    is Cauchy, and therefore converges to some limit which we call $w$. Since each set $\Omega_n$ is
+    compact, we must have $w\in\Omega_n$ for all $n$. Finally, $w$ is the unique point satisfying
+    this property. If there were some other $w'$ satisfying the same property with $w' \neq w$, then 
+    $\abs{w - w'} > 0$ and the condition diam$(\Omega_n)$ would be violated.
+\end{proof}
+
+An open set $\Omega$ is said to be \textbf{connected} if it is not possible to find two disjoint 
+non-empty open set $\Omega_1, \Omega_2$ such that
+$$\Omega = \Omega_1 \cup \Omega_2.$$
+A connected open set in $\C$ will be called a \textbf{region}. A similar notion of connectivity is 
+true for closed sets.
+
+Another similar, very pratical definition for connected open sets: an open set $\Omega$ is connected
+if and only if any two points in $\Omega$ can be joined by a curve $\gamma$ entirely contained in $\Omega$. 
 
 \end{document}

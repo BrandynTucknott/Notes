@@ -1,3 +1,4 @@
 The content in this folder was all taken from the text 
 *Complex Analysis by Elias M. Stein and Rami Shakarchi*. The figures you see in these notes are
-all taken from the text.
+all taken from the text. To be clear, this is not my own book, but my notes from reading the
+aforementioned text.
