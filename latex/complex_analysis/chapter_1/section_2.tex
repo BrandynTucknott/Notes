@@ -20,5 +20,62 @@
 \maketitle
 
 \section{Functions on the Complex Plane}
+\subsection{Continuous Functions}
+Let $f$ be a function on a set $\Omega$ of complex numbers. We say that $f$ is \textbf{continuous}
+at a point $z_0\in\Omega$ if for every $\eps > 0$ there exists a $\delta > 0$ such that whenever
+$z\in\Omega$ and $\abs{z - z_0} < \delta$ then $\abs{f(z) - f(z_0)} < \eps$. Equivalently, we can 
+say for every sequence $\cbrac{z_1, z_2, \hdots}\subset \Omega$ such that $\lim z_n = z_0$, then
+$\lim f(z_n) = f(z_0)$. The function $f$ is continuous on $\Omega$ if it is continuous at every
+point in $\Omega$. Sums and products of continuous functions are also continuous.
+
+It is worth noting that the function $f$ of the complex argument $z = x + iy$ is continuous if and
+only if it is continuous viewed as a function of the two real variables $x, y$.
+
+By the triangle inequality, we see that if $f$ is continuous, then the real-valued function defined
+by $z\to\abs{f(z)}$ is continuous. We say that $f$ attains a \textbf{maximum} at a point $z_0\in\Omega$
+if
+$$\abs{f(z)} \leq \abs{f(z_0)}\text{ for all }z\in\Omega,$$
+with the inequality reversed for the definition of a \textbf{minimum}.
+
+\begin{theorem}\label{thm:main}
+    A continuous function on a compact set $\Omega$ attains a maximum and minimum on $\Omega$.
+\end{theorem}
+
+
+\subsection{Holomorphic Functions}
+Let $\Omega\subset\C$ be open and $f$ a complex-valued function on $\Omega$. The function $f$ is
+\textbf{holomorphic at the point} $z_0\in\Omega$ if
+$$\lim_{h\to 0}\frac{f(z_0 + h) - f(z_0)}{h}$$
+converges. Here $h\in\C$ and $h\neq 0$ with $z_0 + h\in\Omega$, so that the quotient is well-defined.
+The limit of the quotient, when it exists, is denoted by $f'(z_0)$ and is called the \textbf{derivative
+of} $f$ \textbf{at} $z_0$:
+$$f'(z_0) = \lim_{h\to 0}\frac{f(z_0 + h) - f(z_0)}{h}.$$
+Take note that $h$ is complex and can approach $0$ from any direction.
+
+The function $f$ is \textbf{holomorphic on} $\Omega$ if it is holomorphic at every point of $\Omega$.
+If $C$ is a closed subset of $\C$, we say that $f$ is \textbf{holomorphic on} $C$ if $f$ is holomorphic
+in some open set containing $C$. If $f$ is holomorphic on $\C$, we say that $f$ is \textbf{entire}.
+
+\newpage
+\begin{proposition}\label{prop:main}
+    If $f$ and $g$ are holomorphic in $\Omega$, then:
+    \begin{itemize}
+        \item $f + g$ is holomorphic in $\Omega$ and $(f + g)' = f' + g'$.
+
+        \item $fg$ is holomorphic in $\Omega$ and $(fg)' = f'g + fg'$.
+
+        \item If $g(z_0) \neq 0$, then $f/g$ is holomorphic at $z_0$ and
+        $$(f/g)' = \frac{gf' - fg'}{g^2}.$$
+    \end{itemize}
+
+    Moreover, if $f: \Omega\to U$ and $g: U\to\C$ are holomorphic, then the chain rule holds;
+    $$(g\circ f)'(z) = g'(f(z))f'(z) \text{ for all } z\in\Omega.$$
+\end{proposition}
+
+
+\subsection*{Complex-Valued Functions as Mappings}
+page 29
+
+
 
 \end{document}
