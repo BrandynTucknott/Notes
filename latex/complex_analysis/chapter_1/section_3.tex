@@ -91,9 +91,8 @@ If $\gamma$ is piecewise smooth, the its length is the sum of its smooth parts.
 \yesqed
 
 \begin{proof}
-    The first property follows from linearity of the Riemann integral. The second property is a result of the integral being independent
-    of our choice of $\gamma$. Let $\gamma: [a, b]\to \C$, and recall that $\gamma^- = \gamma(a + b - t)$. Note that if we let $s = a + b - t$, then 
-    $ds = -dt$.
+    The first property follows from linearity of the Riemann integral. For the second property, let $\gamma: [a, b]\to \C$, and 
+    recall that $\gamma^- = \gamma(a + b - t)$. Note that if we let $s = a + b - t$, then $ds = -dt$.
     \begin{align*}
         \int_\gamma f(z)dz &= \int_a^b f(\gamma(t))\gamma'(t) \\
         &= \int_a^b f(\gamma^-(a + b - t))(-\gamma^-'(a + b - t))dt \\
