@@ -170,6 +170,103 @@ $$\frac{\partial}{\partial z} = \frac{1}{2}\paren{\frac{\partial}{\partial x} + 
 
 
 \subsection{Power Series}
-page 33
+A classic example of a power series is the complex \textbf{exponential} function, defined for all $z\in\C$ by
+$$e^z = \sum_{n = 0}^\infty \frac{z^n}{n!}.$$
+The above series converges absolutely for all $z\in\C$, which can be seen by observing
+$$\abs{\frac{z^n}{n!}} = \frac{\abs{z}^n}{n!},$$
+which allows us to compare $\abs{e^z}$ with the power series $\sum_{n = 0}^\infty \abs{z}^n / n! = e^{|z|} < \infty$. Moreover, this shows
+that the power series of $e^z$ converges uniformly in all discs in $\C$.
+
+\noqed
+\begin{theorem}\label{thm:main}
+    Given a power series $\sum_{n = 0}^\inftya_nz^n$, there exists $0 \leq R \leq \infty$ such that:
+    \begin{itemize}
+        \item If $\abs{z} < R$, the series converges absolutely.
+        \item If $\abs{z}  > R$, the series diverges.
+    \end{itemize}
+    Moreover, if we use the convention that $1 / 0 = \infty$ and $1 / \infty = 0$, then $R$ is given by Hadamard's formula
+    $$\frac{1}{R} = \lim\sup \abs{a_n}^{1 / n}.$$
+\end{theorem}
+\yesqed
+
+\textbf{Remark. } Notice this theorem says nothing about when $\abs{z} = R$. This situation can either converge or diverge.
+
+The number $R$ is called the \textbf{radius of convergence} of the power series, and the region $|z| < R$ the \textbf{disc of convergence}.
+Moreover, the radius of convergence for the exponential function and geometric series are $R = \infty$ and $R = 1$ respectively.
+
+More examples of power series in the complex plane are given below in the form of \textbf{trigonometric functions}. These are defined as
+$$\cos z = \sum_{n = 0}^\infty (-1)^n\frac{z^{2n}}{(2n)!} \text{ and } \sin z = \sum_{n = 0}^\infty (-1)^n\frac{z^{2n + 1}}{(2n + 1)!}.$$
+
+A connection between these and the exponential function can be expressed as 
+$$\cos z = \frac{e^{iz} + e^{-iz}}{2} \text{ and } \sin z = \frac{e^{iz} - e^{-iz}}{2i}.$$
+
+These are called \textbf{Euler formulas} for the sine and cosine functions.
+
+\noqed
+\begin{theorem}\label{thm:main}
+    The power series $f(z) = \sum_{n = 0}^\infty a_n z^n$ defines a holomorphic function in its disc of convergence. The derivative of $f$
+    is also a power series obtained by differentiating the term by term power series for $f$, that is,
+    $$f'(z) = \sum_{n = 1}^\infty na_n z^{n - 1}.$$
+    Moreover, $f'$ has the same radius of convergence as $f$.
+\end{theorem}
+\yesqed
+
+\begin{proof}
+    Since $\lim_{n\to\infty} n^{1 / n} = 1$, by Hadamard's formula we know that
+    $$\frac{1}{R} = \lim_{n\to\infty} \abs{n}^{1 / n} = \lim_{a_n\to\infty} \abs{na_n}^{1 / n},$$
+    thus $\sum a_nz^n$ and $\sum na_nz^{n}$ have the same radius of convergence.
+
+    To prove the first assertion, we must show that
+    $$g(z) = \sum_{n = 1}^\infty na_nz^{n - 1}$$
+    gives the derivative of $f$.
+
+    Let $R$ denote the radius of convergence of $f$, and let $|z_0| < r < R$. Denote 
+    $$S_N(z) = \sum_{n = 0}^N a_n z^n \text{ and } E_N(z) = \sum_{n = N + 1}^\infty a_nz^n$$
+    and write
+    $$f(z) = S_N(z) + E_N(z).$$
+
+    If $h$ is chosen such that $|z_0 + h| < r$, we have
+    $$\frac{f(z_0 + h) - f(z_0)}{h} - g(z_0) &= \paren{\frac{S_N(z_0 + h) - S_N(z_0)}{h} - S_N'(z_0)} + \paren{S_N'(z_0) - g(z_0)} + 
+        \paren{\frac{E_N(z_0 + h) - E_N(z_0)}{h}}.$$
+
+    Since $a^n - b^n = (a - b)(a^{n - 1} + a^{n - 2}b + \hdots + ab^{n - 2} + b^{n - 1})$, we see that
+    $$\abs{\frac{E_N(z_0 + h) - E_N(z_0)}{h}} \leq \sum_{n = N + 1}^\infty |a_n|\abs{\frac{(z_0 + h)^n - z_0^n}{h}} \leq \sum_{n = N + 1}^\infty |a_n|nr^{n - 1},$$
+    where we use the fact that $|z_0| < r$ and $|z_0 + h| < r$. The expression on the right is the tail end of a convergent series,
+    since $g$ converges absolutely on $|z| < R$. Therefore, given $\veps > 0$, we can find $N_1$ such that $N > N_1$ implies
+    $$\abs{\frac{E_N(z_0 + h) - E_N(z_0)}{h}} < \veps.$$
+
+    Also, since $\lim_{n\to\infty} S_N'(z_0) = g(z_0)$, we can find $N_2$ such that $N > N_2$ implies
+    $$\abs{S_N'(z_0) - g(z_0)} < \veps.$$
+
+    If we fix $N$ so that $N > N_1, N_2$, we can find $\delta > 0$ so that $|h| < \delta$ implies
+    $$\abs{\frac{S_N(z_0 + h) - S_N(z_0)}{h} - S_N'(z_0)} < \veps,$$
+    since the derivative of a polynomrial is obtained by differentiating it term by term. Therefore
+
+    $$\abs{\frac{f(z_0 + h) - f(z_0)}{h} - g(z_0)} < 3\veps$$
+    whenever $|h| < \delta$, thereby concluding the proof of the theorem.
+\end{proof}
+
+\begin{corollary}
+    A power series is infinitely complex differentiable in its disc of convergence, and the higher derivatives are also obtained by term-wise differentiation.
+\end{corollary}
+
+So far, we have only dealt with power series centered about the origin, but we more generally express a power series centered at $z_0\in\C$ as
+$$f(z) = \sum_{n = 0}^\infty a_n(z - z_0)^n.$$
+
+The disc of convergence of $f$ is now centered at $z_0$, but the radius is still given by Hadamard's formula. In fact, if
+$$g(z) = \sum_{n = 0}^\infty a_n z^n,$$
+$f$ is obtained by simply translating $g$.
+
+A function $f$ defined on an open set $\Omega$ is said to be \textbf{analytic} (having a power series expansion) at a point $z_0\in\Omega$ if
+there exists a power series $\sum a_n(z - z_0)^n$ centered at $z_0$ with positive radius of convergence such that
+$$f(z) = \sum_{n = 0}^\infty a_n(z - z_0)^n\text{ for all $z$ in a neighborhood of $z_0$}.$$
+
+If $f$ has a power series expansion point at every point in $\Omega$, we say that $f$ is \textbf{analytic on $\Omega$}. By Theorem 2.6, an
+analytic function is also holomorphic. In the future we will prove the converse is true: every holomorphic function is analytic. For that
+reason we use the terms holomorphic and analytic interchangably.
+
+\subsection{Integration along curves}
+pg 38
+
 
 \end{document}
