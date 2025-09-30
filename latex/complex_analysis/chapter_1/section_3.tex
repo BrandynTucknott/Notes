@@ -79,7 +79,7 @@ If $\gamma$ is piecewise smooth, the its length is the sum of its smooth parts.
     Integration of continuous functions over curves satisfies the following properties:
     \begin{itemize}
         \item It is linear, that is, if $\alpha, \beta\in\C$, then
-        $$\int_\gamma \alpha f + \beta g = \alpha \int_gamma f + \beta \int_\gamma g$$
+        $$\int_\gamma \alpha f + \beta g = \alpha \int_\gamma f + \beta \int_\gamma g$$
 
         \item If $\gamma^-$ is $\gamma$ with the reverse orientation, then
         $$\int_\gamma f = -\int_{\gamma^-} f$$
@@ -93,7 +93,7 @@ If $\gamma$ is piecewise smooth, the its length is the sum of its smooth parts.
 \begin{proof}
     The first property follows from linearity of the Riemann integral. The second property (left as exercise: TODO). For the third property,
     note that
-    $$\abs{\int_\gamma} f \leq \sup_{t\in[a, b]}\abs{f(z(t))}\int_a^b |z'(t)|dt \leq \sup_{z\in\gamma} \abs{f(z)} \cdot \text{length}()\gamma$$
+    $$\abs{\int_\gamma f} \leq \sup_{t\in[a, b]}\abs{f(z(t))}\int_a^b |z'(t)|dt \leq \sup_{z\in\gamma} \abs{f(z)} \cdot \text{length}(\gamma)$$
     as was to be shown.
 \end{proof}
 
