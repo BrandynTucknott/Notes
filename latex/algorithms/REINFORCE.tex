@@ -1,0 +1,53 @@
+\documentclass{exam}
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm,dsfont}
+\usepackage{lib/extra}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usepackage{bbm}
+\usepackage{pgfplots}
+\usepackage{fontenc}
+\usepackage{float}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\pgfplotsset{compat=1.18}
+
+\title{Policy Gradient Methods: REINFORCE}
+\author{Brandyn Tucknott}
+\date{30 September 2025}
+
+\begin{document}
+\maketitle
+
+REINFORCE is a policy gradient method based on the identity for a policy gradient
+$$\nabla_\theta J(\theta) = \mathbf{E}_{\pi_\theta}\paren{\sum_{t\in0:T} \nabla_\theta \ln \pi_\theta\paren{A_t | s_t}\sum_{t\in 0:T} \paren{\gamma^tR_t | S_0 = s_0}}.$$
+The \textbf{unbiased estimator} of the policy gradient can be written as
+$$\nabla_\theta J(\theta) \approx \frac{1}{N}\sum_{n = 1}^N \brac{\sum_{t\in 0:T} \nabla_\theta \ln \pi_\theta\paren{A_{t, n} | S_{t, n}}\sum_{\tau\in t:T} \paren{\gamma^{\tau - t}R_{\tau, n}}}.$$
+
+The \textbf{score function} $\nabla_\theta \ln \pi_\theta\paren{A_t | S_t}$ as the direction in parameter space which increases the probability
+of taking action $A_t$ in state $S_t$. The policy gradient is the weighted average of all possible directions with all possible actions
+at any state, weighted by reward signals. This means that state-action pairs with a high reward are reinforced.
+
+\begin{algorithm}
+    \caption{REINFORCE}
+    Input: differentiable policy parameterization $\pi (a | s, \theta)$ \\
+    Hyperparameters:
+    \begin{itemize}
+        \item Learning rate $\alpha > 0$
+    \end{itemize}
+    Initialize the policy parameter $\theta$ at random
+
+    \begin{algorithmic}[1]
+        \For{each episode:}
+            \State Generate an episode $S_0, A_0, R_1, \hdots, S_{T - 1}, A_{T - 1}, R_T$ following $\pi (\cdot | \cdot, \theta)$.
+            \For{each step of the episode $t = 0, 1, 2, \hdots, T - 1$:}
+                \State $G \gets \sum_{k = t + 1}^T \gamma^{k - t - 1}R_k$
+                \State $\theta \gets \theta + \alpha \gamma^tG\nabla \ln \pi\paren{A_T | S_t, \theta}$
+    \end{algorithmic}
+\end{algorithm}
+
+
+\end{document}

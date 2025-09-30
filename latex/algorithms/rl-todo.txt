@@ -1,0 +1,37 @@
+Model-Free : Value-Based
+- DQN
+- A3C
+- PPO
+- TRPO
+
+Model-Free : Continuous Control
+- DDPG
+- TD3
+- SAC
+- DSAC
+
+Model-Based
+- Dyna
+- MBPO
+- Dreamer
+- PILCO
+
+
+
+Candidates
+baseline convergence: PPO / A2C
+safety: PPO-Lagrangian / CPO
+long-term planning: dyna / dreamer
+
+
+
+Chat Recommendation:
+- Start with a Pointer Network + REINFORCE (classic baseline)
+- Attention models + RL (modern approach)
+- Use vanilla algorithms only as an optimizer
+
+
+Future Environment Options (Beyond Minigrid):
+- MiniHack
+- Procgen
+- SafetyGymnasium
