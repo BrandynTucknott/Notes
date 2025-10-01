@@ -15,7 +15,7 @@ obs = torch.tensor(env.reset(), dtype=torch.float)
 done = False
 Actions, States, Rewards = [], [], []
 
-While not done:
+while not done:
     probs = nn(obs)
     dist = torch.distributions.Categorical(probs=probs)
     action = dist.sample().item()
@@ -51,7 +51,7 @@ obs = torch.tensor(env.reset(), dtype=torch.float)
 done = False
 env.render()
 
-While not done:
+while not done:
     probs = nn(obs)
     c = torch.distributions.Categorical(probs=probs)
     action = c.sample().item()
