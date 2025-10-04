@@ -1,0 +1,104 @@
+\documentclass{exam}
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm,dsfont}
+\usepackage{lib/extra}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usepackage{bbm}
+\usepackage{pgfplots}
+\usepackage{fontenc}
+\usepackage{float}
+
+\pgfplotsset{compat=1.18}
+
+\title{Convex Optimization HW 1}
+\author{Brandyn Tucknott}
+\date{Due 17 Oct. 2025}
+
+\begin{document}
+\maketitle
+
+\begin{questions}
+    % Question 1 
+    \question Assume that $C$ is an affine set. By definition, we know that for any $x_1,x_2\in C$, we have
+    $$\theta x_1 + (1 - \theta)x_2 \in C, \text{ for all } \theta\in\R.$$
+    Building upon the definition, show that if $x_i\in C$ for $i = 1, \hdots, n$, then we have
+    $$\theta_1 x_1 + \hdots + \theta_n x_n,$$
+    where $\sum_{i = i}^n \theta_i = 1.$
+
+
+    % Question 2
+    \question Answer the following questions:
+    \begin{parts}
+        \part What is the distance between two parallel hyperplanes. i.e., $\cbrac{x | a^Tx = b}$ and $\cbrac{x | a^Tx = c}$?
+
+        \part Let $a, b$ be distinct points in $\R^n$. Show that the set of all points that are closer to $a$ than $b$, i.e., 
+        $\cbrac{x | \norm{x - a}_2 \leq \norm{x - b}_2}$, is a halfspace. Describe it explicitly as an inequality of the form
+        $c^Tx \leq d$. Draw a picture.
+    \end{parts}
+
+
+    % Question 3
+    \question Which of the following sets are convex?
+    \begin{parts}
+        \part A slab $\cbrac{x\in\R^n | \alpha \leq a^Tx \leq \beta}$.
+        \part A rectangle $\cbrac{x\in\R^n | \alpha_i \leq x_i \leq \beta_i, i = 1, \hdots, n}$.
+        \part The set of points closer to a given point than a given set:
+        $$\cbrac{x | \norm{x - x_0}_2 \leq \nrom{x - y}_2 \text{ for all }y\in S}$$
+        where $S\subset\R^n$.
+        \part The set of points whose distance to $a$ does not exceed a fixed fraction $\theta$ of the distance to $b$,
+        i.e. the set $\cbrac{x | \norm{x - a}_2 \leq \theta\norm{x - b}_2}$. You can assume $a \neq b$ and $\theta \leq 1$.
+    \end{parts}
+
+
+    % Question 4
+    \question
+    Show the following statements.
+    \begin{parts}
+        \part A polyhedron, i.e. $P = \cbrac{x | Ax \succeq b, Cx = d}$ where $A\in\R^{m x n}$ and $C\in\R^{p x n}$ is a convex set.
+        \part Consider an ellipsoid $\eps = \cbrac{x | (x - x_c)^TP^{-1}(x - x_c) \leq 1}$. Assume that the eigenvalues of $P\in\R^{n x n}$
+        is $\lambda_1^2, \hdots, \lambda_n^2$ in descending order. Show that the largest and smallest distances from any point on the
+        boundary of the ellipsoid to $x_c$ are $\lambda_1$ and $\lambda_n$ respectively.
+    \end{parts}
+
+
+    % Question 5
+    \question Show the following statements.
+    \begin{parts}
+        \part In machine learning, we are often given training samples in the form of $(x_i, y_i)$ for $i = 1, \hdots, n$ where
+        $x_i\in\R^d$ is the feature vector and $y_i\in\R$ is the label of this example. The empirical risk of Euclidean distance based
+        linear regression can be expressed as follows:
+        $$f(a) = \frac{1}{n}\sum_{i = 1}^n \paren{y_i - a^Tx_i}^2.$$
+        Show the function $f(a)$ is convex in $a$.
+        
+        \part Suppose $p < 1$, $p \neq 0$. Show that the function 
+        $$f(x) = \paren{\sum_{i = 1}^n x_i^p}^{1 / p}$$
+        with $\dom f = \R_{++}^n$ is concave.
+
+        \part Show that $f(X) = \tr{X^{-1}}$ is convex on $\dom f = \S_{++}^n$.
+    \end{parts}
+
+
+
+    % Question 6
+    \question Show the conjugate of $f(X) = \tr{X^\inv} with \dom{f} = \S_{++}^n$ is given by
+    $$f^*(Y) = -2\tr{-Y}^{1 / 2}, \dom{f} = -\S_{++}^n.$$
+    (Hint: for unconstrained and differentiable convex problems, min / max can be found by looking for where the function
+    has zero gradient.)
+
+    % Question 7
+    \question Show that the following function is convex.
+    $$f(x) = x^T\paren{A(x)}^\inv x, \dom{f} = \cbrac{x | A(x) \succ 0},$$
+    where $A(x) = A_0 + A_1x_1 + \hdots + A_nx_n \in\S^n$ and $A_i\in\S^n$, $i = 1, \hdots, n$. Hint: you are allowed to use
+    a special form of Schur complement, described as follows: Suppose $A \succ 0$. then
+    $$\paren{\begin{matrix}
+        A & b \\
+        b^T & c
+    \end{matrix}} \succ 0 \leftrightarrow c - b^TA^\inv b \geq 0.$$
+    You will need to study "epigraph" from chapter 3 of the textbook to answer this question.
+
+
+\end{questions}
+
+\end{document}
