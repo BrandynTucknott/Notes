@@ -45,10 +45,36 @@
     \question Answer the following questions:
     \begin{parts}
         \part What is the distance between two parallel hyperplanes. i.e., $\cbrac{x | a^Tx = b}$ and $\cbrac{x | a^Tx = c}$?
+        \begin{proof}
+            Observe that
+            $$\cbrac{x | a^Tx = b}, \cbrac{x | a^Tx = c} \text{ is equivalent to } \cbrac{x | a^Tx = |b - c|} \cbrac{a^Tx = 0},$$
+            which geometrically gives us one hyperplane passing through the origin, and the other parallel to it. Since the shortest
+            path from the origin to the hyperplane is a vector $x_0$ going directly to it (same direction as normal vector $a$), we can conclude that
+            $$a^Tx_0 = |b - c|$$
+            \begin{equation}\frac{a^T}{\norm{a}} x_0 = \frac{|b - c|}{\norm{a}}. \end{equation}
+            Recall that 
+            \begin{equation} \paren{a^T / \norm{a}}x_0 = \norm{\frac{a^T}{\norm{a}}}\norm{x_0}\cos\theta = 1\cdot \norm{x_0}\cdot 1\end{equation}
+            since $(a^T / \norm{a})x_0$ is a dot product. By (1) and (2) we conclude that
+            $$\norm{x_0} = \frac{|b - c|}{\norm{a}}.$$
+        \end{proof}
 
         \part Let $a, b$ be distinct points in $\R^n$. Show that the set of all points that are closer to $a$ than $b$, i.e., 
         $\cbrac{x | \norm{x - a}_2 \leq \norm{x - b}_2}$, is a halfspace. Describe it explicitly as an inequality of the form
         $c^Tx \leq d$. Draw a picture.
+        \begin{proof}
+            To show the given set is a halfspace, we only need to be able to express it in form $c^Tx \leq d$, and then we will be done.
+            We can algebraically manipulate the given equation:
+            \begin{align*}
+                \norm{x - a}_2 &\leq \norm{x - b}_2 \\
+                \norm{x - a}_2^2 &\leq \norm{x - b}_2^2 \\
+                x^Tx - 2x^Ta - a^Ta &\leq \x^Tx - 2x^Tb + b^Tb \\
+                -2x^Ta + \norm{a}_2^2 &\leq -2x^Tb + \norm{b}_2^2 \\
+                2(x^Tb - x^Ta) &\leq \norm{b}_2^2 - \norm{a_2^2} \\
+                x^T(b - a)&\leq \frac{\norm{b}_2^2 - \norm{a}_2^2}{2} \\
+                (b - a)^Tx&\leq \frac{\norm{b}_2^2 - \norm{a}_2^2}{2}.
+            \end{align*}
+            Since we have shown the given constraint is equivalent to the definition of a subspace, we are done.
+        \end{proof}
     \end{parts}
 
 
@@ -66,6 +92,7 @@
     \end{parts}
 
 
+    \newpage
     % Question 4
     \question
     Show the following statements.
