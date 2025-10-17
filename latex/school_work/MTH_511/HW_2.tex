@@ -1,0 +1,192 @@
+\documentclass{exam}
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm,dsfont}
+\usepackage{lib/extra}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usepackage{bbm}
+\usepackage{pgfplots}
+\usepackage{fontenc}
+\usepackage{float}
+
+\pgfplotsset{compat=1.18}
+
+\title{MTH 511 HW 2}
+\author{Brandyn Tucknott}
+\date{Due 16 October 2025}
+
+\begin{document}
+\maketitle
+
+\begin{questions}
+    % Question 1
+    \question Let $V$ be a vector space and $d$ a metric on $V$ satisfying $d(x, y) = d(x - y, 0), d(\alpha x, \alpha y) = |\alpha|d(x, y)$
+    for all $x, y\in V$ and scalar $\alpha$. Show that $\norm{x} = d(x, 0)$ defines a norm on $V$. Give an example of a metric on a 
+    vector space $\R$ that fails to be associated with a norm in this way.
+    \begin{proof}
+        First, we check the given norm satisfies all the properties of norms.
+        \begin{align*}
+            \norm{x} &= d(x, 0) = 0 \text{ iff } x = 0 \text{ since $d$ is a metric}, \\
+            \norm{\alpha x} &= d(\alpha x, 0) = |\alpha|d(x, 0) = |\alpha|\norm{x}, \\
+            \norm{x + y} &= d(x + y, 0) = d(x, -y) \leq d(x, 0) + d(-y, 0) = \norm{x} + \norm{y},
+        \end{align*}
+        thus $\norm{x}$ is a norm. Now consider the discrete metric. Generally speaking, the property $d(\alpha x, 0) \neq |\alpha|d(x, 0)$
+        does not hold, so a norm cannot be associated with this metric.
+    \end{proof}
+
+
+    \newpage
+    % Question 2
+    \question If $x$ is a limit point of $A$, show that every neighborhood of $x$ contains infinitely many points of $A$.
+    \begin{proof}
+        We show this by contradiction. Let $x$ a limit point of $A$ and suppose $B_\veps (x) \subset A$ contained finitely many points from $A$. Denote such points as 
+        $a_i\in \B_\veps (x), i = 1, 2, \hdots, n$. Let $D = \min\cbrac{a_i}$. Then for $\veps < D$, 
+        $$\paren{B_\veps (x)\backslash \cbrac{x}}\cap A = \emptyset,$$
+        and $x$ is not a limit point. This is a contradiction, so we conclude our assumption that $B_\veps (x)$ contained only finitely many
+        points from $A$ is incorrect.
+    \end{proof}
+
+
+    \newpage
+    % Question 3
+    \question Let $A'$ be the set of limit points of a set $A$. Show that $A'$ is closed, $\overline{A} = A' \cup A$, and 
+    $A' \cup A \subset \longleftrightarrow A$ is closed.
+    \begin{proof}
+        First we show that $A'$ is closed. By theorem 4.9, we equivalently show for all $\veps > 0, B_\veps (x)\cap A' \neq \emptyset$,
+        then $x\in A'$. If $x\in A'$ we are done, so suppose $x\in A'$. Then
+        $$B_\veps (x) \cap A' = \paren{B_\veps (x)\backslash\cbrac{x}}\cap A' \neq \emptyset.$$
+        But this is the definition of a limit point, so $x\in A'$. This contradicts our original assumption, so it must be that $x\in A'$, 
+        and thus $A'$ is closed.
+
+        Next, we will show that $\overline{A} = A'\cup A$. Observe that for all $\veps > 0$,
+        \begin{align*}
+            x\in A &\rightarrow x\in \overline{A}, \text{ and }\\
+            x\in A' &\rightarrow \paren{B_\veps (x)}\cap A \neq \emptyset \\
+            &\rightarrow B_\veps (x)\cap A \neq \emptyset, x\in\overline{A}
+        \end{align*}
+        by proposition 4.10, and so $A' \cup A \subseteq \overline{A}$.
+
+        Similarly, for all $\veps > 0$, we have that
+        $$x\in\overline{A} &\rightarrow B_\veps (x)\cup A \neq \emptyset.$$
+        Here we have two cases. If $x\in A$, then certainly $x\in A' \cup A$, and we are done. Suppose that $x\notin A$. Then
+        by proposition 4.10, for all $\veps > 0, B_\veps (x)\cap A = \paren{B_\veps (x)\backslash\cbrac{x}}\cap A \neq \emptyset$, 
+        which by definition of a limit points means $x\in A'$. Thus $\overline{A} \subseteq A' \cup A$.
+
+        Since $\overline{A} \subseteq A' \cup A$ and $A' \cup A \subseteq \overline{A}$, we conclude $\overline{A} = A' \cup A$.
+
+        It remains to show that $A' \subset A \longleftrightarrow A$ is closed. First we show $A'\subset A$ implies $A$ is closed. 
+        Since $A' \subset A$, for all $\veps > 0$,
+        $$\paren{B_\veps (x)\backslash\cbrac{x}}\cap A \neq \emptyset \rightarrow B_\veps (x)\cap A \neq \emptyset, x\in A.$$
+        Thus by theorem 4.9 $A$ is closed. Now suppose $A$ is closed. Contrapositively, we will equivalently show that given
+        $x\in A'$ but $x\notin A$, then A is not closed. Since $x\in A'$, by definition for all $veps > 0$, we have that
+        \begin{align*}
+            \paren{B_\veps (x)\backslash\cbrac{x}}\cap A &\neq \emptyset, \\
+            B_\veps (x)\cap A &\neq \emptyset \text{ (equal since $x\notin A$) },
+        \end{align*}
+        and since $x\notin A$ by theorem 4.9 we conclude $A$ is not closed.
+
+    \end{proof}
+
+
+    \newpage
+    % Question 4
+    \question Let $E$ be a subset of a metric space $M$. Show that the complement of the interior of $E$ is the closure of
+    the complement of $E$.
+    \begin{proof}
+        Recall that the interior $A^o$ is the largest open set contained in $A$, and $\overline{A}$ is the smallest closed set containing $A$.
+        Note that $A^o$ is open, so $\paren{A^o}^c$ is closed, and certainly the closure of a closed set is closed 
+        ($\overline{\paren{A^o}^c} = \paren{A^o}^c$). With some set algebra, we have that
+        \begin{align*}
+            A^o &\subseteq A \\
+            \paren{A^o}^c &\supseteq A^c \\
+            \overline{\paren{A^o}^c} & \supseteq \overline{A^c} \\
+            \paren{A^o}^c &\supseteq \overline{A^c}.
+        \end{align*}
+
+        Similarly, note that $\paren{\overline{A}}^c = M\backslash\overline{A} \rightarrow \overline{\paren{\overline{A}}^c} = M\backslash A = \paren{A^o}^c$.
+        \begin{align*}
+            \overline{A} &\supseteq A \\
+            \paren{\overline{A}}^c &\subseteq A^c \\
+            \overline{\paren{\overline{A}}^c} &\supseteq \overline{A^c} \\
+            \paren{A^o}^c &\supseteq \overline{A^c}.
+        \end{align*}
+
+        We conclude that $\paren{A^o}^c = \overline{A^c}$.
+    \end{proof}
+
+
+    \newpage
+    % Question 5
+    \question Show that a point $x\in A$ is an isolated point of $A$ if and only if $\paren{B_\veps (x)\backslash\cbrac{x}}\cap A = \emptyset$ 
+    for some $\veps > 0$. Prove that a subset of $\R$ can have at most countably many isolated points, thus showing that every uncountable
+    subset of $\R$ has a limit point.
+    \begin{proof}
+        By definition of a limit point, for all $\veps > 0, \paren{B_\veps (x)\backslash{X}}\cap A \neq \emptyset$, and if $x$ is not
+        a limit point, then this definition is negated:
+        $$\text{ there exists }\veps > 0, \paren{B_\veps (x)\backslash\cbrac{x}}\cap A = \emptyset.$$
+
+        For the other claim, suppose $A \subseteq \R$, and denote the isolated points of $A$ as $I(A)$. For arbitrary $\veps > 0$, 
+        consider the interval $(x - \veps, x + \veps)$. By density of $\Q$ in $\R$, there exist $a, b\in\Q$ with $a < b$ such that $a < x < b$.
+        Choose $a, b$ such that $(a, b) \subset (x - \veps, x + \veps)$. Define $\phi: I(A) \to \Q^2$ with $\phi (x) = (a, b)$. We wish to 
+        show that $\phi$ is injective. WLOG, let $x, y\in I(A)$ and $x < y$. We choose two rationals for each point: 
+        $a_x, b_x, a_y, b_y$. If $x < a_y$, then $a_x < x < a_y$, and $(a_x, b_x) \neq (a_y, b_y)$. If $x \geq a_y$, then $x\in B_\veps (y)$,
+        a contradiction since $y$ is supposed to be isolated. Thus $(a_x, b_x) \neq (a_y, b_y)$, and $\phi$ is injective.
+
+        Since $\phi$ is injective and $\Q$ is countable, there exist at most countable isolated points of $A$.
+    \end{proof}
+
+
+    \newpage
+    % Question 6
+    \question Verify each of the following formulas, where bdry($A$) denotes the set of boundary points of $A$. (For my own ease, let
+    $\del A$ denote the boundary of $A$.)
+    \begin{parts}
+        % part (a)
+        \part $\del A = \del A^c$.
+        \begin{proof}
+            By definition,
+            \begin{align*}
+                \del A^c &= \cbrac{x : B_\veps(x)\cap A^c \neq \emptyset \text{ and } B_\veps(x)\cap \paren{A^c}^c\neq \emptyset} \\
+                &= \cbrac{x : B_\veps(x)\cap A^c \neq \emptyset \text{ and } B_\veps(x)\cap A\neq \emptyset} \\
+                &= \del A.
+            \end{align*}
+        \end{proof}
+
+        % part (b)
+        \part $\overline{A} = \del A \cup A^o$
+        \begin{proof}
+            Let $U = \del A \cup A^o$. We will prove the given equality by showing $\overline{A} \subseteq U$ and $U \subseteq \overline{A}$.
+            It is obvious that if $x\in A^o$ or $x\in \del A$, then $x\in\overline{A}$. Thus $ U\subset\overline{A}$. Now suppose 
+            $x\in \overline{A}$. If $x\in A^o$ we are done, so suppose $x\notin A^o$. Negating the definition of an interior point
+            gives us 
+            \begin{align*}
+                B_\veps(x)\cap A &\not\subseteq A \longrightarrow\\
+                B_\veps(x)\cap A^c &\neq\emptyset \\
+                \text{ and } B_\veps(x)\cap A &\neq\emptyset\text{ by definition of }x\in \overline{A}.
+            \end{align*}
+            Then our collection is the set
+            $$\cbrac{x : B_\veps(x)\cap A \neq\emptyset \text{ and }B_\veps(x)\cap A^c\neq\emptyset},$$
+            for all $\veps > 0$, which is by definition $\del A$. Thus $\overline{A} \subseteq U$, and we conclude $\overline{A} = U$.
+        \end{proof}
+
+
+        % part (c)
+        \part $M = A^o \cup \del A \cup \paren{A^c}^o$
+        \begin{proof}
+            Let $U = A^o \cup \del A \cup \paren{A^c}^o$.
+            Obviously $x\in U$ implies $x\in M$, so $U \subseteq M$.
+
+            Suppose there existed $x\in M$ with $x\notin U$. Note that 
+            $\overline{A} = \del A \cup A^o$ and $\del A \cup \paren{A^c}^o = \overline{A^c}$. Then
+            \begin{align*}
+                x\notin U \\
+                x\notin \overline{A} \cup \overline{A^c} \\
+                x\notin M.
+            \end{align*}
+            This is a contradiction, so clearly $x\in U$, and $M \subseteq U$. Thus $M = U$.
+        \end{proof}
+    \end{parts}
+\end{questions}
+
+\end{document}

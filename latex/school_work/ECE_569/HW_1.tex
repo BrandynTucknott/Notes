@@ -73,7 +73,7 @@
                 x^T(b - a)&\leq \frac{\norm{b}_2^2 - \norm{a}_2^2}{2} \\
                 (b - a)^Tx&\leq \frac{\norm{b}_2^2 - \norm{a}_2^2}{2}.
             \end{align*}
-            Since we have shown the given constraint is equivalent to the definition of a subspace, we are done.
+            Since we have shown the given constraint is equivalent to the definition of a halfspace, we are done.
         \end{proof}
     \end{parts}
 
@@ -83,12 +83,49 @@
     \question Which of the following sets are convex?
     \begin{parts}
         \part A slab $\cbrac{x\in\R^n | \alpha \leq a^Tx \leq \beta}$.
+        \begin{proof}
+            Since $S = \cbrac{x\in\R^n | \alpha \leq a^Tx \leq \beta}$ is the intersection of two halfspaces (which are convex), 
+            we know that $S$ is convex.
+        \end{proof}
+
         \part A rectangle $\cbrac{x\in\R^n | \alpha_i \leq x_i \leq \beta_i, i = 1, \hdots, n}$.
+        \begin{proof}
+            For $S = \cbrac{x\in\R^n | \alpha_i \leq x_i \leq \beta_i, i = 1, \hdots, n}$, let $y, z\in S$. Observe that
+            $$\alpha_i \leq y_i \leq \beta_i,$$
+            $$\alpha_i \leq z_i \leq \beta_i.$$
+            Then 
+            $$\theta\alpha_i \leq \theta y_i \leq \theta\beta_i,$$
+            $$(1 - \theta)\alpha_i \leq (1 - \theta)z_i \leq (1 - \theta)\beta_i,$$
+            which we add to see that
+            \begin{align*}
+                \theta\alpha_i + (1 - \theta)\alpha_i \leq \theta y_i + (1 - \theta)z_i \leq \theta z_i + (1 - \theta)z_i \\
+                \alpha_i \leq \theta y_i + (1 - \theta)z_i \leq \beta_i.
+            \end{align*}
+            Since the convex combination is in $S$, we conclude $S$ is convex.
+        \end{proof}
+
         \part The set of points closer to a given point than a given set:
-        $$\cbrac{x | \norm{x - x_0}_2 \leq \nrom{x - y}_2 \text{ for all }y\in S}$$
+        $$\cbrac{x | \norm{x - x_0}_2 \leq \norm{x - y}_2 \text{ for all }y\in S}$$
         where $S\subset\R^n$.
+        \begin{proof}
+            We can manipulate the given constraint into:
+            \begin{align*}
+                \norm{x - x_0}_2 &\leq \norm{x - y}_2 \\
+                \norm{x - x_0}_2^2 &\leq \norm{x - y}_2^2 \\
+                x^Tx - 2x^Tx_0 + x_0^Tx_0 &\leq x^Tx - 2x^Ty + y^Ty \\
+                2x^T(y - x_0) &\leq \norm{y}_2^2 - \norm{x_0}_2^2 \\
+                (y - x_0)^Tx &\leq \frac{\norm{y}_2^2 - \norm{x_0}_2^2}{2}.
+            \end{align*}
+            Since any individual $y$ yields a halfspace, to consider all $y$ we look at the intersection of the halfspaces, which
+            we know to be convex.
+        \end{proof}
+
+
         \part The set of points whose distance to $a$ does not exceed a fixed fraction $\theta$ of the distance to $b$,
         i.e. the set $\cbrac{x | \norm{x - a}_2 \leq \theta\norm{x - b}_2}$. You can assume $a \neq b$ and $\theta \leq 1$.
+        \begin{proof}
+            
+        \end{proof}
     \end{parts}
 
 
