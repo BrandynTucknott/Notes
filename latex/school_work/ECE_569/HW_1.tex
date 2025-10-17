@@ -208,10 +208,53 @@
         linear regression can be expressed as follows:
         $$f(a) = \frac{1}{n}\sum_{i = 1}^n \paren{y_i - a^Tx_i}^2.$$
         Show the function $f(a)$ is convex in $a$.
+        \begin{proof}
+            Let $X\in\R^{n x d}, y\inR^d$ be such that the $i-th$ row of $X$ is $x_i$ and $y_i$ respectively. Then
+            \begin{align*}
+                \frac{1}{n}\sum_{i = 1}^n (y_i - a^Tx_i)^2 &= \frac{1}{n}\norm{y - Xa}^2 \\
+                &= \frac{1}{n}\paren{y^Ty - 2a^TA^Ty + a^TA^TAa} \\
+                \nabla_a f &= \frac{1}{n}\paren{2A^TAa - 2A^Ty} = \frac{2}{n}\paren{A^TAa - A^Ty} \\
+                \nabla_a^2 f &= \frac{2}{n}A^TA.
+            \end{align*}
+            Thus we are done if we can show that $A^TA$ is PSD. Consider $v\in\R^d$. We compute 
+            $$v^TA^TAv = (Av)^TAv = \norm{Av}^2 \geq 0.$$
+            Thus $\nabla_a^2 f \succeq 0$, and $f$ is convex.
+        \end{proof}
         
         \part Suppose $p < 1$, $p \neq 0$. Show that the function 
         $$f(x) = \paren{\sum_{i = 1}^n x_i^p}^{1 / p}$$
         with $\dom f = \R_{++}^n$ is concave.
+        \begin{proof}
+            Let $S = \sum_{i = 1}^n x_i^p$, and note that $S > 0$. We first directly compute the gradient of $f$:
+            $$\frac{\del f}{\del x_k} = \frac{1}{p}S^{1/p - 1}\cdot px_k^{p - 1} = S^{1/p - 1}x_k^{p - 1}.$$
+            Denote $v = (x_1^{p - 1}, \hdots x_n^{p - 1})^T$ for convenience, and rewrite $\nabla f = S^{1/p - 1}v$.
+
+            Now compute the hessian.
+            \begin{align*}
+                \frac{\del f}{\del x_j \del x_k} &= \frac{1}{p}(1 - p)S^{1/p - 2}\cdot px_j^{p - 1}x_k^{p - 1} + (p - 1)x_k^{p - 2}S^{p - 1} \\
+                &= (1 - p)S{1/p - 2}x_j^{p - 1}x_k^{p - 1} + (p - 1)x_k^{p - 2}S^{1/p - 1}.
+            \end{align*}
+            Again for notational ease, set $D = \text{diag}\paren{x_1^{p - 2}, \hdots x_n^{p - 2}}^T$. Rewrite the hessian as
+            $$\nabla^2 f = (1 - p)S^{1 /p - 2}vv^T + (p - 1)S^{1/p - 1}D = (1 - p)S^{1/p - 2}(vv^T - SD).$$
+
+            Notice that the sign is determined by $vv^T - SD$, particularly that 
+            $$SD - vv^T \succeq 0 \longrightarrow vv^T - SD \preceq 0 \longrightarrow \nabla^2 f \preceq 0$$
+            which means that $f$ is concave. If is sufficient then, to prove that $SD - vv^T \succeq 0$. To show this, observe that
+            for $z\in\R^d$,
+            $$z^T(SD - vv^T)z = S\sum_{i = 1}^n x_i^{p - 2}z_i^2 - \paren{\sum_{i = 1}^n x_i^{p - 1}z_i}^2,$$
+            which we move on to investigate the squared sum on the LHS.
+            \begin{align*}
+                \paren{\sum_{i = 1}^n x_i^{p - 1}z_i}^2 &= \paren{\sum_{i = 1}^n x_i^{p / 2}x_i^{p/2 - 1}z_i}^2 \\
+                &\leq \sum_{i = 1}^n \paren{x_i^{p / 2}}^2\sum_{i = 1}^n \paren{x_i^{p/2 - 1}z_i}^2 \text{ by Cauchy-Schwarz Inequality} \\
+                &= \paren{\sum_{i = 1}^n x_i^p}\paren{\sum_{i = 1}^n x_i^{p - 2}z_i^2} \\
+                &= S\sum_{i = 1}^n x_i^{p - 2}z_i^2.
+            \end{align*}
+            This tells us that
+            $$S\sum_{i = 1}^n x_i^{p - 2}z_i^2 - \paren{\sum_{i = 1}^n x_i^{p - 1}z_i}^2 \geq 0,$$
+            so $SD - vv^T \succeq 0$.
+        \end{proof}
+
+
 
         \part Show that $f(X) = \tr{X^{-1}}$ is convex on $\dom f = \S_{++}^n$.
     \end{parts}
