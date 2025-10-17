@@ -148,7 +148,20 @@
     \begin{parts}
         \part A polyhedron, i.e. $P = \cbrac{x | Ax \succeq b, Cx = d}$ where $A\in\R^{m x n}$ and $C\in\R^{p x n}$ is a convex set.
         \begin{proof}
-
+            Let $x, y\in P, \theta\in [0, 1]$, and $z = \theta x + (1 - \theta)y$. Then
+            \begin{align*}
+                Az &= A(\theta x + (1 - \theta)y) \\
+                &= \theta Ax + (1 - \theta)Ay \\
+                &\succeq 0
+            \end{align*}
+            since $Ax \succeq 0, Ay \succeq 0, \theta, 1 - \theta \geq 0$. We also have that
+            \begin{align*}
+                Cz &= C(\theta x + (1 - \theta)y) \\
+                &= \theta Cx + (1 - \theta)Cy \\
+                &= \theta d + (1 - \theta)d \\
+                &= d.
+            \end{align*}
+            We conclude $P$ is convex.
         \end{proof}
 
 
@@ -157,10 +170,36 @@
         is $\lambda_1^2, \hdots, \lambda_n^2$ in descending order. Show that the largest and smallest distances from any point on the
         boundary of the ellipsoid to $x_c$ are $\lambda_1$ and $\lambda_n$ respectively.
         \begin{proof}
+            Let $P = Q\Lambda Q^T$ where $Q$ is orthogonal. Let also $y = Q^T(x - x_c)$, and note that $P^\inv = (Q\Lambda Q^T)^\inv = Q\Lambda^\inv Q^T$.
+            Then we can rewrite 
+            \begin{align*}
+                (x - x_c)^TP^\inv (x - x_c) &= (x - x_c)^TQ\Lambda^\inv Q^T(x - x_c) \\
+                &= y^T \Lambda^\inv y \\
+                &= \sum_{i = 1}^n \frac{y_i^2}{\lambda_i^2} = 1.
+            \end{align*}
+            If we let $z_i = y_i / \lambda_i$ (for ease of representation), then we end up with $\sum_{i = 1}^n z_i^2 = 1$. Now observe that
+            \begin{align*}
+                \norm{y}_2^2 &= y^Ty \\
+                &= (x - x_c)^TQQ^T(x - x_c) \\
+                &= (x - x_c)^T(x - x_c) \\
+                &= \norm{x - x_c}^2.
+            \end{align*}
+            Since $\norm{x - x_c} = \norm{y}$, we also have that 
+            $$\norm{x - x_c}^2 = \sum_{i = 1}^n y_i^2 = \sum_{i = 1}^n \lambda_i^2z_i^2.$$
+            Since $\lambda_n^2 \leq \hdots \leq \lambda_1^2$, we have that 
+            \begin{align*}
+                \sum_{i = 1}^n\lambda_n^2 \leq \sum_{i = 1}^n \lambda_i^2z_i^2 \leq \sum_{i = 1}^n \lambda_1^2z_i^2 \\
+                \lambda_n^2 \leq \sum_{i = 1}^n \lambda_i^2z_i^2 \leq \lambda_1^2 \\
+                \lambda_n^2 \leq \norm{x - x_c}^2 \leq \lambda_1^2 \\
+                \lambda_n \leq \norm{x - x_c} \leq \lambda_1.
+            \end{align*}
+            We conclude that the largest and smallest distances to a point on the boundary of the ellipse correspond to the
+            largest and smallest eigenvalues respectively.
         \end{proof}
     \end{parts}
 
 
+    \newpage
     % Question 5
     \question Show the following statements.
     \begin{parts}
@@ -179,6 +218,7 @@
 
 
 
+    \newpage
     % Question 6
     \question Show the conjugate of $f(X) = \tr{X^\inv} with \dom{f} = \S_{++}^n$ is given by
     $$f^*(Y) = -2\tr{-Y}^{1 / 2}, \dom{f} = -\S_{++}^n.$$
