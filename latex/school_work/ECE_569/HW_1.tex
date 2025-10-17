@@ -124,7 +124,19 @@
         \part The set of points whose distance to $a$ does not exceed a fixed fraction $\theta$ of the distance to $b$,
         i.e. the set $\cbrac{x | \norm{x - a}_2 \leq \theta\norm{x - b}_2}$. You can assume $a \neq b$ and $\theta \leq 1$.
         \begin{proof}
-            
+            Again, we manipulate the constraint:
+            \begin{align*}
+                \norm{x - a}_2 &\leq \theta\norm{x - b}_2 \\
+                \norm{x - a}_2^2 &\leq \theta^2\norm{x - b}_2^2 \\
+                x^Tx - 2x^Ta + a^Ta &\leq \theta^2\paren{x^Tx - 2x^Tb + b^Tb} \\
+                x^Tx - \theta^2x^Tx - 2x^Ta + 2\theta^2x^Tb &\leq \theta^2b^Tb - a^Ta \\
+                (1 - \theta^2)x^Tx + 2x^T(\theta^2b - a) & \leq \norm{b}_2^2 - \norm{a}_2^2 \\
+                x^Tx + \frac{2x^T (\theta^2b - a)}{1 - \theta^2} &\leq \frac{\norm{b}_2^2 - \norm{a}_2^2}{1 - \theta^2} \\
+                x^Tx + \frac{2x^T*\theta^2b - a}{1 - \theta^2} + \frac{1}{(1- \theta^2)^2}x^T(\theta^2b - a)&\leq \frac{\norm{b}_2^2 - \norm{a}_2^2}{1 - \theta^2} + \frac{\frac{1}{1 - \theta^2}\norm{\theta^2b - a}_2^2}{1 - \theta^2} \\
+                \norm{x + \frac{1}{1 - \theta^2}(\theta^2b - a)}_2^2 &\leq \frac{\theta^2\norm{b}_2^2 - \norm{a}_2^2 + \frac{1}{1 - \theta^2}\norm{\theta^2b - a}_2^2}{1 - \theta^2}.
+            \end{align*}
+            We have rewritten our constraint into the form for a ball (since RHS is constant when fixing $a, b, \theta$), and
+            we already know the ball to be convex. Thus our original set is convex.
         \end{proof}
     \end{parts}
 
@@ -135,9 +147,17 @@
     Show the following statements.
     \begin{parts}
         \part A polyhedron, i.e. $P = \cbrac{x | Ax \succeq b, Cx = d}$ where $A\in\R^{m x n}$ and $C\in\R^{p x n}$ is a convex set.
+        \begin{proof}
+
+        \end{proof}
+
+
+
         \part Consider an ellipsoid $\eps = \cbrac{x | (x - x_c)^TP^{-1}(x - x_c) \leq 1}$. Assume that the eigenvalues of $P\in\R^{n x n}$
         is $\lambda_1^2, \hdots, \lambda_n^2$ in descending order. Show that the largest and smallest distances from any point on the
         boundary of the ellipsoid to $x_c$ are $\lambda_1$ and $\lambda_n$ respectively.
+        \begin{proof}
+        \end{proof}
     \end{parts}
 
 
