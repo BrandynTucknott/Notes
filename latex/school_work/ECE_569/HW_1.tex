@@ -203,6 +203,7 @@
     % Question 5
     \question Show the following statements.
     \begin{parts}
+        % 5.a
         \part In machine learning, we are often given training samples in the form of $(x_i, y_i)$ for $i = 1, \hdots, n$ where
         $x_i\in\R^d$ is the feature vector and $y_i\in\R$ is the label of this example. The empirical risk of Euclidean distance based
         linear regression can be expressed as follows:
@@ -221,6 +222,7 @@
             Thus $\nabla_a^2 f \succeq 0$, and $f$ is convex.
         \end{proof}
         
+        % 5.b
         \part Suppose $p < 1$, $p \neq 0$. Show that the function 
         $$f(x) = \paren{\sum_{i = 1}^n x_i^p}^{1 / p}$$
         with $\dom f = \R_{++}^n$ is concave.
@@ -255,8 +257,35 @@
         \end{proof}
 
 
-
+        % 5.c
         \part Show that $f(X) = \tr{X^{-1}}$ is convex on $\dom f = \S_{++}^n$.
+        \begin{proof}
+            Define $T = \cbrac{t : X + tV \in\dom f}$ and
+            $$g(t) = f(X + tV) = \tr{(X + tV)^\inv}.$$
+            It is sufficient to show that $g(t)$ is convex over $T$. Let $X + tV = tQ\Lambda Q^T$ and $\lambda_i > 0$ an eigenvalue for
+            $X + tV$. 
+            \begin{align*}
+                g(t) &= \tr{(X + tV)^\inv} \\
+                &= \tr{X^{-1/2}(I + tX^{1/2}VX^{1/2})^\invX^{-1/2}} \\
+                &= \tr{X^\inv(I + tX^{1/2}VX^{1/2})} \\
+                &= \tr{X^{-1}Q(I + tX^{1/2}\Lambda X^{1/2})Q^T} \\
+                &= \tr{Q^TX^\inv Q(I + tX^{1/2}\Lambda X^{1/2})} \\
+                &= \sum_{i = 1}^n \paren{Q^TX^\inv Q}_{ii}(1 + t\lambda_i).
+            \end{align*}
+            Note that $h_i(t) = 1 + t\lambda_i > 0$ is obviously convex. Consider the case when $(Q^TX^\inv Q)_{ii} \geq 0$, 
+            then we have
+            $$g(t) = \sum_{i = 1}^n (Q^TX^\inv Q)_{ii} h_i(t),$$
+            which is the non-negative weighted sum of convex functions, which is convex. Thus it is sufficient to show $Q^TX^\inv Q \geq 0$.
+            $X \succ 0$, let $X = USU^T$ for an orthogonal matrix $U$ and diagonal matrix $S$. Then
+            \begin{align*}
+                \paren{Q^TX^\inv Q}_{ii} &= \paren{Q^TUSU^TQ}_{ii} \\
+                &= \paren{(Q^Tu)S(Q^TU)^T}_{ii}.
+            \end{align*}
+            Let $H = Q^TU$. We can further simplify the above equation into
+            $$\paren{(Q^Tu)S(Q^TU)^T}_{ii} = \paren{HSH^T}_{ii},$$
+            and since $S$ is a diagonal matrix of eigenvalues for a PD matrix, $HSH^T$ is also PD. We conclude that $(HSH^T)_{ii} > 0$, and by
+            extension $g(t)$ is convex.
+        \end{proof}
     \end{parts}
 
 
@@ -267,7 +296,32 @@
     $$f^*(Y) = -2\tr{-Y}^{1 / 2}, \dom{f} = -\S_{++}^n.$$
     (Hint: for unconstrained and differentiable convex problems, min / max can be found by looking for where the function
     has zero gradient.)
+    \begin{proof}
+        By definition we know that the conjugate function for $f$ is defined as
+        $$f^*(Y) = \sup_{X\succ 0}\paren{\tr{XY} - \tr{X^\inv}}.$$
 
+        We find the gradient with respect to $X$ of $\tr{XY} - \tr{X^\inv}$ and set it equal to 0.
+        \begin{align*}
+            \nabla_X \paren{\tr{XY} - \tr{X^\inv}} &= Y + X^{-2} = 0 \\
+            & X = (-Y)^{-1/2},
+        \end{align*}
+        since $X \succ 0$, clearly $Y \prec 0$. Plugging this into our definition of $f^*$, we get
+        \begin{align*}
+            f^*(Y) &= \tr{XY} - \tr{X^\inv} \\
+            &= \tr{(-Y)^{-1/2}Y} - \tr{((-Y)^{-1/2})^\inv} \\
+            &= \tr{-(-Y)^{-1/2}(-Y)} - \tr{(-Y)^{1/2}} \\
+            &= -\tr{(-Y)^{1/2}} - \tr{(-Y)^{1/2}} \\
+            &= -2\tr{(-Y)^{1/2}}.
+        \end{align*}
+    \end{proof}
+
+
+
+
+
+
+
+    \newpage
     % Question 7
     \question Show that the following function is convex.
     $$f(x) = x^T\paren{A(x)}^\inv x, \dom{f} = \cbrac{x | A(x) \succ 0},$$
@@ -278,6 +332,18 @@
         b^T & c
     \end{matrix}} \succ 0 \leftrightarrow c - b^TA^\inv b \geq 0.$$
     You will need to study "epigraph" from chapter 3 of the textbook to answer this question.
+    \begin{proof}
+        Consider the epigraph of $f$
+        \begin{align*}
+            \textbf{epi } f &= \cbrac{(x, t) : A(x) \succ 0, x^T\paren{A(x)}^\inv x \leq t} \\
+            &= \cbrac{(x, t) : \brac{\begin{matrix}
+                A(x) & x \\
+                x^T & t
+            \end{matrix}}, Y \succ 0}.
+        \end{align*}
+        Since $A(x) \succ 0$ by definition, we use Schur's complement for positive semi-definiteness of a block matrix. The last 
+        condition is a linear matrix inequality in $(x, t)$, thus \textbf{epi} $f$ is convex.
+    \end{proof}
 
 
 \end{questions}
