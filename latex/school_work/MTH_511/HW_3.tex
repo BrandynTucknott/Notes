@@ -23,54 +23,145 @@
     % Question 1
     \question Prove that $\ell_2$ is separable.
     \begin{proof}
-        Let $\veps > 0$ be arbitrary, and consider a sequence $(r_1, r_2, \hdots, r_N, 0, 0, \hdots), N\in\N, r_k\in\Q$. 
+        Let $\veps^2 > 0$ be arbitrary, and consider a sequence $(r_1, r_2, \hdots, r_N, 0, 0, \hdots), N\in\N, r_k\in\Q$. 
         Define also $S\subset\ell_2$ as the set of all possible sequences satisfying the above criterion. Consider first $(y_n)$.
-        Since $(y_n)\in\ell_2$, we know that $\sum_{i = 1}^\infty y_i^2 < \frac{\veps}{4}$, so certainly 
-        $\sum_{i = N + 1}^\infty y_i^2 < \frac{\veps}{4}$. By a similar frame of logic, we can show that
+        Since $(y_n)\in\ell_2$, we know that $\sum_{i = 1}^\infty y_i^2 < \frac{\veps^2}{4}$, so certainly 
+        $\sum_{i = N + 1}^\infty y_i^2 < \frac{\veps^2}{4}$. By a similar frame of logic, we can show that
         \begin{align*}
-            \sum_{i = 1}^\infty y_i^2 &< \frac{\veps}{4} \\
-            \sum_{i = 1}^N y_i^2 &< \frac{\veps}{4},
+            \sum_{i = 1}^\infty y_i^2 &< \frac{\veps^2}{4} \\
+            \sum_{i = 1}^N y_i^2 &< \frac{\veps^2}{4},
         \end{align*}
         and also that
         \begin{align*}
-            \sum_{i = 1}^\infty x_i^2 &< \frac{\veps}{4} \\
-            \sum_{i = 1}^N x_i^2 &< \frac{\veps}{4}.
+            \sum_{i = 1}^\infty x_i^2 &< \frac{\veps^2}{4} \\
+            \sum_{i = 1}^N x_i^2 &< \frac{\veps^2}{4}.
         \end{align*}
         It is easy to see then, that 
-        $$\sum_{i = 1}^N (y_i - x_i)^2 \leq \sum_{i = 1}^N y_i^2 + \sum_{i = 1}^N x_i^2 < \frac{\veps}{2} + \frac{\veps}{2} < \frac{\veps}{1}.$$
+        $$\sum_{i = 1}^N (y_i - x_i)^2 \leq \sum_{i = 1}^N y_i^2 + \sum_{i = 1}^N x_i^2 < \frac{\veps^2}{4} + \frac{\veps^2}{4} < \frac{\veps^2}{2}.$$
         
         Then for all $(x_n)\in S$
         and $(y_n)\in \ell_2$,
         \begin{align*}
-            \sum_{i = 1}^\infty (y_i - x_i)^2 &= \sum_{i = 1}^N (y_i - x_i)^2 + \sum_{i = N + 1}^\infty (y_i - x_i)^2
+            \sum_{i = 1}^\infty (y_i - x_i)^2 &= \sum_{i = 1}^N (y_i - x_i)^2 + \sum_{i = N + 1}^\infty (y_i - x_i)^2 \\
+            &< \frac{\veps^2}{2} + \frac{\veps^2}{4} < \veps^2.
         \end{align*}
+
+        Thus $y\in B_\veps(x)\cap S \rightarrow B_\veps (x)\cap S \neq \emptyset$, and so $y\in \overline{S}$. So $\ell_2 \subseteq\overline{S}$, 
+        and since $\overline{S} \subseteq \ell_2$ is obvious, we conclude that $\overline{S} = \ell_2$. Since $|S| = \sum_{i = 1}^\infty \Q^i$ is countable,
+        $S$ is countable and therefore dense, meaning $\ell_2$ is separable.
     \end{proof}
 
 
     \newpage
     % Question 2
     \question Show that $\ell_\infty$ is not separable.
+    \begin{proof}
+        Let $I\subseteq \N$ with a sequence $(x_n)$ defined as
+        $$(x_k) = \begin{cases}
+            1, k\in I \\
+            0, k\not\in I
+        \end{cases}.$$
+
+        Define $P = \cbrac{(x_n) : I\subseteq\N}$. Then $|P| = |2^\N| = 2^{\aleph_0}$ is uncountable by Cantor's theorem. Now suppose
+        $I_1 \neq I_2 \subseteq \N$. Then there exists $k\in\N$ such that
+        $$x_k(I_1) \neq x_k(I_2) \rightarrow d(x_k(I_1), x_k(I_2)) = 1.$$
+        Suppose also there exists a countable dense set $D \subseteq \ell_\infty$. Then for all $x\in P$, there exists $z\in D$ such that
+        $z \in B_{1/2}(x)$. But open balls with radius $1/2$ must be disjoint, since for two centers $x \neq y, d(x, y) = 1$. Thus different $x\in P$
+        require distinct $z_x \in D$, giving an injection from $P \to D$. This is an injection from an uncountable set $P$ to a countable set $D$, 
+        a contradiction. We conclude our assumption about the existence of a dense set $D\subseteq \ell_\infty$ is wrong, and in fact no such 
+        set exists. Then by definition, $\ell_\infty$ is not separable.
+    \end{proof}
 
 
     \newpage
     % Question 3
     \question Prove that $M$ has a countable open base if and only if $M$ is separable.
+    \begin{proof}
+        First we show that $M$ having countable open base implies $M$ separable. Suppose $M$ has countable open base $\mathcal{B}$, and let
+        $x\in M, \veps > 0$. For all $B\in\mathcal{B}$ with $B \neq \emptyset$, let $y_B\in B$. Define $S$ to be
+        $$S = \cbrac{y_B : B\in\mathcal{B}, B\neq \emptyset}.$$
+        Note that since $B_\veps(x)$ is open, it is the union of some basis elements (definition of open base). So there exists $B\in\mathcal{B}$ such that $B\subseteq B_\veps(x)$. Since
+        $y_B\in B_\veps(x)$ and $y_B\in S$, $y_B\in B_\veps(x)\cap S$, so $B_\veps(x)\cap S \neq \emptyset$ and $x\in \overline{S}$. We can define $\mathcal{B}' = \mathcal{B}\backslash\emptyset$ 
+        and a function $f: \mathcal{B}'\to S$ as $f: B\to y_B$ which is a map to its image, so $f$ is surjective. Since $S$ is countable and
+        $M\subseteq \overline{S}, M = \overline{S}$, ($\overline{S}\subseteq M$ is obvious) $S$ is countable and dense in $M$, thus $M$ is separable.
+
+
+        We now show that $M$ separable implies $M$ has countable open base. Let $M$ be separable. Then there exists $D\subseteq M$ which 
+        is countable and dense. Let $\mathcal{U}\subseteq M$ be open with $x\in \mathcal{U}$. By definition of open and dense, there exists some
+        $\veps / 2 > 0$ such that $B_{\veps / 2}(x) \subset \mathcal{U}$, and there exists also $y\in D$ with $y\in B_{\veps / 2}(x)$. Then it must 
+        be that $x\in B_{\veps / 2}(y)$. By density of $\Q$ in $\R$, there exists $r\in\Q$ with $\veps / 2 < r <  < \veps$. Thus
+        $$B_{\veps / 2}(y) \subset B_r(y) \subseteq \mathcal{U}.$$
+        This gives us the following: 
+        \begin{itemize}
+            \item for all $x\in \mathcal{U}$, $x\in B_r(y)\rightarrow x\in \cup_{x\in\mathcal{U}}B_r(y)$
+            \item for all $z\in \cup_{x\in\mathcal{U}B_r(y)}$, $z\in B_r(y)$ for some $x, B_r(y)$
+        \end{itemize}
+
+        This tell us that $\mathcal{U} \subseteq \cup_{x\in\mathcal{U}}B_r(y)$, and also that
+        $\mathcal{U} \supseteq \cup_{x\in\mathcal{U}}B_r(y)$, so $\mathcal{U} = \cup_{x\in\mathcal{U}}B_r(y)$. We have shown any open set
+        can be represented as a union of balls with rational radius, thus $\mathcal{B}$ is an open base.
+    \end{proof}
 
 
     \newpage
     % Question 4
     \question Let $f: (M,d)\to(N, \rho)$ be continuous, and let $D$ be a dense subset of $M$. If $f(x) = g(x)$ for all $x\in D$, 
     show that $f(x) = g(x)$ for all $x\in M$. If $f$ is onto, show that $f(D)$ is dense in $N$.
+    \begin{proof}
+        Assume for some $x\in M$, $f(x) \neq g(x)$. Then $\rho(f(x), g(x)) > 0$. Let $\veps = \rho (f(x), g(x))$. By definition of continuity,
+        for all $y\in M$, there exists some $\delta_f, \delta_g > 0$ such that
+        $$d(x, y) < \delta_f \rightarrow \rho (f(x), f(y)) < \veps / 2 \text{ and}$$
+        $$d(x, y) < \delta_g \rightarrow \rho (g(x), g(y)) < \veps / 2.$$
+
+        Let $\delta = \min\cbrac{\delta_f, \delta_g}$. Since $D$ is dense, there exists $y\in B_\delta(x)$ with $y\in D\cap B_\delta(x)$. Then
+        \begin{align*}
+            \rho (f(x), g(x)) &\leq \rho (f(x), f(y)) + \rho (f(y), g(x)) \\
+            &= \rho (f(x), f(y)) + \rho (g(y), g(x)) \\
+            &< \veps / 2 + \veps / 2 = \veps.
+        \end{align*}
+        So $\rho (f(x), g(x)) < \veps = \rho (f(x), g(x))$. This is a contradiction, and our assumption that $f(x) \neq g(x)$ is wrong. We conclude then, for all $x\in M, f(x) = g(x)$.
+
+        Here we show that $f(D)$ is dense in $N$ given that $f$ is onto. Let $y\in N$. Since $f$ is onto, there exists $x\in M$ such that $y = f(x)$. By property of $D$ being dense,
+        and $f$ continuous we know there exists some $z\in D$ such that $d(x, z) < \delta \rightarrow \rho (f(x), f(z)) < \veps$. 
+        Thus $f(z) \in f(D)\cap B_\veps (f(x)) \rightarrow B_\veps(y)\cap f(D)\neq\emptyset$, and by definition of closure $y = f(x)\in \overline{f(D)}$. Since $y\in N$ gives us
+        $y\in \overline{f(D)}$, we get $N \subseteq \overline{f(D)}$, and thus $N = \overline{f(D)}$. The image of a continuous function with countable domain is countable, so
+        we conclude that $f(D)$ is dense in $N$.
+    \end{proof}
 
 
     \newpage
     % Question 5
     \question Let $f: (M, d)\to (N, \rho)$ be continuous, and let $A$ be a separable subset of $M$. Prove that $f(A)$ is separable.
+    \begin{proof}
+        It is sufficient to show that $f(A) = \overline{f(D^A)}\cap f(A)$ where $\overline{D^A} = \overline{D} \cap A$ for some countably dense set $D\subseteq M$. Let $x\in A$. Then $x\in A \cap \overline{D} = \overline{D^A}$
+        with $f(x) = y\in f(A)$. Since $x\in\overline{D^A}$, there exists some $z\in B_\delta^d(x)\cap D$, and by continuity 
+        \begin{align*}
+            f(z) &\in B_\veps^\rho (f(x))\cap f(A) \\
+            f(z) &\in B_\veps^\rho (y)\cap f(A) \\
+            f(z) &\in \overline{f(D)}.
+        \end{align*}
+        Since $f(z)\in\overline{f(D)}$ and $f(z)\in f(A)$, $f(z)\in \overline{f(D)}\cap f(A)$. So $\overline{f(D)}\cap f(A) \neq \emptyset$, and
+        $y\in \overline{D^A}$. So for any $y\in f(A)$, we have that $y\in \overline{f(D^A)}$, thus $f(A) \subseteq \overline{f(D^A)}$. 
+        Since it is clear that $\overline{f(D^A)} \subseteq f(A)$, we have that $f(A) = \overline{f(D^A)}$, and $f(D^A)$ is dense in $f(A)$.
+        Since $f(D^A)$ is the image of a continuous countable set, $f(A)$ is separable.
+    \end{proof}
 
 
     \newpage
     % Question 6
     \question Fix $y\in \ell_\infty$ and define $h: \ell_1\to\ell_1$ by $h(x) = (x_ny_n)_{n = 1}^\infty$. Show that $h$ is continuous.
+    \begin{proof}
+        Let $\veps > 0$ be arbitrary, and $y_s = \sup \cbrac{y_i}$. Choose $\delta < \veps / |y_s|$. Then for $x, z\in \ell_\infty$ given that $d(x, z) < \delta$, we have that
+        \begin{align*}
+            d(x, z) &< \delta \\
+            \sum_{i = 1}^\infty |x_i - z_i| &< \veps / |y_s| \\
+            |y_s|\sum_{i = 1}^\infty |x_i - z_i| &< \veps \\
+            \sum_{i = 1}^\infty |y_s||x_i - z_i| &< \veps \\
+            \sum_{i = 1}^\infty |y_i||x_i - z_i| &< \veps (\text{ since certainly } \sum |y_i||x_i - z_i| < \sum |y_s||x_i - z_i|)\\
+            \sum_{i = 1}^\infty |x_iy_i - z_iy_i| &< \veps \\
+            \norm{h(x) - h(z)}_1 &< \veps.
+        \end{align*}
+    \end{proof}
 
 
 \end{questions}
