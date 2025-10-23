@@ -1,0 +1,78 @@
+\documentclass{exam}
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm,dsfont}
+\usepackage{lib/extra}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usepackage{bbm}
+\usepackage{pgfplots}
+\usepackage{fontenc}
+\usepackage{float}
+
+\pgfplotsset{compat=1.18}
+
+\title{MTH 511 HW 3}
+\author{Brandyn Tucknott}
+\date{Due 22 October 2025}
+
+\begin{document}
+\maketitle
+
+\begin{questions}
+    % Question 1
+    \question Prove that $\ell_2$ is separable.
+    \begin{proof}
+        Let $\veps > 0$ be arbitrary, and consider a sequence $(r_1, r_2, \hdots, r_N, 0, 0, \hdots), N\in\N, r_k\in\Q$. 
+        Define also $S\subset\ell_2$ as the set of all possible sequences satisfying the above criterion. Consider first $(y_n)$.
+        Since $(y_n)\in\ell_2$, we know that $\sum_{i = 1}^\infty y_i^2 < \frac{\veps}{4}$, so certainly 
+        $\sum_{i = N + 1}^\infty y_i^2 < \frac{\veps}{4}$. By a similar frame of logic, we can show that
+        \begin{align*}
+            \sum_{i = 1}^\infty y_i^2 &< \frac{\veps}{4} \\
+            \sum_{i = 1}^N y_i^2 &< \frac{\veps}{4},
+        \end{align*}
+        and also that
+        \begin{align*}
+            \sum_{i = 1}^\infty x_i^2 &< \frac{\veps}{4} \\
+            \sum_{i = 1}^N x_i^2 &< \frac{\veps}{4}.
+        \end{align*}
+        It is easy to see then, that 
+        $$\sum_{i = 1}^N (y_i - x_i)^2 \leq \sum_{i = 1}^N y_i^2 + \sum_{i = 1}^N x_i^2 < \frac{\veps}{2} + \frac{\veps}{2} < \frac{\veps}{1}.$$
+        
+        Then for all $(x_n)\in S$
+        and $(y_n)\in \ell_2$,
+        \begin{align*}
+            \sum_{i = 1}^\infty (y_i - x_i)^2 &= \sum_{i = 1}^N (y_i - x_i)^2 + \sum_{i = N + 1}^\infty (y_i - x_i)^2
+        \end{align*}
+    \end{proof}
+
+
+    \newpage
+    % Question 2
+    \question Show that $\ell_\infty$ is not separable.
+
+
+    \newpage
+    % Question 3
+    \question Prove that $M$ has a countable open base if and only if $M$ is separable.
+
+
+    \newpage
+    % Question 4
+    \question Let $f: (M,d)\to(N, \rho)$ be continuous, and let $D$ be a dense subset of $M$. If $f(x) = g(x)$ for all $x\in D$, 
+    show that $f(x) = g(x)$ for all $x\in M$. If $f$ is onto, show that $f(D)$ is dense in $N$.
+
+
+    \newpage
+    % Question 5
+    \question Let $f: (M, d)\to (N, \rho)$ be continuous, and let $A$ be a separable subset of $M$. Prove that $f(A)$ is separable.
+
+
+    \newpage
+    % Question 6
+    \question Fix $y\in \ell_\infty$ and define $h: \ell_1\to\ell_1$ by $h(x) = (x_ny_n)_{n = 1}^\infty$. Show that $h$ is continuous.
+
+
+\end{questions}
+
+\end{document}
