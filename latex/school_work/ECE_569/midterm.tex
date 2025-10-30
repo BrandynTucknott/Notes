@@ -1,0 +1,103 @@
+\documentclass{exam}
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm,dsfont}
+\usepackage{lib/extra}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usepackage{bbm}
+\usepackage{pgfplots}
+\usepackage{fontenc}
+\usepackage{float}
+
+\pgfplotsset{compat=1.18}
+
+\title{ECE 569 Midterm}
+\author{Brandyn Tucknott}
+\date{Due 31 October 2025}
+
+\begin{document}
+\maketitle
+
+\begin{questions}
+    % question 1
+    \question Show that the following sets or functions are convex
+    \begin{parts}
+        % part a
+        \part $\mathcal{S} = \cbrac{x\in\R^n : \norm{x}_1 + \norm{x}_2 \leq 1}$.
+        \begin{proof}
+            Let $x, y\in \mathcal{S}$ be arbitrary and $\theta\in [0, 1]$. Then
+            \begin{align*}
+                \norm{\theta x + (1 - \theta)y}_1 + \norm{\theta x + (1 - \theta)y}_2 &\leq \norm{\theta x}_1 + \norm{(1 - \theta)y}_1 + \norm{\theta x}_2 + \norm{(1 - \theta)y}_2 \\
+                &= \theta\norm{x}_1 + (1 - \theta)\norm{y}_1 + \theta\norm{x}_2 + (1 - \theta)\norm{y}_2 \\
+                &= \theta\paren{\norm{x}_1 + \norm{x}_2} + (1 - \theta)\paren{\norm{y}_1 + \norm{y}_2} \\
+                &\leq \theta (1) + (1 - \theta)(1) = 1.
+            \end{align*}
+            We conclude that $\mathcal{S}$ is convex by definition.
+        \end{proof}
+
+
+        % part b
+        \part $\mathcal{S} = \cbrac{A\in\S^n : z^TAz \geq 1, z\in\mathcal{C}}$, where $\mathcal{C}\subseteq \R^n$ (not necessarily convex).
+        \begin{proof}
+            Let $A, B\in \mathcal{S}, z\in\mathcal{C}$ be arbitrary with $\theta\in [0, 1]$. Then
+            \begin{align*}
+                z^T\paren{\theta A + (1 - \theta)B}z &= z^T\theta Az + z^T(1 - \theta)Bz \\
+                &= \theta z^TAz + (1 - \theta)z^TBz \\
+                &\geq \theta(1) + (1 - \theta)(1) = 1.
+            \end{align*}
+            We conclude that $\mathcal{S}$ is convex by definition.
+        \end{proof}
+
+
+        % part c
+        \part $\mathcal{S} = \mathcal{C}_1 - \mathcal{C}_2$ where $\mathcal{C}_1, \mathcal{C}_2$ are convex sets.
+        \begin{proof}
+            Let $a, b\in \mathcal{S}, x_a, x_b\in\mathcal{C}_1, y_a, y_b\in\mathcal{C}_2$ be arbitrary and $\theta\in [0, 1]$. Then
+            \begin{align*}
+                \theta a + (1 - \theta)b &= \theta (x_a - y_a) + (1 - \theta)(x_b - y_b) \\
+                &= \paren{\theta x_a + (1 - \theta)x_b} - \paren{\theta y_a + (1 - \theta)y_b} \\
+                &= c_1 - c_2,
+            \end{align*}
+            where $c_1 = \theta x_a + (1 - \theta)x_b \in\mathcal{C}_1$ and $c_2 = \theta y_a + (1 - \theta)y_b\in\mathcal{C}_2$ by definition of convex sets. Then certainly 
+            $c_1 - c_2\in\mathcal{S}$, thus $\mathcal{S}$ is convex.
+        \end{proof}
+
+
+        % part d
+        \part $f(x) = \sum_{i = 1}^n \max{0, 1 - x_i}$.
+        \begin{proof}
+            Let $x,y\in\dom f$ and $\theta\in [0, 1]$. Then
+            \begin{align*}
+                f(\theta x + (1 - \theta)y) &= \sum_{i = 1}^n \max\cbrac{0, 1 - \paren{\theta x_i + (1 - \theta)y_i}} \\
+                &= \sum_{i = 1}^n \frac{0 + \paren{1 - \paren{\theta x_i + (1 - \theta)y_i}} + \abs{\paren{1 - \paren{\theta x_i + (1 - \theta)y_i}} - 0}}{2} \\
+                &= \sum_{i = 1}^n \frac{1 - \theta x_i - (1 - \theta)y_i + \abs{1 - \paren{\theta x_i - (1 - \theta)y_i}}}{2} \\
+                &= \sum_{i = 1}^n \frac{\theta + (1 - \theta) - \theta x_i - (1 - \theta)y_i + \abs{\theta + (1 - \theta) - \theta x_i - (1 - \theta)y_i}}{2} \\
+                &\leq \sum_{i = 1}^n \frac{\theta + (1 - \theta) - \theta x_i - (1 - \theta)y_i + |\theta - \theta x_i| + |(1 - \theta) - (1 - \theta)y_i|}{2} \\
+                &= \sum_{i = 1}^n \frac{\theta - \theta x_i + \theta |1 - x_i| + (1 - \theta) - (1 - \theta)y_i + (1 - \theta)|1 - y_i|}{2} \\
+                &= \theta\sum_{i = 1}^n \frac{1 - x_i + |1 - x_i|}{2} + (1 - \theta)\sum_{i = 1}^n \frac{1 - y_i + |1 - y_i|}{2} \\
+                &= \theta\sum_{i = 1}^n \max\cbrac{0, 1 - x_i} + (1 - \theta)\sum_{i = 1}^n \max\cbrac{0, 1 - y_i} \\
+                &= \theta f(x) + (1 - \theta)f(y).
+            \end{align*}
+            Since $f(\theta x + (1 - \theta)y) \leq \theta f(x) + (1 - \theta)f(y)$, we conclude that $f$ is convex.
+        \end{proof}
+
+
+        % part e
+        \part $f(x, t) = -\log\paren{t - \norm{x}_2}$, where $\dom f = \cbrac{(x, t)\in \R^{n + 1} : \norm{x}_2 < t}$.
+        \begin{proof}
+            Let $(x,t), (y, s)\in\dom f, \theta\in [0, 1]$ and recognize that $\theta(x, t) + (1 - \theta)(y,s) = (\theta + (1 - \theta)y, \theta t + (1 - \theta)s)$. Then
+            \begin{align*}
+                f(\theta x + (1 - \theta)y, \theta t + (1 - \theta)s) &= -\log\paren{\theta t + (1 - \theta)s - \norm{\theta x + (1 - \theta)y}_2} \\
+                &\leq -\log\paren{\theta t + (1 - \theta)s - \theta\norm{x}_2 - (1 - \theta)\norm{y}_2} \\
+                &= -\log\paren{\theta(t - \norm{x}_2) + (1 - \theta)(s - \norm{y}_2)}
+            \end{align*}
+        \end{proof}
+
+
+    \end{parts}
+\end{questions}
+
+
+
+\end{document}
