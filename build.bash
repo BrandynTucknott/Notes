@@ -48,7 +48,8 @@ for arg in "$@"; do
 
 
     # delete extra .aux .log .out
-    $(rm $fname.aux $fname.log $fname.out)
+    # $(rm $fname.aux $fname.log $fname.out)
+    $(rm $fname.aux $fname.log)
 
 
     # create necessary directories if they do not exist in latex
