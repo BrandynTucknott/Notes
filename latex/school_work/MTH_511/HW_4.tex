@@ -1,0 +1,227 @@
+\documentclass{exam}
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm,dsfont}
+\usepackage{lib/extra}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usepackage{bbm}
+\usepackage{pgfplots}
+\usepackage{fontenc}
+\usepackage{float}
+% \usepackage{}
+
+\pgfplotsset{compat=1.18}
+
+\title{MTH 511 HW 4}
+\author{Brandyn Tucknott}
+\date{5 November 2025}
+
+\begin{document}
+\maketitle
+
+
+\begin{questions}
+    \setcounter{section}{5}
+    \setcounter{theorem}{4}
+
+    % question 1
+    \question Prove theorem 5.5.
+    \noqed
+    \begin{theorem}
+        Let $f: (M, d)\to (N, \rho)$ be one-to-one and onto. Then the following are equivalent.
+        \begin{parts}
+            \renewcommand{\thepartno}{\roman{partno}}
+            %  (i)
+            \part $f$ is a homeomorphism.
+
+
+            % (ii)
+            \part $x_n \to_d x \leftrightarrow f(x_n)\to_\rho f(x)$.
+            
+            
+            % (iii)
+            \part $G$ is open in $M \leftrightarrow f(G)$ is open in $N$.
+
+
+            % (iv)
+            \part $E$ is closed in $M \leftrightarrow f(E)$ is closed in $N$.
+
+
+            % (v)
+            \part $\hat{d}(x, y) = \rho(f(x), f(y))$ defined a metric on $M$ equivalent to $d$.
+        \end{parts}
+    \end{theorem}
+    \yesqed
+    \begin{proof}
+        Our method will be to show that $i\to ii\to iii\to iv\to v \to i$.
+        \begin{enumerate}[label={}, leftmargin=*]
+            \item $(i)\to (ii)$: since $f$ is a homeomorphism, we have that $f, f^\inv$ are continuous. Then by Theorem 5.1, we have that
+            \begin{align*}
+                x_n \to_d x &\longrightarrow f(x_n)\to_\rho f(x) \\
+                f(x_n) \to_\rho f(x) &\longrightarrow f^\inv(f(x_n))\to_d f^\inv(f(x)) \text{ which is equivalent to } \\
+                f(x_n)\to_\rho x &\longrightarrow x_n\to_d x.
+            \end{align*}
+            Thus $(i) \rightarrow (ii)$.
+            \item $(ii)\to (iii)$: Property two says $f, f^\inv$ are continuous, so by Theorem 5.1 we have that
+            \begin{align*}
+                f(G)\text{ in } N \text{ open } &\longrightarrow G \text{ in } M \text{ open } \\
+                f^\inv (f(G))\text{ in } M \text{ open } &\longrightarrow f(G) \text{ in } N \text{ open }\text{ which is equivalent to} \\
+                G\text{ in } M \text{ open } &\longrightarrow f(G) \text{ in } N \text{ open }.
+            \end{align*}
+            Thus $(ii) \to (iii)$.
+            \item $(iii)\to (iv)$: This uses the exact same argument as $(ii)\to (iii)$, replacing the word `open' for `closed'.
+            \item $(iv)\to(v)$: Certainly $\hat{d} = \rho$ is a metric, so it remains to be shown if it is an equivalent metric. Since we are given $(iv)$, we know that
+            \begin{align}
+                f^\inv(f(E)) \text{ closed in } M &\longrightarrow f^\inv (E) \text{ closed in } N \text{ and} \\
+                f(E) \text{ closed in } N &\longrightarrow E \text{ closed in } M.
+            \end{align}
+            From Theorem 5.1 we know that $f, f^\inv$ are continuous, and thus $f$ is a homeomorphism. This gives us $(i)\to(ii)$. We see then if $d(x_n, x)\to 0$, then $x_n\to_d x$ and by $(ii)$ $x_n\to_\rho x$ which is equivalent to $x_n \to_{\hat{d}} x$. On the other hand, if $\hat{d}(x_n, x)\to 0$, then $x_n\to_{\hat{d} = \rho} x$ and by $(ii)$ we have that $x_n\to_d x$. Thus $\hat{d}$ is equivalent to $d$. 
+            \item $(v)\to (i)$: Property $(v)$ tells us that
+            $$x_n\to_d x \longleftrightarrow x_n\to_{\hat{d}} x.$$
+            It is clear that
+            \begin{align*}
+                x_n \to_d x &\longrightarrow x_n \to_{\hat{d}} x \\
+                d(x_n, x)\to 0 & \longrightarrow \rho(x_n, x)\to 0 \\
+                x_n \to x &\longrightarrow f(x_n)\to f(x) \\
+                &\text{Thus $f$ is continuous}.
+            \end{align*}
+
+            Similarly, we have that
+            \begin{align*}
+                x_n\to_{\hat{d}} x &\longrightarrow x_n\to_d x \\
+                \rho(x_n, x)\to 0 &\longrightarrow d(x_n, x)\to 0 \\
+                f(x_n)\to x &\longrightarrow x_n\to x \\
+                &\text{ Thus $f^\inv$ is continuous.}
+            \end{align*}
+
+            Since $f, f^\inv$ is continuous with $f$ one-to-one and onto, we conclude that $f$ is a homeomorphism.
+        \end{enumerate}
+    \end{proof}
+
+
+
+
+    \newpage
+    % question 2
+    \question Suppose we are given a point $x$ and a sequence $x_n$ in a metric space $M$, and suppose that $f(x_n)\to f(x)$ for every continuous real-valued function $f$ on $M$. Prove that $x_n\to x$ in $M$.
+    \begin{proof}
+        Suppose $x_n \not\to x$. Then there exists some $\veps > 0$ and a subsequence $(x_{n_k})$ such that
+        $$d(x_{n_k}, x) \geq \veps$$
+        for all $k$. Let $f: M\to \R$ be defined by 
+        $$f(y) = \max(0, 1 - \frac{d(x, y)}{\veps}).$$
+        For any $y, z\in M$, we have that
+        $$|f(y) - f(z)| \leq \frac{|d(x, y) - d(x, z)|}{\veps} \leq \frac{d(y, z)}{\veps},$$
+        so $f$ is lipschitz and thus continuous (by exercise 5.19 in the book). Observe that 
+        $$d(x_{n_k}, x) \geq \veps \longrightarrow \frac{d(x_{n_k}, x)}{\veps} \geq 1 \longrightarrow 1 - \frac{d(x_{n_k}, x)}{\veps} \leq 0.$$
+        Thus $\max(0, 1 - \frac{d(x_{n_k}, x)}{\veps}) = 0$, and $f(x_{n_k}) = 0$. Since $f(x_{n_k}) = 0$ and
+        $f(x) = \max(0, 1 - \frac{d(x, x)}{\veps}) = 1$, we have that $f(x_{n_k})\not\to f(x)$, a contradiction. We conclude our assumption must be wrong, and it must be that $x_n\to x$.
+    \end{proof}
+
+
+
+
+
+
+
+
+
+
+
+    \newpage
+    % question 3
+    \question Prove that a totally bounded metric space is separable.
+    \begin{proof}
+        Let $M$ be a totally bounded metric space. Then for some points $x_1, \hdots x_n \in M$, we have that
+        $$M = \bigcup_{i = 1}^n B_\veps(x_i)$$
+        for all $\veps > 0$ and $n < \infty$. Define $D_n = \cbrac{x_1, \hdots, x_n}, D = \cup_{n = 1}^\infty D_n$. Then $D$ is a countable union of finite sets, and it remains to be shown that $D$ is dense. Obviously $\overline{D} \subseteq M$, so we want to show that $M \subseteq \overline{D}$. Let $x\in M$. Then there exists some $x_k\in D_n$ with $k \leq n$ such that $x\in B_\veps(x_k)$. Then clearly $x_k\in B_\veps(x)$, and $B_\veps(x)\backslash\cbrac{x}\cap D \neq \emptyset$ and $x\in \overline{D}$ by definition of closure. We conclude that $\overline{D} = M$, so $D$ is dense, and since it is countable we have that $M$ is separable.
+    \end{proof}
+
+
+
+
+
+
+
+
+
+    \newpage
+    % question 4
+    \question Let $(M, d)$ and $(N, \rho)$ be metric spaces with $f: M\to N$ a surjective function which satisfies
+    $$\rho(f(x), f(y))\leq d(x, y)$$
+    for all $x, y\in M$. Prove or find a counterexample to the following.
+    \begin{parts}
+        \part If $(N, \rho)$ is complete, then $(M, d)$ is complete.
+        \begin{proof}
+            Let $M = (0, 1), N = \{ 0 \}, f: M\to N$ be defined by $f(x) = 0$. Define also $d(x, y) = |x - y|$ and $\rho(0,0) = 0$. Then certainly the given inequality holds with $f$ onto. Every Cauchy sequence in $N$ converges trivially to $0\in N$, but the sequence $x_n = \frac{1}{n}$ converges to 0, which is not in $M$. We conclude the statement does not universally hold.
+        \end{proof}
+
+        \part $(M, d)$ is complete, then $(N, \rho)$ is complete.
+        \begin{proof}
+            Let $M = \R, N = (0, 1)$ with $d(x, y) = \rho(x, y) = |x - y|$. Define $f: M\to N$ as $f(x) = 1/2 \arctan (x) + 1/2$. Notice that since $\arctan(x)$ is invertible only when the domain is restricted to $(-\pi/2, \pi/2)$, the domain $\R$ makes it no longer one-to-one, but it retains its onto properties. Since $f'(x) = 1 / (1 + x^2)$ is bounded by (0, 1), we have that
+            \begin{align*}
+                \abs{\frac{f(x) - f(y)}{x - y}} &\leq 1 \\
+                |f(x) - f(y)| &\leq |x - y| \\
+                \rho(f(x), f(y)) &\leq d(x, y).
+            \end{align*}
+            Again consider a sequence $x_n = 1 / n$ in $N$. Certainly $x_n$ is Cauchy, but it converges to $0\notin N$, so the statement does not universally hold.
+        \end{proof}
+    \end{parts}
+
+
+
+
+
+
+
+    \newpage
+    % question 5
+    \question Fill in the details for the proof that $\ell_1$ and $\ell_\infty$ are complete. (CURRENTLY INCOMPLETE)
+    \begin{proof}
+        Here we show that $\ell_1$ is complete. Let $f\in \ell_1$ be written as $f = (f(k))_{k = 1}^\infty$, in which case $\norm{f}_1 = \sum_{k = 1}^\infty |f(k)|$. Let $f_n$ be a sequence in $\ell_1$, where $f_n = (f_n(k))_{k = 1}^\infty$ and suppose that each $f_n$ is Cauchy in $\ell_1$. That is, suppose that for each $\veps > 0$ there exists $n_0$ such that $\norm{f_n - f_m}_1 < \veps$ whenever $n,m \geq n_0$. The proof is broken into three steps, but since 2 and 3 are completed in the book, we will just do step 1 for both $\ell_1$ and $\ell_\infty$.
+        
+        \textbf{Step 1. ($\ell_1$)} $f(k) = \lim_{n\to\infty} f_n(k)$ exists in $\R$ for each $k$. \\
+        We need to show $f\in\ell_1$ and that $\norm{f_n - f}_1 \to 0$ as $n\to\infty$. 
+        
+
+        % \textbf{Step 2.} $f\in\ell_1$; that is, $\norm{f}_1 < \infty$. \\
+        % Suppose that $\norm{f_n}_1 \leq B$ for all $n$. Since for any fixed $N < \infty$,
+        % $$\sum_{n = 1}^N |f(k)| = \lim_{n\to\infty} \sum_{k = 1}^N |f_n(k)| \leq B.$$
+        % Since this holds for any $N$, we get $\norm{f}_1 \leq B$.
+
+        % \textbf{Step 3.} Repeat step 2 to show $f_n\to f$ in $\ell_1$.\\
+        % Given $\veps > 0$, choose $n_0$ such that $\norm{f_n - f_m} < \veps$ whenever $n,m \geq n_0$. Then for any $N$ and $n \geq n_0$,
+        % $$\sum_{k = 1}^N |f(k) - f_n(k)| = \lim_{m\to \infty} \sum_{k = 1}^N |f_n(k) - f_m(k)| \leq \veps.$$
+        % Since this holds for any $N$, we have that $\norm{f_n - f}_1 \leq \veps$ for all $n \geq n_0$. That is, $f_n\to f$ in $\ell_1$.
+    \end{proof}
+
+
+
+
+
+
+
+
+
+    \newpage
+    % question 6
+    \question Prove that $c_0$ is complete by showing that $c_0$ is closed in $\ell_\infty$.
+    \begin{proof}
+        Since a closed supspace of a complete metric space is complete, it is sufficient to show that $c_0\subseteq \ell_\infty$ is closed. Let $x_n$ be a sequence in $c_0$ converge to $x$ in $\ell_\infty$. Let $\veps > 0$ be arbitrary, and choose $N$ large enough such that for all $n\geq N$,
+        $$\norm{x_n - x}_\infty < \frac{\veps}{2}.$$
+        For that index $n$, since $x_n$ is in $c_0$, there exists $K$ such that for all $k\geq K$,
+        $$\norm{(x_n)_k - (x_n)}_\infty < \frac{\veps}{2}.$$
+        Then for any $k \geq K$, we have that
+        \begin{align*}
+        |x_k| &\leq |x_k - (x_n)_k| + |(x_n)_k| \\
+        &\leq \norm{x_k - (x_n)_k}_\infty + \norm{(x_n)_k}_\infty \\
+        &< \frac{\veps}{2} + \frac{\veps}{2} = \veps.
+        \end{align*}
+        Thus for all $k\geq K$, we have $|x_k| < \veps$, and thus $x_k\to 0$ and $x_k$ is in $c_0$. Since $c_0$ contains all its limit points in $\ell_\infty$, it is closed in $\ell_\infty$.
+    \end{proof}
+
+
+\end{questions}
+
+
+\end{document}
