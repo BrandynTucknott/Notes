@@ -1,0 +1,171 @@
+\documentclass{exam}
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm,dsfont}
+\usepackage{lib/extra}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usepackage{bbm}
+\usepackage{pgfplots}
+\usepackage{fontenc}
+\usepackage{float}
+
+\pgfplotsset{compat=1.18}
+
+\title{MTH 511 HW 6}
+\author{Brandyn Tucknott}
+\date{Due 1 December 2025}
+
+\begin{document}
+\maketitle
+
+
+\begin{questions}
+    % question 1
+    \question Prove lemma 8.8.
+    \begin{lemma}
+        In a metric space $M$, the following are equivalent:
+        \begin{parts}
+            \part If $\mathcal{G}$ is a basis for any collection of open sets in $M$ with $\cup \cbrac{G : G\in \mathcal{G}} \superset M$,
+            then there are finitely many $G_1, G_2, \hdots, G_n \in \mathcal{G}$ with $\cup_{i = 1}^n G_i \superset M$.
+
+            \part If $\mathcal{F}$ is any collection of closed sets in $M$ such that $\cap F_i \neq \emptyset$ for all choices of finitely
+            many sets $F_i, \hdots, F_n \in \mathcal{F}$, then $\cap \cbrac{F : F\in\mathcal{F}} \neq \emptyset$.
+        \end{parts}
+    \end{lemma}
+    \begin{proof}
+        First, we will show that $(a) \implies (b)$. Suppose that $(a)$ is true, and let $\mathcal{F}$ be a collection of closed sets
+        such that every finite subcollection has nonempty intersection. For contradiction, assume that $\cap_{F\in\mathcal{F}} F = \emptyset$.
+        Then for each $F\in\mathcal{F}$, let $G_F = M \setminus F$. We know this to be open, and since
+        $$\bigcap_{F\in\mathcal{F}} F = \emptyset \text{ if and only if } \bigcap_{F\in\mathcal{F}} G_F = M,$$
+        we know that $\cbrac{G_F : F\in\mathcal{F}}$ covers $M$. By $(a)$ there are finitely many $F_{F_1}, \hdots, G_{F_n}$ whose union is $M$,
+        but then 
+        $$\bigcap_{i = 1}^n F_i = M \setminus \bigcup_{i = 1}^n G_{F_i} = M \setminus M = \emptyset.$$
+        This is a contradiction, so we conclude that $\cap_{F\in\mathcal{F}} F \neq\emptyset$, and thus $(b)$ is true.
+
+        Now we will show that $(b) \implies (a)$. Suppose that $(b)$ is true, and let $\mathcal{G}$ be a collection of open sets with 
+        $\cup_{G\in\mathcal{G}} G = M$. For contradiction, assume that no finite subcollection of $\mathcal{G}$ covers $M$.
+        Then for each $G\in\mathcal{G}$, let $F_G = M \setminus G$ and observe $F_G$ is closed. For any $G_1, \hdots, G_n$, we have that
+        $$\bigcup_{i = 1}^n G_i \neq M \implies \bigcap_{i = 1}^n F_{G_i} = M \setminus \bigcup_{i = 1}^n G_i \neq \emptyset.$$
+        Thus $F_{G_i}$ forms a finite basis and by $(b)$ we know that $\cap \cbrac{F_G : G\in\mathcal{G}} \neq \emptyset$.
+        However, this implies that $M \setminus \cup_{G\in\mathcal{G}} G \neq \emptyset$, a contradiction to $\cup_{G\in\mathcal{G}} G = M$.
+        It must be then, that our assumption was false, and there exists a finite subcollection of $\mathcal{G}$ that covers $M$, and so $(a)$ is true.
+    \end{proof}
+
+
+    \newpage
+    % question 2
+    \question Let $\mathcal{G}$ be an open cover for $M$. We say that $\veps > 0$ is a \textit{Lebesgue number} for $\mathcal{G}$ if 
+    each subset of diameter $< \veps$ is contained in some $G \subset \mathcal{G}$. If $M$ is compact, show that every open cover
+    of $M$ has a Lebesque number.
+    \begin{proof}
+        Let $\mathcal{G}$ be an open cover for a compact metric space $M$. For each $x\in M$, choose $G_x\in \mathcal{G}$ such that
+        $x\in G_x$. Because $G_x$ is open, there exists $r_x > 0$ such that $B_{r_x}(x) \subset G_x$. Since the family
+        $\cbrac{B_{r_x/2}(x) : x \in M}$ is an open cover for $M$, by compactness it has a finite subcover, and there exist points
+        $x_1, \hdots, x_n \in M$ with $M = \cup_{i = 1}^n B_{r_{x_i}/2}(x_i)$. If we set $\veps = \underset{1 \leq i \leq n}{\min} \frac{r_{x_i}}{2}$. 
+        Certainly $\veps > 0$, and it is sufficient to show that $\veps$ is a Lebesgue number for $\mathcal{G}$.
+
+        Let $A \subset M$ be any set with diameter $< \veps$. Then for any $a \in A$, since $B_{r_{x_i}/2}(x_i)$ covers $M$, 
+        there exists some $k \leq n$ such that $a \in B_{r_{x_i}/2}(x_i)$ and so $d(a, x_k) < r_{x_k} / 2$. For any other $b \in A$, 
+        $$d(b, x_k) \leq d(b, a) + d(a, x_k) < \veps + \frac{r_{x_k}}{2} \leq \frac{r_{x_k}}{2} + \frac{r_{x_k}}{2} = r_{x_k},$$
+        and so $b\in B_{r_{x_k}}(x_k) \subset G_{x_k}$. Since every $b\in A$ lies inside $G_{x_i}$, we have that $A \subset G_{x_k}$.
+        We conclude that every subset with diameter $< \veps$ is contained by some $G \in \mathcal{G}$, and thus $\veps$ is a Lebesque number for $\mathcal{G}$. 
+    \end{proof}
+
+
+
+
+    \newpage
+    % question 3
+    \question Give an example of a continuous bounded map $f: \R \to \R$ that is not uniformly continuous. Can an unbounded continuous 
+    function $f: \R\to\R$ be uniformly continuous? Explain.
+    \begin{proof}
+        One example of a continuous and bounded function but not uniformly continuous is $f(x) = \sin(x^2)$. For unbounded continuous functions which are uniformly continuous, 
+        we simply seek a Lipschitz continuous function, so this is certainly possible. For example, consider $f(x) = x$. It is certainly unbounded and 1-Lipschitz, 
+        and thus uniformly continuous.
+    \end{proof}
+
+
+
+    \newpage
+    % question 4
+    \question Prove that $f: (M, d) \to (N, \rho)$ is uniformly continuous if and only if $\rho(f(x_n), f(y_n)) \to 0$ for any pair of sequences
+    $(x_n), (y_n)$ in $M$ satisfying $d(x_n, y_n) \to 0$.
+    \begin{proof}
+        First we will show the forward direction. Suppose $f$ is uniformly continuous, and fix $\veps > 0$. Then there exists $\delta > 0$
+        such that $d(x, y) < \delta \implies \rho(f(x), f(y)) < \veps$ for all $x, y\in M$. If $d(x_n, y_n) \to 0$, then for large $n$ we have that
+        $d(x_n, y_n) < \delta$, and thus $\rho(f(x_n), f(y_n)) < \veps$. Since $\veps$ was arbitrary, we conclude that $\rho(f(x_n), f(y_n))\to 0$.
+        
+        For the backwards direction, suppose that $d(x_n, y_n)\to 0$ and $\rho(f(x_n), f(y_n))\to 0$. We wish to show $f$ is uniformly continuous. 
+        We do this by equivalently showing the contrapositive. That is, we wish to show if $f$ is not uniformly continuous,
+        then $d(x_n, y_n) \not\to 0$ or $\rho(f(x_n), f(y_n))\not\to 0$.
+        Suppose $f$ is not uniformly continuous. Then there exists some $\veps_0 > 0$ such that for all $\delta > 0$, 
+        there exists $x, y\in M$ with $d(x, y) < \delta$ but $\rho(f(x), f(y)) \geq \veps_0$. For each $n \geq 1$, choose 
+        $x_n, y_n$ such that $d(x_n, y_n) < \frac{1}{n}$  but $\rho(f(x_n), f(y_n)) \geq \veps_0$. Then $d(x_n, y_n)\to 0$, but 
+        $\rho(f(x_n), f(y_n))$ does not tend towards 0 since it is bounded below by $\veps_0$. 
+    \end{proof}
+
+
+    \newpage
+    % question 5
+    \question Define $f: \ell_2 \to \ell_2$ by $f(x) = (x_n / n)_{n = 1}^\infty$. Show that $f$ is uniformly continuous.
+    \begin{proof}
+        For $x\in \ell_2$, write arbitrary $x = (x_n)_{n = 1}^\infty$. Then
+        $$\norm{f(x)}_{\ell_2}^2 = \sum_{n = 1}^\infty \abs{\frac{x_n}{x}}^2 = \sum_{n = 1}^n \frac{|x_n|^2}{n^2} \leq \sum_{n = 1}^n |x_n|^2 = \norm_{\ell_2}^2,$$
+        so $\norm{f(x)}_{\ell_2} \leq \norm{x}_{\ell_2}$, and for any $x, y \in \ell_2$ we have that
+        $$\norm{f(x) - f(y)}_{\ell_2} = \norm{f(x - y)}_{\ell_2} \leq \norm{x - y}_{\ell_2}.$$
+        So $f$ is 1-Lipschitz, and thus uniformly continuous.
+    \end{proof}
+
+
+
+    \newpage
+    % question 6
+    \question Prove that a sequence of functions $f_n: X\to \R$ is uniformly convergent if and only if it is uniformly Cauchy.
+    That is, prove that there exists some $f: X\to \R$ such that $f_n \rightrightarrows f$ on $X$ if and only if for all $\veps > 0$,
+    there exists $N \geq 1$ such that $\sup_{x\in X} |f_n(x) - f_m(x)| < \veps$ whenever $m, n \geq N$.
+    \begin{proof}
+        Let $f_n$ be a sequence of real-valued functions on $X$. First, we show the forwards direction. Assume $f_n \to f$ uniformly and fix $\veps > 0$.
+        Then there exists some $N \geq 1$ such that for all $n \geq N$, we have that $\sup_{x\in X} |f_n(x) - f(x)| < \veps/2$.
+        Then for any $m, n \geq N$ and $x\in X$,
+        $$|f_n(x) - f_m(x)| \leq |f_n(x) - f(x)| + |f_m(x) - f(x)| < \frac{\veps}{2} + \frac{\veps}{2} = \veps.$$
+        Then $\sup_{x\in X} |f_n(x) - f_m(x)| < \veps$ and so $f_n$ is uniformly Cauchy.
+        
+        Now we show the backwards direction. Assume $f_n$ is uniformly Cauchy, and fix $\veps > 0$. Then there exists some $N$ such that
+        for all $m, n \geq N$, we have that $\sup_{x\in X} |f_n(x) - f_m(x)| < \veps$. Now fix $x\in X$. Then
+        $$|f_n(x) - f_m(x)|\leq \sup_{x\in X} |f_n - f_m| < \veps,$$
+        and we have that the sequence $(f_n(x))_{n = 1}^\infty$ is Cauchy. Then for $f(x) = \lim_{n\to \infty} f_n(x)$, we want to show 
+        $f_n\to f$ uniformly. Let $\veps > 0$ and choose $N$ such that for all $m, n \geq N$,
+        $$\sup_{x\in X} |f_n(x) - f_m(x)| < \veps.$$
+        We know this to be possible since $f_n$ is uniformly Cauchy. Now fix $n \geq N, x\in X$. For all $m\geq N$,
+        $$|f_n(x) - f_m(x)| \leq \sup_{x\in X} |f_n(x) - f_m(x)| < \veps.$$
+        As $m\to\infty$, we have that $|f_n(x) - f_m(x)| \to |f_n(x) - f(x)|$ and so $|f_n(x) - f(x)| \leq \veps$. Then
+        $$\sup_{x\in X} |f_n(x) - f(x)| \leq \veps$$
+        for all $n \geq N$, and so $f_n \to f$ uniformly on $X$.
+    \end{proof}
+
+
+
+
+    \newpage
+    % question 7
+    \question Let $M$ be compact and $f: M\to M$ satisfy $d( f(x), f(y)) = d(x, y)$ for all $x, y\in M$. Show that $f$ is onto.
+    \begin{proof}
+        For contradiction, suppose $f$ is not onto. Then $f(M) \subset M$ is compact, so there exists $a\in M \setminus f(M)$.
+        Define $\delta := \inf_{x\in f(M)} d(a, x) > 0$ (positive since $a\not\in f(M)$).
+        Consider $a, f(a), f^2(a), f^3(a), \hdots$ for $m > n \geq n$ where $f^\alpha(a) = f(f^{\alpha - 1}(a))$ with $f^0(a) = a$. Then
+        $$d(f^m(a), f^n(a)) = d(f^{m - n}(a), a).$$
+        Since $f^k(a) \in f(M)$ for all $k\geq 1$, $d(a, f^k(a)) \geq \delta$. Thus for all $m > n \geq 0$,
+        $$d(f^m(a), d^n(a)) \geq \delta.$$
+        We conclude that all distinct terms in the sequence $(f^n(a))_{n = 0}^\infty$ are at least $\delta$ apart, and thus has no convergent subsequence.
+        This is a contradiction to $M$ being compact, so our assumption was false, and it must be that $f$ is onto.
+        Notice that if $M$ is not compact, $f$ need not be onto, and we can make no further conclusions.
+    \end{proof}
+
+
+
+\end{questions}
+
+
+
+\end{document}

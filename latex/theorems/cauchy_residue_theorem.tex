@@ -1,0 +1,37 @@
+\documentclass{exam}
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm,dsfont}
+\usepackage{lib/extra}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usepackage{bbm}
+\usepackage{pgfplots}
+\usepackage{fontenc}
+\usepackage{float}
+
+\pgfplotsset{compat=1.18}
+
+\title{Cauchy Residue Theorem}
+\author{Brandyn Tucknott}
+\date{Last Updated: 7 November 2025}
+
+\begin{document}
+\maketitle
+
+\setcounter{section}{1} % no real purpose, just to make it look better
+First, we introduce the concept of a residue.
+\begin{theorem}
+    If $f$ has a pole of order $n$ at $z_0$, then
+    $$\res_{z_0}(f) = \lim_{z\to z_0} \frac{1}{(n - 1)!}\frac{d^{n - 1}}{dz^{n - 1}}f(z)(z - z_0)^n.$$
+\end{theorem}
+Next, the theorem:
+\begin{theorem}
+    Suppose that $f$ is holomorphic in an open set containing a circle $C$ and its interior, except for a pole at $z_0$ inside $C$. Then
+    $$\int_C f(z) dz = 2\pi i \res_{z_0} f.$$
+\end{theorem}
+
+
+
+
+\end{document}
