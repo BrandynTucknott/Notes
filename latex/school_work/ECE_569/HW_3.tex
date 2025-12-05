@@ -1,0 +1,165 @@
+\documentclass{exam}
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm,dsfont}
+\usepackage{lib/extra}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usepackage{bbm}
+\usepackage{pgfplots}
+\usepackage{fontenc}
+\usepackage{float}
+
+\usepackage{subcaption}
+
+\pgfplotsset{compat=1.18}
+
+\title{ECE 569 HW 3}
+\author{Brandyn Tucknott}
+\date{Due 5 December 2025}
+
+\begin{document}
+\maketitle
+
+
+All code has been submitted on canvas.
+\begin{questions}
+    % question 1
+    \question Consider the classification problem in HW 2. Implement the following using CVX.
+    \begin{parts}
+        % question 1.a
+        \part Apply the C-Hull formulation to train a classifier:
+        \begin{align*}
+            \MIN{u, v} & ||Au - Bv ||_2^2 \\
+            \subjectto & 1^Tu = 1, u \succeq 0 \\
+            & 1^Tv = 1, v \succeq 0.
+        \end{align*}
+        Visualize the training data together with a classifier. Also visualize the testing data and the classifier in another figure,
+        and report the classification error on the testing data using the true labels provided in \qcr{test\_separable.mat}.
+        \begin{figure}[H]
+            \centering
+
+            \begin{subfigure}[b]{0.48\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{figures/school_work/ECE_569/HW_3/c-hull-separable-train.eps}
+                \caption*{Figure 1: C-Hull Classifier, Separable Training Data}
+            \end{subfigure}
+            \hfill
+            \begin{subfigure}[b]{0.48\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{figures/school_work/ECE_569/HW_3/c-hull-separable-test.eps}
+                \caption*{Figure 2: C-Hull Classifier, Separable Testing Data}
+            \end{subfigure}
+
+            % \caption{Training and Testing Data with Reduced C-Hull Classifier}
+        \end{figure}
+        After solving for a C-Hull classifier, the given test data is classified with 100\% accuracy.
+        
+        \newpage
+        % question 1.b
+        \part repeat the above for \qcr{train\_overlap.mat} and \qcr{test\_overlap.mat} using the reduced C-Hull:
+        \begin{align*}
+            \MIN{u, v} & ||Au - Bv ||_2^2 \\
+            \subjectto & 1^Tu = 1, d1 \succeq u \succeq 0 \\
+            & 1^Tv = 1, d1 \succeq v \succeq 0.
+        \end{align*}
+        Report the classification error on the testing data using an appropriate $d$.
+        \begin{figure}[H]
+            \centering
+
+            \begin{subfigure}[b]{0.48\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{figures/school_work/ECE_569/HW_3/reduced-c-hull-overlapping-train.eps}
+                \caption*{Figure 3: Reduced C-Hull Classifier, Overlapping Training Data}
+            \end{subfigure}
+            \hfill
+            \begin{subfigure}[b]{0.48\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{figures/school_work/ECE_569/HW_3/reduced-c-hull-overlapping-test.eps}
+                \caption*{Figure 4: Reduced C-Hull Classifier, Overlapping Testing Data}
+            \end{subfigure}
+
+            % \caption{Training and Testing Data with Reduced C-Hull Classifier}
+        \end{figure}
+        After solving for a Reduced C-Hull classifier with $d = 0.75$ (admittedly arbitrary), an accuracy of 98.5\%
+        is achieved on the test data.
+    \end{parts}
+
+
+
+
+
+
+
+
+
+    \newpage
+    % question 2
+    \question Under the same setting of Question 1, do the following:
+    \begin{parts}
+        % question 2.a
+        \part Implement C-Hull and Reduced C-Hull using the projected gradient. Do the same visualization as in Question 1.
+        \begin{figure}[H]
+            \centering
+            \begin{subfigure}[b]{0.48\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{figures/school_work/ECE_569/HW_3/pgd-c-hull-train.eps}
+                \caption*{Figure 5: Projected Gradient (C-Hull), Separable Training Data}
+            \end{subfigure}
+            \hfill
+            \begin{subfigure}[b]{0.48\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{figures/school_work/ECE_569/HW_3/pgd-c-hull-test.eps}
+                \caption*{Figure 6: Projected Gradient (C-Hull), Separable Testing Data}
+            \end{subfigure}
+        \end{figure}
+        After implementing Projected Gradient Descent for the C-Hull classifier, an accuracy of 100\% was achieved
+        on the test data. The pseudo-code for the implementation is provided in \qcr{q2\_pgd\_chull.py}.
+
+        % question 2.b
+        \part Repeat the above using Nesterov acceleration.
+    \end{parts}
+
+
+
+
+
+
+
+
+
+
+    \newpage
+    % question 3
+    \question Under the same setting of Question 1, implement C-Hull and Reduced C-Hull using ADMM. Do the same visualization
+    as in Question 1.
+
+
+    \newpage
+    % question 4
+    \question Plot an Iteration vs Objective Value figure for the training process. Compare all the alogrithms that you implemented
+    in this figure. In addition, plot a Time vs Objective Value figure using all the algorithms.
+
+    % for q2.a projected gradient descent C-hull + reduced C-hull
+    \begin{figure}[H]
+        \centering
+        \begin{subfigure}[b]{0.48\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{figures/school_work/ECE_569/HW_3/pgd-c-hull-test-iter.eps}
+            \caption*{Figure X: Iteration vs Objective Value (PGD C-Hull)}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.48\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{figures/school_work/ECE_569/HW_3/pgd-c-hull-test-time.eps}
+            \caption*{Figure X: Time (ms) vs Objective Value (PGD C-Hull)}
+        \end{subfigure}
+    \end{figure}
+
+    % for q2.b nesterov accelerated gradient descent C-hull + reduced C-hull
+    % for q3 ADMM C-hull + reduced C-hull
+
+\end{questions}
+
+
+\end{document}
