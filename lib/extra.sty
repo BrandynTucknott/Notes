@@ -81,8 +81,7 @@
 	headfont=\normalfont\bfseries,
 	notefont=\normalfont\bfseries, notebraces={(}{)},
 	bodyfont=\normalfont\itshape,
-	postheadspace=1em,
-	qed=\qedsymbol
+	postheadspace=1em
 ]{myplain}
 
 \declaretheorem[style=myplain,numberwithin=section]{theorem}
@@ -90,15 +89,16 @@
 \declaretheorem[style=myplain,sibling=theorem]{proposition}
 \declaretheorem[style=myplain,sibling=theorem]{corollary}
 
-\declaretheoremstyle[
-	spaceabove=6pt, spacebelow=6pt,
-	headfont=\normalfont\bfseries,
-	bodyfont=\normalfont,
-	postheadspace=1em
-]{mydef}
+% \declaretheoremstyle[
+% 	spaceabove=6pt, spacebelow=6pt,
+% 	headfont=\normalfont\bfseries,
+% 	notefont=\normalfont\bfseries, notebraces={(}{)},
+% 	bodyfont=\normalfont\itshape,
+% 	postheadspace=1em
+% ]{mydef}
 
-\declaretheorem[style=mydef,sibling=theorem]{definition}
-\declaretheorem[style=mydef,sibling=theorem]{example}
+\declaretheorem[style=myplain,sibling=theorem]{definition}
+\declaretheorem[style=myplain,sibling=theorem]{example}
 
 \declaretheoremstyle[
 	headfont=\normalfont\itshape,
@@ -115,11 +115,15 @@
 % Improve cross-references via cleveref
 \crefname{theorem}{theorem}{theorems}
 \Crefname{theorem}{Theorem}{Theorems}
+
 \crefname{lemma}{lemma}{lemmas}
 \Crefname{lemma}{Lemma}{Lemmas}
+
 \crefname{corollary}{corollary}{corollaries}
 \Crefname{corollary}{Corollary}{Corollaries}
+
 \crefname{definition}{definition}{definitions}
 \Crefname{definition}{Definition}{Definitions}
+
 \crefname{remark}{remark}{remarks}
 \Crefname{remark}{Remark}{Remarks}

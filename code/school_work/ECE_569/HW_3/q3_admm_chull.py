@@ -1,39 +1,42 @@
-# projected gradient descent for C-hull classifier
+# ADMM for C-hull classifier
 
 # =================================================
 # pseudo code:
 # =================================================
 '''
-    initialize u,v
-    initialize prev_obj (||Au - Bv||^2 at iter 0)
-    for i in 1 to MAX_ITER do:
-        diff = Au - Bv (compute objective function value at current iteration w/out norm squared)
+given rho
+initialize:
+    u, x as uniform
+    v, y as uniform
+    lamda_u = lambda_v = 0
+    Lu = (2 * A^T * A + rho * I)^-1
+    Lv = (2 * B^T * B + rho * I)^-1
+    
+    for i < MAX_ITER:
+        u = Lu * (2A^TBv + rho(x - lambda_u))
+        v = Lv * (2B^TAu + rho(y - lambda_v))
         
-        gu = 2 * A^T * diff (compute gradient w.r.t. u)
-        gv = -2 * B^T * diff (compute gradient w.r.t. v)
+        x_old = x
+        y_old = y
         
-        u_temp = u - alpha * gu (gradient descent step for u)
-        v_temp = v - alpha * gv (gradient descent step for v)
+        x = project_to_simplex(u + lambda_u)
+        y = project_to_simplex(v + lambda_v)
         
-        u = project_to_simplex(u_temp) (project u back onto simplex)
-        v = project_to_simplex(v_temp) (project v back onto simplex)
+        lambda_u += u - x
+        lambda_v += v - y
         
-        obj = norm(Au - Bv)^2 (compute objective function value)
+        prim = norm(u - x) + norm(v - y)
+        dual = rho * norm(x - x_old) + norm(y - y_old)
         
-        if |obj - prev_obj| < TOL (convergence check) then
-            break
-            
-        prev_obj = obj (prepare for next iteration)
-            
-        at this point, current u,v are the optimal values (within tolerance)
+        (convergence check with prim and dual)
+        (exceeding MAX_ITER check)
+        
+    when done, u,v will be optimal
 '''
 
-
+import matplotlib.pyplot as plt
 from scipy.io import loadmat
 import numpy as np
-import matplotlib.pyplot as plt
-import time
-
 '''
 Projection of vector v onto simplex (this function is not my code, but copied from somwhere online)
 Based on the algorithm by Duchi et al. (2008).
@@ -56,57 +59,71 @@ def project_to_simplex(v):
     return w
 
 
-
 # read data
 data = loadmat('code/school_work/ECE_569/HW_3/train_separable.mat')
 A = data['A']
 B = data['B']
 
-# initialize parameters + plotting helpers
-alpha = 0.01
-MAX_ITER = 10_000
-TOL = 1e-6
+# variables
 u = np.ones(A.shape[1]) / A.shape[1]
+x = np.ones(A.shape[1]) / A.shape[1]
 v = np.ones(B.shape[1]) / B.shape[1]
-prev_obj = np.linalg.norm(A @ u - B @ v)**2
+y = np.ones(B.shape[1]) / B.shape[1]
 
-obj_history = [prev_obj]
-time_history = [0]
+# parameters + limiters
+rho = 50.0
+tau_inc = 2.0
+tau_dec = 2.0
+mu = 10.0
+TOL = 1e-6
+MAX_ITER = 50_000
+
+# scaled duals
+lambda_u = np.zeros(A.shape[1])
+lambda_v = np.zeros(B.shape[1])
+
+# lagrangian
+Lu = np.linalg.inv(2 * A.T @ A + rho * np.eye(A.shape[1]))
+Lv = np.linalg.inv(2 * B.T @ B + rho * np.eye(B.shape[1]))
 
 for i in range(MAX_ITER):
-    start = time.time()
-    diff = A @ u - B @ v
+
+    # u and v updates
+    u = Lu @ (2 * A.T @ B @ v + rho * (x - lambda_u))
+    v = Lv @ (2 * B.T @ A @ u + rho * (y - lambda_v))
+
+    # store old x, y for dual residual
+    x_old = x
+    y_old = y
+
+    # x,y = projection onto simplex of 
+    x = project_to_simplex(u + lambda_u)
+    y = project_to_simplex(v + lambda_v)
+
+    # dual variable update
+    lambda_u = lambda_u + (u - x)
+    lambda_v = lambda_v + (v - y)
+
+    # compute residuals 
+    prim = np.sqrt(np.linalg.norm(u - x)**2 + np.linalg.norm(v - y)**2)
+    dual = rho * np.sqrt(np.linalg.norm(x - x_old)**2 + np.linalg.norm(y - y_old)**2)
     
-    gu = 2 * A.T @ diff
-    gv = -2 * B.T @ diff
-    
-    u_temp = u - alpha * gu
-    v_temp = v - alpha * gv
-    
-    u = project_to_simplex(u_temp)
-    v = project_to_simplex(v_temp)
-    
-    obj = np.linalg.norm(A @ u - B @ v)**2
-    
-    end = time.time()
-    
-    obj_history.append(obj)
-    time_history.append(1000 * (time_history[-1] + end - start)) # new total time = total run time + iteration time
-    
-    if abs(obj - prev_obj) < TOL:
+    # potentially vary rho
+    if np.linalg.norm(v) > mu * np.linalg.norm(u):
+        rho *= tau_inc
+    elif np.linalg.norm(u) > mu * np.linalg.norm(v):
+        rho /= tau_dec
+
+    # convergence check
+    if prim < TOL and dual < TOL:
         break
-    prev_obj = obj
-    if i == MAX_ITER - 1:
+    elif i == MAX_ITER - 1:
         print("Reached maximum iterations without convergence.")
-        
-        
-        
-        
-        
-        
-        
-        
-        
+
+
+# after convergence:
+# u and v are the optimal convex-hull weights
+
         
         
 # evaluate on test data
@@ -165,7 +182,6 @@ plt.ylabel('Feature 2')
 plt.legend()
 plt.axis('equal')
 plt.tight_layout()
-# plt.show()
 
 
 
@@ -201,35 +217,4 @@ plt.title('C-Hull Classifier: Separable Data (Test)')
 plt.xlabel('Feature 1')
 plt.ylabel('Feature 2')
 plt.legend()
-# plt.show()
-
-
-
-
-
-
-
-
-
-
-# iteration vs objective value plot
-plt.figure(figsize=(8,5))
-plt.plot(obj_history)
-plt.xlabel("Iteration")
-plt.ylabel("Objective Value")
-plt.title("Iteration vs Objective Value (PGD C-Hull)")
-plt.grid(True)
-plt.tight_layout()
-# plt.show()
-
-
-
-# time vs objective value plot
-plt.figure(figsize=(8,5))
-plt.plot(time_history, obj_history)
-plt.xlabel("Time (ms)")
-plt.ylabel("Objective Value")
-plt.title("Time vs Objective Value (PGD C-Hull)")
-plt.grid(True)
-plt.tight_layout()
 plt.show()

@@ -1,0 +1,122 @@
+\documentclass{exam}
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm,dsfont}
+\usepackage{lib/extra}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usepackage{bbm}
+\usepackage{pgfplots}
+\usepackage{fontenc}
+\usepackage{float}
+\usepackage{hyperref}
+
+\pgfplotsset{compat=1.18}
+
+\title{Final Project: Reading Report}
+\author{Brandyn Tucknott}
+\date{Due 10 December 2025}
+
+\begin{document}
+\maketitle
+
+This is a reading report on \href{https://arxiv.org/abs/0805.4471}{Exact Matrix Completion Via Convex Optimization} 
+by Emmanuel J. Candes and Benjamin Recht.
+
+\section*{Background}
+As a motivator, suppose we issue a survey to a population and collect responses, forming a data matrix where the rows
+represent individuals and columns denote questions. Our goal is to gather as much information as possible, but we also know that
+not all individuals will answer all questions. This naturally leads us to ask: can we make a reasonable guess as to what the 
+unfilled values in our data matrix should be? A more familiar version of this problem is \textit{The Netflix Problem}, where
+each user has only rated a subset of all available movies, and based on those ratings a recommender system would like to guess
+new movies the user might enjoy. 
+
+
+\section*{Problem Formulation Rationale}
+It turns out we can classify such problems as matrix completion problems. Suppose we have an $n \cross n$ matrix $M$ with
+rank $r$. (Here a square matrix is used for simplicity, but neither the argument nor intuition depends on $M$ being square)
+It is clear $M$ can be represented with $n^2$ numbers, so our goal is to recover $M$ using no more than $n^2$ measurements. Even
+with low rank $M$, it is clear this is not generally true. For example, consider $M$ a 1-sparse matrix (matrix with only 1 element non-zero).
+Then any way you sample the matrix (especially for large $n$), it is unlikely that you would stumble upon the non-zero entry 
+and correctly recover the original matrix. Fortunately, while it is impossible to recover all low-rank matrices, we can still 
+recover a significant amount.
+
+
+Consider the singular value decomposition (SVD) of $M$ as
+$$M = \sum_{k = 1}^n \sigma_k u_kv_k^*$$
+where $u_k, v_k$ are the left and right singular vectors, and $\sigma_k$ are the singular values. Let 
+$\mathcal{U}_r = \cbrac{u_k : 1 \leq k \leq r}$ and $\mathcal{V}_r = \cbrac{v_k : 1 \leq k \leq r}$ and define a \textit{generic} low-rank
+matrix as selecting uniformly at random a family $\mathcal{U}_r, \mathcal{V}_r$ from all families of $r$ orthonormal vectors. We
+make no assumptions about the depedence or independence of $\mathcal{U}_r, \mathcal{V}_r$ nor about the singular values $\sigma_k$.
+This is referred to as a \textit{random orthogonal model}.
+
+
+Now to address sampling, let $\Omega = \cbrac{(i,j) : 0 \leq i, j \leq n}$ where $M_{ij}$ is observed. Let $m = |\Omega|$ denote
+the number of samples and assume our sampling has a random uniform distribution. Intuitively, it would be helpful if there
+were only one such low-rank matrix satisfying the samples, in which case we could solve for the optimization problem
+\begin{align*}
+    \MIN{X} & \text{rank} (X) \\
+    \subjectto & X_{ij} = M_{ij}, \text{ for all } (i,j)\in\Omega.
+\end{align*}
+
+
+This is unfortunately NP-hard, and all known algorithms have a doubly-exponential time complexity for an exact solution. Instead, we
+consider the \textit{nuclear norm}, defined to be
+$$||X||_* = \sum_{k = 1}^r \sigma_k(X)$$
+where $M$ has rank $r$ and $\sigma_1(X), \hdots, \sigma_r(X)$ are the singular values of $M$ in decreasing order. Now instead of 
+optimizing for rank, we choose to optimize over the nuclear norm, giving us 
+\begin{align*}
+    \MIN{X} & ||X||_* \\
+    \subjectto & X_{ij} = M_{ij}, (i, j)\in\Omega.
+\end{align*}
+Intuitively the rank function counts the number of non-vanishing singular values, and the nuclear norm measures the amplitude of our singular values.
+We refer to this optimization problem as OPT 1. It turns out this small change is still valid with enough samples (sufficiently large $m = |\Omega|$), but
+to see why we need to introduce some theorems.
+
+\setcounter{section}{1}
+% \noqed
+\begin{theorem}
+    Let $M$ be an $n_1 \cross n_2$ matrix of rank $r$ sampled from the random orthogonal model, and put $n = \max (n_1, n_2)$.
+    Suppose we observe $m$ entries of $M$ with locations sampled uniformly at random. Then there are numerical constants $C, c$ such that if
+    $$m \geq C n^{5/4} r\log n,$$
+    the minimizer to the problem OPT 1 is unique and equal to $M$ with probability at least $1 - cn^{-3}$; that is to say, the 
+    semi-definite program OPT 1 recovers all the entries of $M$ with no error. In addition, if $r \leq n^{1/5}$, then recovery is exact
+    with probability at least $1 - cn^{-3}$ provided that 
+    $$m \geq Cn^{6/5}r\log n.$$
+\end{theorem}
+% \yesqed
+
+There are a few key insights from theorem 1.1:
+\begin{itemize}
+    \item There is a unique low-rank matrix consistent with our observations.
+    \item Such a matrix is recoverable via convex optimization (nuclear norm minimization is formally equivalent to rank minimization).
+    \item Only a small number of observations is required, much less than the naive $n_1\cdot n_2$.
+\end{itemize}
+
+\begin{lemma}
+    Let $U$ be a subspace of $\R^n$ with dimension $r$ and $P_U$ be the orthogonal projection onto $U$. Then the coherence of $U$
+    with respect to the standard basis $e_i$ is defined to be
+    $$\mu(U) \equiv \frac{n}{r}\underset{1 \leq i\leq n}{\max} ||P_Ue_i||^2.$$
+\end{lemma}
+
+
+
+\section*{Algorithm Overview}
+\section*{Implementations}
+\subsection*{Existing Examples}
+\subsection*{New Examples}
+\section*{References}
+% @misc{candes2008exactmatrixcompletionconvex,
+%       title={Exact Matrix Completion via Convex Optimization}, 
+%       author={Emmanuel J. Candes and Benjamin Recht},
+%       year={2008},
+%       eprint={0805.4471},
+%       archivePrefix={arXiv},
+%       primaryClass={cs.IT},
+%       url={https://arxiv.org/abs/0805.4471}, 
+% }
+
+
+
+
+\end{document}
