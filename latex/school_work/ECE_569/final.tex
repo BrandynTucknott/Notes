@@ -21,7 +21,7 @@
 \maketitle
 
 This is a reading report on \href{https://arxiv.org/abs/0805.4471}{Exact Matrix Completion Via Convex Optimization} 
-by Emmanuel J. Candes and Benjamin Recht.
+by Emmanuel J. Candes and Benjamin Recht in 2008.
 
 \section*{Background}
 As a motivator, suppose we issue a survey to a population and collect responses, forming a data matrix where the rows
@@ -33,7 +33,7 @@ new movies the user might enjoy.
 
 
 \section*{Problem Formulation Rationale}
-It turns out we can classify such problems as matrix completion problems. Suppose we have an $n \cross n$ matrix $M$ with
+It turns out we can classify such problems as matrix completion problems. Suppose we have an $n \times n$ matrix $M$ with
 rank $r$. (Here a square matrix is used for simplicity, but neither the argument nor intuition depends on $M$ being square)
 It is clear $M$ can be represented with $n^2$ numbers, so our goal is to recover $M$ using no more than $n^2$ measurements. Even
 with low rank $M$, it is clear this is not generally true. For example, consider $M$ a 1-sparse matrix (matrix with only 1 element non-zero).
@@ -60,7 +60,7 @@ were only one such low-rank matrix satisfying the samples, in which case we coul
 \end{align*}
 
 
-This is unfortunately NP-hard, and all known algorithms have a doubly-exponential time complexity for an exact solution. Instead, we
+This is unfortunately NP-hard, and all known algorithms have a doubly-exponential time complexity for an exact solution$^{[1]}$. Instead, we
 consider the \textit{nuclear norm}, defined to be
 $$||X||_* = \sum_{k = 1}^r \sigma_k(X)$$
 where $M$ has rank $r$ and $\sigma_1(X), \hdots, \sigma_r(X)$ are the singular values of $M$ in decreasing order. Now instead of 
@@ -74,9 +74,8 @@ We refer to this optimization problem as OPT 1. It turns out this small change i
 to see why we need to introduce some theorems.
 
 \setcounter{section}{1}
-% \noqed
 \begin{theorem}
-    Let $M$ be an $n_1 \cross n_2$ matrix of rank $r$ sampled from the random orthogonal model, and put $n = \max (n_1, n_2)$.
+    Let $M$ be an $n_1 \times n_2$ matrix of rank $r$ sampled from the random orthogonal model, and put $n = \max (n_1, n_2)$.
     Suppose we observe $m$ entries of $M$ with locations sampled uniformly at random. Then there are numerical constants $C, c$ such that if
     $$m \geq C n^{5/4} r\log n,$$
     the minimizer to the problem OPT 1 is unique and equal to $M$ with probability at least $1 - cn^{-3}$; that is to say, the 
@@ -84,7 +83,6 @@ to see why we need to introduce some theorems.
     with probability at least $1 - cn^{-3}$ provided that 
     $$m \geq Cn^{6/5}r\log n.$$
 \end{theorem}
-% \yesqed
 
 There are a few key insights from theorem 1.1:
 \begin{itemize}
@@ -93,30 +91,55 @@ There are a few key insights from theorem 1.1:
     \item Only a small number of observations is required, much less than the naive $n_1\cdot n_2$.
 \end{itemize}
 
-\begin{lemma}
-    Let $U$ be a subspace of $\R^n$ with dimension $r$ and $P_U$ be the orthogonal projection onto $U$. Then the coherence of $U$
-    with respect to the standard basis $e_i$ is defined to be
-    $$\mu(U) \equiv \frac{n}{r}\underset{1 \leq i\leq n}{\max} ||P_Ue_i||^2.$$
-\end{lemma}
+
+Let $U$ be a subspace of $\R^n$ with dimension $r$ and $P_U$ be the orthogonal projection onto $U$. Then the \textit{coherence} of $U$
+with respect to the standard basis $e_i$ is defined to be
+$$\mu(U) \equiv \frac{n}{r}\underset{1 \leq i\leq n}{\max} ||P_Ue_i||^2.$$
+In order to obtain our main result (exact low-rank matrix recovery), we make two assumptions$^{[1]}$. For some $\mu_0, \mu_1 > 0$: \\
+\textbf{A0: } The $\max (\mu(U), \mu(V)) \leq \mu_0$. \\
+\textbf{A1: } The $n_1\times n_2$ matrix $\sum_{1\leq k\leq r} u_kv_k^*$ has a maximum entry in absolute value
+is bounded by $\mu_1 / \sqrt{r / (n_1n_2)}$.
+It is easy to verify that \textbf{A1} always holds with $\mu_1 = \mu_0\sqrt{r}$, so for small ranks $\mu_1 \approx \mu_0$. For larger
+ranks, we will later see that the subspaces $U, V$ are incoherent with the standard basis and that $\mu_1$ is at most $\log \max(n_1, n_2)^{[1]}$. 
 
 
+\begin{theorem}
+    Let $M$ be an $n_1\times n_2$ matrix of rank $r$ obeying \textbf{A0} and \textbf{A1}, and put $n = \max(n_1, n_2)$. Suppose we observe
+    $m$ entries of $M$ with locations sampled uniformly at random.Then there exist constants $C, c$ such that
+    $$m\geq C\max(\mu_1^2, \mu_0^{1/2}, \mu_1, \mu_0n^{1/4})nr\beta\log n$$
+    for some $\beta > 2$. Then the minimizer to OPT 1 is unique and equal to $M$ with probability at least $1 - cn^{-\beta}$.
+    For $r \leq \mu_0^\inv n^{1/5} $, this estimate can be improved to
+    $$m \geq C\mu_0n^{6/5}r\beta\log n$$
+    with the same probability of success.
+\end{theorem}
+
+Our takeaway from theorem 1.2 is that with low coherence, fewer observations are required to recover $M^{[1]}$.
 
 \section*{Algorithm Overview}
+The algorithm itself is quite simple, and is simply OPT 1 (nuclear norm minimization${[1]}$).
+\begin{align*}
+    \MIN{X} & ||X||_* \\
+    \subjectto & X_{ij} = M_{ij}, (i, j)\in\Omega.
+\end{align*}
+If we know our original matrix is positive semidefinite (PSD), then we can equivalently solve the following optimization problem$^{[1]}$:
+\begin{align*}
+    \MIN{X} & \text{trace}(X) \\
+    \subjectto & X_{ij} = M_{ij}, (i,j)\in\Omega \\
+    & X\succeq 0.
+\end{align*}
+
+
+
+
 \section*{Implementations}
-\subsection*{Existing Examples}
+The algorithm was originally solved using SDPT3, a MATLAB package to solve semidefinite problems (SDPs). We will use CVXPY to achieve
+similar results. Denote the size of our matrix $M$ with $n$, the rank as $r$, and the number of observations as $m$. Each $(n, m, r)$ 
+triple is repeated 50 times.
+
+\subsection*{Existing Examples - Gaussian}
+\subsection*{Existing Examples - PSD}
 \subsection*{New Examples}
 \section*{References}
-% @misc{candes2008exactmatrixcompletionconvex,
-%       title={Exact Matrix Completion via Convex Optimization}, 
-%       author={Emmanuel J. Candes and Benjamin Recht},
-%       year={2008},
-%       eprint={0805.4471},
-%       archivePrefix={arXiv},
-%       primaryClass={cs.IT},
-%       url={https://arxiv.org/abs/0805.4471}, 
-% }
-
-
-
+$[1]$: E. J. Candès and B. Recht. Exact Matrix Completion via Convex Optimization. arXiv preprint arXiv:0805.4471, 2008
 
 \end{document}

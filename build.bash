@@ -44,6 +44,7 @@ for arg in "$@"; do
     # compile .tex --> .pdf
     # echo "Running pdflatex on: $latex_path/$fname.tex"
     pdflatex -interaction=nonstopmode $latex_path/$fname.tex > /dev/null
+    # latexmk -pdf -interaction=nonstopmode $latex_path/$fname.tex > /dev/null
     # pdflatex -interaction=nonstopmode $latex_path/$fname.tex
 
 
